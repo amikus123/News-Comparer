@@ -6,7 +6,8 @@
     "noUnusedLocals": false,
     "outDir": "lib",
     "strict": false,
-    "target": "es2017"
+    "target": "es2017",
+    "esModuleInterop":true
   },
   "compileOnSave": true,
   "include": ["src"]
