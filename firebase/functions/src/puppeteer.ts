@@ -1,10 +1,25 @@
 import puppeteer from "puppeteer";
-import { URLS } from "./URLS";
+
+import { v4 as uuidv4 } from 'uuid';
+import { URLS } from "./URLS.js";
+// import imagemin from "imagemin";
+// import imageminMozjpeg from "imagemin-mozjpeg";
+// const compressImages = async () => {
+//   const files = await imagemin(["*.jpg"], {
+//     destination: "",
+//     plugins: [imageminMozjpeg({ quality: 50 })],
+//   });
+// };
 
 export const getHeadings = async () => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
-  const dataToReturn = {};
+  const uniqueId = uuidv4()
+  const dataToReturn = {
+    headings: {uniqueId:uniqueId},
+    screenshots: []
+  };
+  
   page.on("console", (msg) => {
     for (let i = 0; i < msg.args.length; ++i)
       console.log(`${i}: ${msg.args[i]}`);
@@ -12,7 +27,7 @@ export const getHeadings = async () => {
 
   for (let index in URLS) {
     try {
-      const { url, popupSelector, contentSelectors, title } = URLS[index];
+      const { url, popupSelector, contentSelectors, title ,imageName} = URLS[index];
 
       // waits 500ms after last network request
       await page.goto(url, { waitUntil: "networkidle0" });
@@ -21,15 +36,17 @@ export const getHeadings = async () => {
         try {
           await page.click(popupSelector, {});
         } catch (e) {
-          console.log(`errpor with popup : ${e}`);
+          console.log(`error with popup : ${e}`);
         }
       }
-
+      
       await page.screenshot({
-        path: `${index}.png`,
+        path: `${uniqueId}${imageName}.jpg`,
         fullPage: true,
         quality: 0,
+        type:"jpeg"
       });
+      dataToReturn.screenshots.push(`${uniqueId}${imageName}.jpg`);
 
       const data = await page.evaluate(
         async (selectors, num) => {
@@ -51,18 +68,22 @@ export const getHeadings = async () => {
             }
           }
           data = [...new Set(data)];
-          return data;
+          return data.slice(0,1);
         },
         contentSelectors,
         index
       );
+
       console.log(data);
-      dataToReturn[title] = data;
+      dataToReturn.headings[title] = data;
     } catch (e) {
       console.error(`failed to open the page: ${1} with the error: ${e}`);
     }
   }
+  // compressImages();
+  console.log("ENd");
   return dataToReturn;
+
   let pages = await browser.pages();
   await Promise.all(pages.map((page) => page.close()));
   await browser.close();

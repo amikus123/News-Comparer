@@ -6,6 +6,9 @@ export const URLS = [
 
     contentSelectors: ["* h1", "* h2", "* h4"],
     title: "Fronda",
+    imageName:"Fronda"
+
+
   },
 
   {
@@ -14,6 +17,8 @@ export const URLS = [
 
     contentSelectors: ["* h2"],
     title: "Krytyka Polityczna",
+    imageName:"Krytyka_Polityczna"
+
   },
 
   {
@@ -33,5 +38,6 @@ export const URLS = [
       ".popular__description",
     ],
     title: "TVP info",
+    imageName:"TVP_info"
   },
 ];

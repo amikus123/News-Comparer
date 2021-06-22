@@ -1,14 +1,18 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Node 14",
+
   "compilerOptions": {
-    "lib": ["dom"],
+    "lib": ["es2020","dom"],
     "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
+    "target": "es2020",
     "outDir": "lib",
     "strict": false,
-    "target": "es2017",
-    "esModuleInterop":true
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+
   },
-  "compileOnSave": true,
   "include": ["src"]
+
 }
