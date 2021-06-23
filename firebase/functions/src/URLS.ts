@@ -11,33 +11,33 @@ export const URLS = [
 
   },
 
-  // {
-  //   url: "https://krytykapolityczna.pl",
-  //   popupSelector: "",
+  {
+    url: "https://krytykapolityczna.pl",
+    popupSelector: "",
 
-  //   contentSelectors: ["* h2"],
-  //   title: "Krytyka Polityczna",
-  //   imageName:"Krytyka_Polityczna"
+    contentSelectors: ["* h2"],
+    title: "Krytyka Polityczna",
+    imageName:"Krytyka_Polityczna"
 
-  // },
+  },
 
-  // {
-  //   url: "https://www.tvp.info",
-  //   popupSelector:
-  //     "#ip > div > div > div > div.tvp-covl__t > div.tvp-covl__b > div.tvp-covl__ab",
+  {
+    url: "https://www.tvp.info",
+    popupSelector:
+      "#ip > div > div > div > div.tvp-covl__t > div.tvp-covl__b > div.tvp-covl__ab",
 
-  //   contentSelectors: [
-  //     ".title",
-  //     ".news__title",
-  //     ".news__text",
-  //     ".large-box__description--title",
-  //     ".information-text",
-  //     ".magazine__title",
-  //     ".magazine__content--title",
-  //     ".report__description",
-  //     ".popular__description",
-  //   ],
-  //   title: "TVP info",
-  //   imageName:"TVP_info"
-  // },
+    contentSelectors: [
+      ".title",
+      ".news__title",
+      ".news__text",
+      ".large-box__description--title",
+      ".information-text",
+      ".magazine__title",
+      ".magazine__content--title",
+      ".report__description",
+      ".popular__description",
+    ],
+    title: "TVP info",
+    imageName:"TVP_info"
+  },
 ];
