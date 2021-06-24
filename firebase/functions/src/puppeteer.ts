@@ -2,17 +2,18 @@ import puppeteer from "puppeteer";
 import { v4 as uuidv4 } from "uuid";
 import { URLS } from "./URLS.js";
 import { promises } from "fs";
-
+import imagemin from "imagemin";
+import imageminJpegtran from "imagemin-jpegtran";
 const getScreenshotData = async (page: puppeteer.Page, fileName: string) => {
   await page.screenshot({
-    path: `/tmp/${fileName}`,
+    path: `./tmp/${fileName}`,
     fullPage: true,
     quality: 50,
     type: "jpeg",
   });
-
+  0;
   const imageBuffer = await promises
-    .readFile(`/tmp/${fileName}`)
+    .readFile(`./tmp/${fileName}`)
     .then((result) => {
       return result;
     })
@@ -31,6 +32,19 @@ const getHeadings = async (
   contentSelectors: string[]
 ) => {
   return await page.evaluate(async (selectors) => {
+    // TEMPORARY FIX FOR LAZY LOADING
+    const distance = 100;
+    const delay = 100;
+    while (
+      document.scrollingElement.scrollTop + window.innerHeight <
+      document.scrollingElement.scrollHeight
+    ) {
+      document.scrollingElement.scrollBy(0, distance);
+      await new Promise((resolve) => {
+        setTimeout(resolve, delay);
+      });
+    }
+
     let headingsText: string[] = [];
     let chosenElements: any[] = [];
     for (let i = 0; i < selectors.length; i++) {
@@ -79,15 +93,15 @@ export const getPageData = async () => {
     const { url, popupSelector, contentSelectors, title, imageName } =
       URLS[index];
     try {
-      // waits 500ms after last network request
       const screenshotFileName = `${uniqueId}${imageName}.jpg`;
-      await page.goto(url, { waitUntil: "networkidle0" });
+      // waits 500ms after last network request
+      await page.goto(url, { waitUntil: "networkidle2" });
       await clickPopup(page, popupSelector);
 
-      const imgData = await getScreenshotData(page, screenshotFileName);
-      dataToReturn.screenshots.push(imgData);
       const headingsData = await getHeadings(page, contentSelectors);
       dataToReturn.headings[title] = headingsData;
+      const imgData = await getScreenshotData(page, screenshotFileName);
+      dataToReturn.screenshots.push(imgData);
     } catch (e) {
       console.error(`Failed to open the page: ${url} with the error: ${e}`);
     }

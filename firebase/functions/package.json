@@ -19,6 +19,7 @@
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",
     "imagemin": "^8.0.0",
+    "imagemin-jpegtran": "^7.0.0",
     "imagemin-mozjpeg": "^9.0.0",
     "puppeteer": "^10.0.0",
     "uuid": "^8.3.2",
@@ -26,6 +27,7 @@
     "xhr2": "^0.2.1"
   },
   "devDependencies": {
+    "@types/imagemin-jpegtran": "^5.0.0",
     "@types/jest": "^26.0.23",
     "firebase-functions-test": "^0.2.0",
     "ts-jest": "^27.0.3",
