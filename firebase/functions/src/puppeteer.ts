@@ -7,7 +7,7 @@ const getScreenshotData = async (page: puppeteer.Page, fileName: string) => {
   await page.screenshot({
     path: `/tmp/${fileName}`,
     fullPage: true,
-    quality: 5,
+    quality: 50,
     type: "jpeg",
   });
 
@@ -66,7 +66,7 @@ export const getPageData = async () => {
   const page = await browser.newPage();
   const uniqueId = uuidv4();
   const dataToReturn = {
-    headings: { uniqueId: uniqueId },
+    headings: {},
     screenshots: [],
   };
   // allows to see console logs on puppeteer websites
@@ -95,3 +95,5 @@ export const getPageData = async () => {
   console.log("end of puppeteer", dataToReturn);
   return dataToReturn;
 };
+
+getPageData();
