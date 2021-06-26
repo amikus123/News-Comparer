@@ -1,6 +1,8 @@
 require("dotenv").config();
 // polyfil
 (global as any).XMLHttpRequest = require("xhr2");
+import base64 from "base-64";
+global.atob = base64.encode;
 import admin from "firebase-admin";
 import firebase from "firebase";
 import "firebase/storage";
@@ -32,7 +34,7 @@ const storageRef = firebase.storage().ref();
 
 export const test = functions
   .runWith({
-    timeoutSeconds: 120,
+    timeoutSeconds: 300,
     memory: "1GB",
   })
   .https.onRequest(async (req, res) => {
@@ -49,7 +51,6 @@ export const test = functions
       const docRef = db.collection("Headings").doc(formatedDate);
       const dailyEntry = createDailyEntry(dailyArray);
       await addImagesToStorage(screenshots, storageRef);
-      console.log(dailyEntry, "EMd");
       await docRef.set(dailyEntry);
     }
   });

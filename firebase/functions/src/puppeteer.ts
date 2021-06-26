@@ -1,5 +1,6 @@
 import puppeteer from "puppeteer";
 import { v4 as uuidv4 } from "uuid";
+
 import {
   clickPopup,
   getHeadings,
@@ -37,10 +38,11 @@ export const getPageData = async (
       try {
         const screenshotFileName = `${uniqueId}${imageName}`;
         // waits 500ms after last network request
+        await page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
         await clickPopup(page, popupSelector);
-
         const headingsData = await getHeadings(page, contentSelectors);
+        await clickPopup(page, popupSelector);
         dataToReturn.allSiteData.push({
           headings: headingsData,
           imageName,

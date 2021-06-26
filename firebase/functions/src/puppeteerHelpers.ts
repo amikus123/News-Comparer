@@ -21,7 +21,7 @@ export const getScreenshotData = async (
       console.log(error);
       return null;
     });
-  await promises.unlink(`./tmp/${imageName}.jpg`);
+  // await promises.unlink(`./tmp/${imageName}.jpg`);
   return {
     imageName,
     imageBuffer,
@@ -33,19 +33,6 @@ export const getHeadings = async (
   contentSelectors: string[]
 ) => {
   return await page.evaluate(async (selectors) => {
-    // TEMPORARY FIX FOR LAZY LOADING
-    const distance = 100;
-    const delay = 100;
-    while (
-      document.scrollingElement!.scrollTop + window.innerHeight <
-      document.scrollingElement!.scrollHeight
-    ) {
-      document.scrollingElement!.scrollBy(0, distance);
-      await new Promise((resolve) => {
-        setTimeout(resolve, delay);
-      });
-    }
-
     let headingsText: string[] = [];
     let chosenElements: any[] = [];
     for (let i = 0; i < selectors.length; i++) {
@@ -60,6 +47,19 @@ export const getHeadings = async (
         headingsText.push(elementText);
       }
     }
+    // TEMPORARY FIX FOR LAZY LOADING
+    // const distance = 100;
+    // const delay = 100;
+    // while (
+    //   document.scrollingElement!.scrollTop + window.innerHeight <
+    //   document.scrollingElement!.scrollHeight
+    // ) {
+    //   document.scrollingElement!.scrollBy(0, distance);
+    //   await new Promise((resolve) => {
+    //     setTimeout(resolve, delay);
+    //   });
+    // }
+
     // removing duplictae headings
     return [...new Set(headingsText)];
   }, contentSelectors);
@@ -69,7 +69,7 @@ export const clickPopup = async (
   page: puppeteer.Page,
   popupSelector: string
 ) => {
-  if (popupSelector !== "") {
+  if (popupSelector != "") {
     try {
       await page.click(popupSelector, {});
       return;

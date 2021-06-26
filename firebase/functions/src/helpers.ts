@@ -16,7 +16,6 @@ export const getWebsitesInfo = async (db: FirebaseFirestore.Firestore) => {
       console.error("Error getting website info ", e);
       return null;
     });
-  console.log(data);
   return data;
 };
 export const getExcludedWords = async (
@@ -35,13 +34,12 @@ export const getExcludedWords = async (
     .catch((e) => {
       console.error("Error getting excluded words ", e);
     });
-  console.log(data);
   return data || [];
 };
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
   const time = new Date();
-  return `${time.getDay()}-${time.getMonth()}-${time.getFullYear()}`;
+  return `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
 };
 export const createWordMap = (headings: string[], excludedWords: string[]) => {
   const wordMap: any = {};
@@ -51,7 +49,7 @@ export const createWordMap = (headings: string[], excludedWords: string[]) => {
     for (let x in arrayOfWords) {
       // console.log(arrayOfWords[word]);
       let word = arrayOfWords[x];
-      if (excludedWords.indexOf(word) !== -1) {
+      if (excludedWords.indexOf(word) === -1) {
         if (wordMap.hasOwnProperty(word)) {
           wordMap[word] = wordMap[word] + 1;
         } else {
@@ -60,7 +58,6 @@ export const createWordMap = (headings: string[], excludedWords: string[]) => {
       }
     }
   }
-  console.log(wordMap);
   return wordMap;
 };
 

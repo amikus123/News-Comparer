@@ -63,15 +63,27 @@ export const addImagesToStorage = async (
 ) => {
   for (let i = 0; i < screenshots.length; i++) {
     if (screenshots[i].imageBuffer !== null) {
+      console.log("F");
+      const arr = new Uint8Array(screenshots[i].imageBuffer);
       const screenshotRef = storageRef
-        .child(screenshots[i].imageName)
-        .putString(screenshots[i].imageBuffer!.toString("base64"), "base64")
-        .then((s: any) => {
-          console.log("Image uploaded", s);
+        .child(`${screenshots[i].imageName}.jpg`)
+        .put(arr)
+        .then((s) => {
+          console.log(1);
         })
-        .catch((e: any) => {
-          console.error("Eror while adding to storage: ", e);
+        .catch((e) => {
+          console.log(e);
         });
+      // .put(`tmp/${screenshots[i].imageName}.jpg`)
+      // // .putString(screenshots[i].imageBuffer!.toString("base64"), "base64", {
+      // //   contentType: "image/jpg",
+      // // })
+      // .then((s: any) => {
+      //   console.log("Image uploaded", s);
+      // })
+      // .catch((e: any) => {
+      //   console.error("Eror while adding to storage: ", e);
+      // });
     }
   }
 };
