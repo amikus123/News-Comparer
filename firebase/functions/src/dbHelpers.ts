@@ -46,7 +46,7 @@ export const createDailyEntry = (
     arr.push(listOfPageData[i].frequencyOfWords);
     totalWordCount += listOfPageData[i].wordCount;
   }
-  const frequencyOfWordOverADay = combineWordMaps(arr);
+  const frequencyOfWordOverADay = 1;
   return {
     siteData: listOfPageData,
     frequencyOfWords: frequencyOfWordOverADay,

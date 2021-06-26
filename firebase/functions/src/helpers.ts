@@ -44,15 +44,15 @@ export const createFormatedDate = () => {
   return `${time.getDay()}-${time.getMonth()}-${time.getFullYear()}`;
 };
 export const createWordMap = (headings: string[], excludedWords: string[]) => {
-  const wordMap: Map<string, number> = new Map();
+  const wordMap: any = {};
   for (let heading in headings) {
     const arrayOfWords = heading.split(" ");
     for (let word in arrayOfWords) {
       if (excludedWords.indexOf(word) == -1) {
-        if (wordMap.has(word)) {
-          wordMap.set(word, wordMap.get(word)! + 1);
+        if (wordMap.hasOwnProperty(word)) {
+          wordMap[word] = wordMap[word] + 1;
         } else {
-          wordMap.set(word, 1);
+          wordMap[word] = 1;
         }
       }
     }
@@ -60,23 +60,25 @@ export const createWordMap = (headings: string[], excludedWords: string[]) => {
   return wordMap;
 };
 
-export const combineWordMaps = (listOfMaps: Map<string, number>[]) => {
+export const combineWordMaps = (listOfMaps: any[]) => {
+  console.log(listOfMaps, "LISTA MAP");
   const mapToReturn = listOfMaps[0];
   for (let i = 1; i < listOfMaps.length; i++) {
     for (let [key, value] of listOfMaps[i]) {
-      if (mapToReturn.has(key)) {
-        mapToReturn.set(key, mapToReturn.get(key)! + value);
+      if (mapToReturn.hasOwnProperty(key)) {
+        mapToReturn[key] += value;
       } else {
-        mapToReturn.set(key, value);
+        mapToReturn[key] = value;
       }
     }
   }
   return mapToReturn;
 };
-export const sumOfMapValues = (map: Map<string, number>) => {
+export const sumOfMapValues = (map: any) => {
   let number = 0;
-  for (let value of map.values()) {
-    number += value;
+  const keys = Object.keys(map);
+  for (let value of keys) {
+    number += map[value];
   }
   return number;
 };
