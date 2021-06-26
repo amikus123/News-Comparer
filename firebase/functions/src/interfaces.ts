@@ -17,32 +17,38 @@ export interface Emotions {
 }
 
 export interface DailySiteData {
-  averageSentiment: number | null;
-  frequencyOfWords: WordMap;
+  averageSentiment?: number;
+  frequencyOfWords: Map<string, number>;
   headingsData: headingData[];
   imageFile: string;
+  websiteName: string;
 }
 export interface headingData {
-  sentiment: number | null;
-  emotions: Emotions | null;
+  sentiment?: number;
+  emotions?: Emotions;
   text: string;
 }
-
-export interface WordMap {
-  [key: string]: string;
+export interface ExcludedWords {
+  Words: string[];
 }
-interface DailyEntry {
+export interface DailyEntry {
   averageSentiment: number;
   averageEmotion: Emotions;
   siteData: DailySiteData[];
   totalEmotionCount: Emotions;
   totalWordCount: number;
   totalHeadingCount: number;
-  frequencyOfWords: WordMap;
+  frequencyOfWords: Map<string, number>;
 }
 // websites
-export interface WebsitesConstData {
-  [key: string]: SingleWebisteConstData;
+export interface PuppeteerData {
+  headings: {
+    [key: string]: any;
+  };
+  screenshots: {
+    fileName: string;
+    imageBuffer: null | Buffer;
+  }[];
 }
 export interface SingleWebisteConstData {
   analizeEmotions: boolean;
