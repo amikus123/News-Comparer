@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer";
-import { v4 as uuidv4 } from "uuid";
-
+import { createFormatedDate } from "./helpers";
 import {
   clickPopup,
   getHeadings,
@@ -13,7 +12,6 @@ export const getPageData = async (
 ) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
-  const uniqueId = uuidv4();
   const dataToReturn: PuppeteerData = {
     allSiteData: [],
     screenshots: [],
@@ -36,7 +34,7 @@ export const getPageData = async (
         analizeEmotions,
       } = staticDataOfAllPages[index];
       try {
-        const screenshotFileName = `${uniqueId}${imageName}`;
+        const screenshotFileName = `${createFormatedDate()}${imageName}`;
         // waits 500ms after last network request
         await page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
