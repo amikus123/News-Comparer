@@ -45,10 +45,13 @@ export const createFormatedDate = () => {
 };
 export const createWordMap = (headings: string[], excludedWords: string[]) => {
   const wordMap: any = {};
-  for (let heading in headings) {
-    const arrayOfWords = heading.split(" ");
-    for (let word in arrayOfWords) {
-      if (excludedWords.indexOf(word) == -1) {
+  for (let x in headings) {
+    const arrayOfWords = headings[x].split(" ");
+    // console.log(arrayOfWords);
+    for (let x in arrayOfWords) {
+      // console.log(arrayOfWords[word]);
+      let word = arrayOfWords[x];
+      if (excludedWords.indexOf(word) !== -1) {
         if (wordMap.hasOwnProperty(word)) {
           wordMap[word] = wordMap[word] + 1;
         } else {
@@ -57,18 +60,20 @@ export const createWordMap = (headings: string[], excludedWords: string[]) => {
       }
     }
   }
+  console.log(wordMap);
   return wordMap;
 };
 
 export const combineWordMaps = (listOfMaps: any[]) => {
-  console.log(listOfMaps, "LISTA MAP");
   const mapToReturn = listOfMaps[0];
   for (let i = 1; i < listOfMaps.length; i++) {
-    for (let [key, value] of listOfMaps[i]) {
-      if (mapToReturn.hasOwnProperty(key)) {
-        mapToReturn[key] += value;
+    const keys = Object.keys(listOfMaps[i]);
+    for (let x in keys) {
+      let word = listOfMaps[i][keys[x]];
+      if (mapToReturn.hasOwnProperty(keys[x])) {
+        mapToReturn[keys[x]] += listOfMaps[i][keys[x]];
       } else {
-        mapToReturn[key] = value;
+        mapToReturn[keys[x]] = listOfMaps[i][keys[x]];
       }
     }
   }
