@@ -1,21 +1,20 @@
 import puppeteer from "puppeteer";
 import { v4 as uuidv4 } from "uuid";
-import { getExcludedWords, getWebsitesInfo } from "./helpers";
-import { PuppeteerData } from "./interfaces";
 import {
   clickPopup,
   getHeadings,
   getScreenshotData,
 } from "./puppeteerHelpers.js";
-
-export const getPageData = async (db: FirebaseFirestore.Firestore) => {
-  const staticDataOfAllPages = await getWebsitesInfo(db);
-  const excludedWords = await getExcludedWords(db);
+import { PuppeteerData, SingleWebisteConstData } from "./interfaces";
+export const getPageData = async (
+  db: FirebaseFirestore.Firestore,
+  staticDataOfAllPages: SingleWebisteConstData[]
+) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   const uniqueId = uuidv4();
   const dataToReturn: PuppeteerData = {
-    headings: {},
+    allSiteData: [],
     screenshots: [],
   };
   // temporaty type error
@@ -25,7 +24,7 @@ export const getPageData = async (db: FirebaseFirestore.Firestore) => {
   //     console.log(`${i}: ${msg.args[i]}`);
   // });
 
-  if (staticDataOfAllPages && excludedWords) {
+  if (staticDataOfAllPages) {
     for (let index in staticDataOfAllPages) {
       const {
         url,
@@ -42,7 +41,12 @@ export const getPageData = async (db: FirebaseFirestore.Firestore) => {
         await clickPopup(page, popupSelector);
 
         const headingsData = await getHeadings(page, contentSelectors);
-        dataToReturn.headings[nameToDisplay] = headingsData;
+        dataToReturn.allSiteData.push({
+          headings: headingsData,
+          imageName,
+          analizeEmotions,
+          nameToDisplay,
+        });
         const imgData = await getScreenshotData(page, screenshotFileName);
         dataToReturn.screenshots.push(imgData);
       } catch (e) {

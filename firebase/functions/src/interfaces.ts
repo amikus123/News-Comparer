@@ -1,11 +1,3 @@
-export interface WebsiteDatabaseEntry {
-  analizeEmotions: boolean;
-  url: string;
-  popupSelector: string;
-  imageName: string;
-  nameToDisplay: string;
-  contentSelectors: string[];
-}
 export interface Emotions {
   anger?: number;
   sadness?: number;
@@ -18,9 +10,10 @@ export interface Emotions {
 
 export interface DailySiteData {
   averageSentiment?: number;
-  frequencyOfWords: Map<string, number>;
+  frequencyOfWords: any;
+  wordCount: number;
   headingsData: headingData[];
-  imageFile: string;
+  imageName: string;
   websiteName: string;
 }
 export interface headingData {
@@ -32,30 +25,34 @@ export interface ExcludedWords {
   Words: string[];
 }
 export interface DailyEntry {
-  averageSentiment: number;
-  averageEmotion: Emotions;
+  averageSentiment?: number;
+  averageEmotion?: Emotions;
   siteData: DailySiteData[];
-  totalEmotionCount: Emotions;
+  totalEmotionCount?: Emotions;
   totalWordCount: number;
-  totalHeadingCount: number;
-  frequencyOfWords: Map<string, number>;
+  totalHeadingCount?: number;
+  frequencyOfWords: any;
 }
 // websites
 export interface PuppeteerData {
-  headings: {
-    [key: string]: any;
-  };
+  allSiteData: SiteData[];
   screenshots: {
-    fileName: string;
+    imageName: string;
     imageBuffer: null | Buffer;
   }[];
+}
+export interface SiteData {
+  headings: string[];
+  imageName: string;
+  analizeEmotions: boolean;
+  nameToDisplay: string;
 }
 export interface SingleWebisteConstData {
   analizeEmotions: boolean;
   imageName: string;
-  nameToDisplat: string;
+  nameToDisplay: string;
   popupSelector: string;
-  selectors: string[];
+  contentSelectors: string[];
   url: string;
 }
 // meta data

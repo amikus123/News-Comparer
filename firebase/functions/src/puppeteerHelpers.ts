@@ -3,17 +3,17 @@ import puppeteer from "puppeteer";
 
 export const getScreenshotData = async (
   page: puppeteer.Page,
-  fileName: string
+  imageName: string
 ) => {
   await page.screenshot({
-    path: `./tmp/${fileName}`,
+    path: `./tmp/${imageName}.jpg`,
     fullPage: true,
     quality: 50,
     type: "jpeg",
   });
   0;
   const imageBuffer = await promises
-    .readFile(`./tmp/${fileName}.jpg`)
+    .readFile(`./tmp/${imageName}.jpg`)
     .then((result) => {
       return result;
     })
@@ -21,9 +21,9 @@ export const getScreenshotData = async (
       console.log(error);
       return null;
     });
-  await promises.unlink(`./tmp/${fileName}.jpg`);
+  await promises.unlink(`./tmp/${imageName}.jpg`);
   return {
-    fileName,
+    imageName,
     imageBuffer,
   };
 };
