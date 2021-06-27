@@ -7,8 +7,8 @@ import * as functions from "firebase-functions";
 import {
   getWebsitesInfo,
   getExcludedWords,
-} from "../src/helpers/firestoreAccessHelpers";
-var serviceAccount = require(".../../../../../secret.json");
+} from "../../src/firebase/firestoreAccessHelpers";
+var serviceAccount = require("../.../../../../../secret.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),

@@ -1,7 +1,7 @@
 import { DailySiteData, Screenshot } from "../interfaces";
 import firebase from "firebase";
-import { createDailyEntry } from "./firestoreFormating";
-import { createFormatedDate } from "./generalHelpers";
+import { createDailyEntry } from "../helpers/firestoreFormating";
+import { createFormatedDate } from "../helpers/generalHelpers";
 
 export const addImagesToStorage = async (
   screenshots: Screenshot[],

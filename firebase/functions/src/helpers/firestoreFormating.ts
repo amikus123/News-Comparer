@@ -4,7 +4,7 @@ import "firebase/storage";
 
 export const createSiteDailyEntry = async (
   data: SiteData,
-  excludedWords: string[]
+  excludedWords: string[] = []
 ): Promise<DailySiteData> => {
   const { headings, analizeEmotions, nameToDisplay, imageName } = data;
   let headingsData = [];
@@ -26,7 +26,7 @@ export const createSiteDailyEntry = async (
 };
 export const createArrayOfDailySiteData = async (
   allSiteData: SiteData[],
-  excludedWords: string[]
+  excludedWords: string[] = []
 ) => {
   const listOfDailyEntries: DailySiteData[] = [];
   for (let i = 0; i < allSiteData.length; i++) {

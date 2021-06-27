@@ -11,11 +11,11 @@ import { getPageData } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
   getWebsitesInfo,
-} from "./helpers/firestoreAccessHelpers";
+} from "./firebase/firestoreAccessHelpers";
 import {
   addDailyEntryFirebase,
   addImagesToStorage,
-} from "./helpers/firebaseWriteHelpers";
+} from "./firebase/firebaseWriteHelpers";
 import { createArrayOfDailySiteData } from "./helpers/firestoreFormating";
 
 // INITIAL SETUP
