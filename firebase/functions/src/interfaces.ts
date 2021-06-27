@@ -24,6 +24,9 @@ export interface headingData {
 export interface ExcludedWords {
   Words: string[];
 }
+export interface WordMap {
+  [key: string]: number;
+}
 export interface DailyEntry {
   averageSentiment?: number;
   averageEmotion?: Emotions;
@@ -36,10 +39,11 @@ export interface DailyEntry {
 // websites
 export interface PuppeteerData {
   allSiteData: SiteData[];
-  screenshots: {
-    imageName: string;
-    imageUintData: Uint8Array;
-  }[];
+  screenshots: Screenshot[];
+}
+export interface Screenshot {
+  imageName: string;
+  imageUintData: Uint8Array;
 }
 export interface SiteData {
   headings: string[];

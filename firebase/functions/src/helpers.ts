@@ -1,4 +1,4 @@
-import { SingleWebisteConstData } from "./interfaces";
+import { SingleWebisteConstData, WordMap } from "./interfaces";
 
 export const getWebsitesInfo = async (db: FirebaseFirestore.Firestore) => {
   const docRef = db.collection("Websites").doc("WebsiteData");
@@ -41,8 +41,13 @@ export const createFormatedDate = () => {
   const time = new Date();
   return `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
 };
-export const createWordMap = (headings: string[], excludedWords: string[]) => {
-  const wordMap: any = {};
+
+// MAP FUNCTIONS
+export const createWordMap = (
+  headings: string[],
+  excludedWords: string[] = []
+) => {
+  const wordMap: WordMap = {};
   for (let x in headings) {
     const arrayOfWords = headings[x].split(" ");
     // console.log(arrayOfWords);
@@ -61,7 +66,7 @@ export const createWordMap = (headings: string[], excludedWords: string[]) => {
   return wordMap;
 };
 
-export const combineWordMaps = (listOfMaps: any[]) => {
+export const combineWordMaps = (listOfMaps: WordMap[]) => {
   const mapToReturn = listOfMaps[0];
   for (let i = 1; i < listOfMaps.length; i++) {
     const keys = Object.keys(listOfMaps[i]);
@@ -76,11 +81,13 @@ export const combineWordMaps = (listOfMaps: any[]) => {
   }
   return mapToReturn;
 };
-export const sumOfMapValues = (map: any) => {
+export const sumOfMapValues = (maps: WordMap[]) => {
   let number = 0;
-  const keys = Object.keys(map);
-  for (let value of keys) {
-    number += map[value];
+  for (let i = 0; i < maps.length; i++) {
+    const keys = Object.keys(maps[i]);
+    for (let key of keys) {
+      number += maps[i][key];
+    }
   }
   return number;
 };

@@ -1,5 +1,5 @@
 import { combineWordMaps, createWordMap, sumOfMapValues } from "./helpers";
-import { DailySiteData, DailyEntry, SiteData } from "./interfaces";
+import { DailySiteData, DailyEntry, SiteData, Screenshot } from "./interfaces";
 import "firebase/storage";
 import firebase from "firebase";
 
@@ -16,7 +16,7 @@ export const createSiteDailyEntry = async (
     // zwraca average sentiment i modyfikuje headings data
   }
   const frequencyOfWords = createWordMap(headings, excludedWords);
-  const wordCount = sumOfMapValues(frequencyOfWords);
+  const wordCount = sumOfMapValues([frequencyOfWords]);
   return {
     websiteName: nameToDisplay,
     imageName,
@@ -55,22 +55,18 @@ export const createDailyEntry = (
 };
 
 export const addImagesToStorage = async (
-  screenshots: {
-    imageName: string;
-    imageUintData: Uint8Array
-  }[],
+  screenshots: Screenshot[],
   storageRef: firebase.storage.Reference
 ) => {
   for (let i = 0; i < screenshots.length; i++) {
-      const screenshotRef = storageRef
-        .child(`${screenshots[i].imageName}.jpg`)
-        .put(screenshots[i].imageUintData)
-        .then((snapshot) => {
-          console.log(1);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    }
-  
+    const screenshotRef = storageRef
+      .child(`${screenshots[i].imageName}.jpg`)
+      .put(screenshots[i].imageUintData)
+      .then((snapshot) => {
+        console.log(snapshot, " file uploaded");
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  }
 };

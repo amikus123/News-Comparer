@@ -4,11 +4,12 @@
 
   "compilerOptions": {
     "lib": ["es2020", "dom"],
+    "types": ["jest", "node"],
     "module": "commonjs",
     "target": "es2020",
     "strict": true,
     "outDir": "lib",
     "esModuleInterop": true
   },
-  "include": ["src"]
+  "include": ["src", "tests"]
 }
