@@ -1,5 +1,5 @@
 import puppeteer from "puppeteer";
-import { createFormatedDate } from "../helpers";
+import { createFormatedDate } from "../helpers/generalHelpers";
 import {
   clickPopup,
   getHeadings,
@@ -7,7 +7,6 @@ import {
 } from "./puppeteerHelpers.js";
 import { PuppeteerData, SingleWebisteConstData } from "../interfaces";
 export const getPageData = async (
-  db: FirebaseFirestore.Firestore,
   staticDataOfAllPages: SingleWebisteConstData[]
 ) => {
   const browser = await puppeteer.launch({});

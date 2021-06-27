@@ -1,4 +1,4 @@
-import { SingleWebisteConstData, WordMap } from "../interfaces";
+import { SingleWebisteConstData } from "../interfaces";
 
 export const getWebsitesInfo = async (db: FirebaseFirestore.Firestore) => {
   const docRef = db.collection("Websites").doc("WebsiteData");
@@ -36,4 +36,3 @@ export const getExcludedWords = async (
     });
   return data || [];
 };
-

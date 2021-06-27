@@ -3,4 +3,3 @@ export const createFormatedDate = () => {
   const time = new Date();
   return `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
 };
-

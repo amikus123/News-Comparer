@@ -1,13 +1,16 @@
-import { Screenshot } from "../interfaces";
+import { DailySiteData, Screenshot } from "../interfaces";
 import firebase from "firebase";
+import { createDailyEntry } from "./firestoreFormating";
+import { createFormatedDate } from "./generalHelpers";
 
 export const addImagesToStorage = async (
   screenshots: Screenshot[],
   storageRef: firebase.storage.Reference
 ) => {
   for (let i = 0; i < screenshots.length; i++) {
+    const formatedDate = createFormatedDate();
     const screenshotRef = storageRef
-      .child(`${screenshots[i].imageName}.jpg`)
+      .child(`${formatedDate}-${screenshots[i].imageName}.jpg`)
       .put(screenshots[i].imageUintData)
       .then((snapshot) => {
         console.log(snapshot, " file uploaded");
@@ -16,4 +19,14 @@ export const addImagesToStorage = async (
         console.log(e);
       });
   }
+};
+
+export const addDailyEntryFirebase = async (
+  db: FirebaseFirestore.Firestore,
+  dailyArray: DailySiteData[]
+) => {
+  const formatedDate = createFormatedDate();
+  const docRef = db.collection("Headings").doc(formatedDate);
+  const dailyEntry = createDailyEntry(dailyArray);
+  await docRef.set(dailyEntry);
 };

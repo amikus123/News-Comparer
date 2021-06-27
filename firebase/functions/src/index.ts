@@ -1,6 +1,7 @@
 require("dotenv").config();
 // polyfil
 (global as any).XMLHttpRequest = require("xhr2");
+
 import admin from "firebase-admin";
 import firebase from "firebase";
 import "firebase/storage";
@@ -11,12 +12,11 @@ import {
   getExcludedWords,
   getWebsitesInfo,
 } from "./helpers/firestoreAccessHelpers";
-import { createFormatedDate } from "./helpers/generalHelpers";
-import { addImagesToStorage } from "./helpers/firebaseWriteHelpers";
 import {
-  createArrayOfDailySiteData,
-  createDailyEntry,
-} from "./helpers/firestoreFormating";
+  addDailyEntryFirebase,
+  addImagesToStorage,
+} from "./helpers/firebaseWriteHelpers";
+import { createArrayOfDailySiteData } from "./helpers/firestoreFormating";
 
 // INITIAL SETUP
 admin.initializeApp();
@@ -37,20 +37,18 @@ export const test = functions
     memory: "1GB",
   })
   .https.onRequest(async (req, res) => {
-    const formatedDate = createFormatedDate();
     const websiteInfo = await getWebsitesInfo(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
-      const { allSiteData, screenshots } = await getPageData(db, websiteInfo!);
+      const { allSiteData, screenshots } = await getPageData(websiteInfo!);
       const dailyArray = await createArrayOfDailySiteData(
         allSiteData,
         excludedWords
       );
-
-      const docRef = db.collection("Headings").doc(formatedDate);
-      const dailyEntry = createDailyEntry(dailyArray);
       await addImagesToStorage(screenshots, storageRef);
-      await docRef.set(dailyEntry);
+      await addDailyEntryFirebase(db, dailyArray);
+    } else {
+      console.log("Unsuccessful fetching of webiste const info");
     }
   });
 

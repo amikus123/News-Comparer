@@ -1,5 +1,5 @@
 import { combineWordMaps, createWordMap, sumOfMapValues } from "./mapFunctions";
-import { DailySiteData, DailyEntry, SiteData, Screenshot } from "../interfaces";
+import { DailySiteData, DailyEntry, SiteData } from "../interfaces";
 import "firebase/storage";
 
 export const createSiteDailyEntry = async (
@@ -52,4 +52,3 @@ export const createDailyEntry = (
     totalWordCount,
   };
 };
-
