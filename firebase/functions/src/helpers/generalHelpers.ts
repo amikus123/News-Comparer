@@ -19,8 +19,3 @@ export const removeInternalStopSymbols = (text: string) => {
 
   return arrOfChars.join("");
 };
-console.log(
-  removeInternalStopSymbols(
-    "Click the button to. display th.e extracted part of the string"
-  )
-);

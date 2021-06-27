@@ -17,31 +17,21 @@ export const getTextEmotions = async (headers: string[]) => {
   for (let i = 0; i < headers.length; i++) {
     a.push(removeInternalStopSymbols(headers[i]));
   }
-  console.log(a, "po");
   let text = a.join(" ");
-  console.log(text, "XD");
-  // text =
-  //   "Team, I know that times are tough! Product " +
-  //   "sales have been disappointing for the past three " +
-  //   "quarters. We have a competitive product, but we " +
-  //   "need to do a better job of selling it!";
 
   const toneParams = {
     toneInput: { text: text },
     contentType: "application/json",
   };
-
-  toneAnalyzer
-    .tone(toneParams)
-    .then((toneAnalysis) => {
-      console.log(JSON.stringify(toneAnalysis, null, 2));
-      return JSON.stringify(toneAnalysis, null, 2);
-    })
-    .catch((err) => {
-      console.log("error:", err);
-    });
+  const ddd = await toneAnalyzer.tone(toneParams);
+  return JSON.stringify(ddd, null, 2);
 };
-getTextEmotions([
-  "How Russian threats in the 2000s turned this country into the go-to expert on cyber defense",
-  "Mysterious ancient 'dragon man' joins the human family tree",
-]);
+
+const x = async () => {
+  const b = await getTextEmotions([
+    "How Russian threats in the 2000s turned this country into the go-to expert on cyber defense",
+    "Mysterious ancient 'dragon man' joins the human family tree",
+  ]);
+  console.log(b);
+};
+x();
