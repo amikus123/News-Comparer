@@ -7,7 +7,7 @@
     "types": ["jest", "node"],
     "module": "commonjs",
     "target": "es2020",
-    "strict": true,
+    "strict": false,
     "outDir": "lib",
     "esModuleInterop": true
   },
