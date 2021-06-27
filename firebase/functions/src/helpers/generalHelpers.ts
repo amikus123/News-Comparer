@@ -9,15 +9,18 @@ export const removeInternalStopSymbols = (text: string) => {
   const stopCharacters = ["!", "?", ".", ";"];
   const arrOfChars = text.split("");
   for (let i = 0; i < arrOfChars.length - 1; i++) {
-    if (stopCharacters.indexOf(text[i]) !== -1) {
+    if (stopCharacters.indexOf(arrOfChars[i]) !== -1) {
       arrOfChars[i] = " ";
     }
   }
-  console.log(arrOfChars, "S", arrOfChars[arrOfChars.length - 1]);
   if (stopCharacters.indexOf(arrOfChars[arrOfChars.length - 1]) === -1) {
     arrOfChars.push(".");
   }
 
   return arrOfChars.join("");
 };
-console.log(removeInternalStopSymbols("AAA. AA C "));
+console.log(
+  removeInternalStopSymbols(
+    "Click the button to. display th.e extracted part of the string"
+  )
+);
