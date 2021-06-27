@@ -67,11 +67,10 @@ export const createWordMap = (
 };
 
 export const combineWordMaps = (listOfMaps: WordMap[]) => {
-  const mapToReturn = listOfMaps[0];
-  for (let i = 1; i < listOfMaps.length; i++) {
+  const mapToReturn: WordMap = {};
+  for (let i = 0; i < listOfMaps.length; i++) {
     const keys = Object.keys(listOfMaps[i]);
     for (let x in keys) {
-      let word = listOfMaps[i][keys[x]];
       if (mapToReturn.hasOwnProperty(keys[x])) {
         mapToReturn[keys[x]] += listOfMaps[i][keys[x]];
       } else {
@@ -85,7 +84,8 @@ export const sumOfMapValues = (maps: WordMap[]) => {
   let number = 0;
   for (let i = 0; i < maps.length; i++) {
     const keys = Object.keys(maps[i]);
-    for (let key of keys) {
+    for (let index in keys) {
+      const key = keys[index];
       number += maps[i][key];
     }
   }
