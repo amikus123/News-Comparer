@@ -38,7 +38,7 @@ export interface PuppeteerData {
   allSiteData: SiteData[];
   screenshots: {
     imageName: string;
-    imageBuffer: null | Buffer;
+    imageUintData: Uint8Array;
   }[];
 }
 export interface SiteData {

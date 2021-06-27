@@ -1,8 +1,6 @@
 require("dotenv").config();
 // polyfil
 (global as any).XMLHttpRequest = require("xhr2");
-import base64 from "base-64";
-global.atob = base64.encode;
 import admin from "firebase-admin";
 import firebase from "firebase";
 import "firebase/storage";

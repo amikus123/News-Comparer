@@ -57,33 +57,20 @@ export const createDailyEntry = (
 export const addImagesToStorage = async (
   screenshots: {
     imageName: string;
-    imageBuffer: null | Buffer;
+    imageUintData: Uint8Array
   }[],
   storageRef: firebase.storage.Reference
 ) => {
   for (let i = 0; i < screenshots.length; i++) {
-    if (screenshots[i].imageBuffer !== null) {
-      console.log("F");
-      const arr = new Uint8Array(screenshots[i].imageBuffer);
       const screenshotRef = storageRef
         .child(`${screenshots[i].imageName}.jpg`)
-        .put(arr)
-        .then((s) => {
+        .put(screenshots[i].imageUintData)
+        .then((snapshot) => {
           console.log(1);
         })
         .catch((e) => {
           console.log(e);
         });
-      // .put(`tmp/${screenshots[i].imageName}.jpg`)
-      // // .putString(screenshots[i].imageBuffer!.toString("base64"), "base64", {
-      // //   contentType: "image/jpg",
-      // // })
-      // .then((s: any) => {
-      //   console.log("Image uploaded", s);
-      // })
-      // .catch((e: any) => {
-      //   console.error("Eror while adding to storage: ", e);
-      // });
     }
-  }
+  
 };

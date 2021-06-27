@@ -12,19 +12,19 @@ export const getScreenshotData = async (
     type: "jpeg",
   });
   0;
-  const imageBuffer = await promises
+  const imageUintData = await promises
     .readFile(`./tmp/${imageName}.jpg`)
     .then((result) => {
-      return result;
+      return new Uint8Array(result);
     })
     .catch((error) => {
       console.log(error);
-      return null;
+      return new Uint8Array();
     });
   await promises.unlink(`./tmp/${imageName}.jpg`);
   return {
     imageName,
-    imageBuffer,
+    imageUintData,
   };
 };
 

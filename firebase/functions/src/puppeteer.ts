@@ -16,13 +16,6 @@ export const getPageData = async (
     allSiteData: [],
     screenshots: [],
   };
-  // temporaty type error
-  // allows to see console logs on puppeteer websites
-  // page.on("console", (msg) => {
-  //   for (let i = 0; i < msg.args.length; ++i)
-  //     console.log(`${i}: ${msg.args[i]}`);
-  // });
-
   if (staticDataOfAllPages) {
     for (let index in staticDataOfAllPages) {
       const {
