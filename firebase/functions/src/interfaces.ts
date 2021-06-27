@@ -58,5 +58,6 @@ export interface SingleWebisteConstData {
   popupSelector: string;
   contentSelectors: string[];
   url: string;
+  politicalOrientation: string;
 }
 // meta data

@@ -7,6 +7,8 @@ export const createWordMap = (
   const wordMap: WordMap = {};
   for (let i in headings) {
     const arrayOfWords = headings[i].split(" ");
+    // removes special characters
+    arrayOfWords.map((word) => word.replace(/[^a-zA-Z0-9]/g, "").toLowerCase());
     for (let j in arrayOfWords) {
       let word = arrayOfWords[j];
       if (excludedWords.indexOf(word) === -1) {
