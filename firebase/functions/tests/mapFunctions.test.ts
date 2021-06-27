@@ -1,14 +1,13 @@
 import "jest";
 
 import {
-  createFormatedDate,
   createWordMap,
   combineWordMaps,
   sumOfMapValues,
-} from "../src/helpers";
+} from "../src/helpers/mapFunctions";
 const exampleOfWordArray1 = ["test", "test", "not", "pog", "nah"];
 const exampleOfWordArray2 = ["test", "not", "not", "bruh"];
-
+const excludedWords = ["test"];
 test("should create a correct word map", () => {
   expect(createWordMap(exampleOfWordArray1)).toStrictEqual({
     test: 2,
@@ -18,6 +17,15 @@ test("should create a correct word map", () => {
   });
   expect(createWordMap(exampleOfWordArray2)).toStrictEqual({
     test: 1,
+    not: 2,
+    bruh: 1,
+  });
+  expect(createWordMap(exampleOfWordArray1, excludedWords)).toStrictEqual({
+    not: 1,
+    pog: 1,
+    nah: 1,
+  });
+  expect(createWordMap(exampleOfWordArray2, excludedWords)).toStrictEqual({
     not: 2,
     bruh: 1,
   });

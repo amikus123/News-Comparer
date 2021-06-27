@@ -6,17 +6,18 @@ import firebase from "firebase";
 import "firebase/storage";
 import * as functions from "firebase-functions";
 
-import { getPageData } from "./puppeteer";
+import { getPageData } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
   getWebsitesInfo,
-  createFormatedDate,
-} from "./helpers";
+} from "./helpers/firestoreAccessHelpers";
+import { createFormatedDate } from "./helpers/generalHelpers";
+import { addImagesToStorage } from "./helpers/firebaseWriteHelpers";
 import {
-  addImagesToStorage,
   createArrayOfDailySiteData,
   createDailyEntry,
-} from "./dbHelpers";
+} from "./helpers/firestoreFormating";
+
 // INITIAL SETUP
 admin.initializeApp();
 const db = admin.firestore();

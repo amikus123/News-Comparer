@@ -1,11 +1,11 @@
 import puppeteer from "puppeteer";
-import { createFormatedDate } from "./helpers";
+import { createFormatedDate } from "../helpers";
 import {
   clickPopup,
   getHeadings,
   getScreenshotData,
 } from "./puppeteerHelpers.js";
-import { PuppeteerData, SingleWebisteConstData } from "./interfaces";
+import { PuppeteerData, SingleWebisteConstData } from "../interfaces";
 export const getPageData = async (
   db: FirebaseFirestore.Firestore,
   staticDataOfAllPages: SingleWebisteConstData[]
