@@ -89,6 +89,7 @@ export const updateSiteData = (
   const emotionsCountFromHeadings = getEmotionsFromHeading(
     newData.headingsData
   );
+  
   old.TotalEmotionCount = mergeEmotionCount(
     old.TotalEmotionCount,
     emotionsCountFromHeadings

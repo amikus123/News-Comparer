@@ -1,4 +1,4 @@
-import { Emotions, headingData, SingleWebsiteInfo } from "../interfaces";
+import { Emotions, headingData } from "../interfaces";
 
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
@@ -44,7 +44,9 @@ export const getEmotionsFromHeading = (headings: headingData[]) => {
   for (let heading of headings) {
     if (heading.emotions) {
       for (let emotion in heading.emotions) {
-        newEmotions[emotion] += heading.emotions[emotion];
+        // newEmotions[emotion] += heading.emotions[emotion];
+        newEmotions[emotion] += 1;
+
       }
     }
   }
@@ -55,5 +57,6 @@ export const createEmotionsFromIBM = (tones: any) => {
   for (let tone of tones) {
     obj[tone["tone_id"]] = tone["score"];
   }
+  console.log(obj, "CREATED")
   return obj;
 };
