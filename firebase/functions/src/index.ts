@@ -18,6 +18,8 @@ import {
   updateSingleWebsiteInfo,
 } from "./firebase/firebaseWriteHelpers";
 import { createArrayOfDailySiteData } from "./helpers/firestoreFormating";
+import { getTextEmotions } from "./analizing/IBMEmotions";
+import { translateText } from "./analizing/googleTranslate";
 
 // INITIAL SETUP
 admin.initializeApp();
@@ -41,17 +43,22 @@ export const test = functions
     const websiteInfo = await getWebsitesInfo(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
+    // checking if we can access data from db
       const { allSiteData, screenshots } = await getPageData(websiteInfo!);
       const dailyArray = await createArrayOfDailySiteData(
         allSiteData,
         excludedWords
       );
-      await addImagesToStorage(screenshots, storageRef);
-      await addDailyEntryFirebase(db, dailyArray);
+      // await addImagesToStorage(screenshots, storageRef);
+      // await addDailyEntryFirebase(db, dailyArray);
       await updateSingleWebsiteInfo(db, dailyArray);
     } else {
       console.log("Unsuccessful fetching of webiste const info");
     }
+    // const x = await translateText("Nazywam sie jeff");
+    // const b = await getTextEmotions(["Outragues jewish offensive"]);
+    // console.log(x);
+    // console.log(b);
   });
 
 // export const savePagesContent2 = functions

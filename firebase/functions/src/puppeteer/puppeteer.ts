@@ -47,6 +47,6 @@ export const getPageData = async (
     }
   }
 
-  console.log("end of puppeteer", dataToReturn);
+  // console.log("end of puppeteer", dataToReturn);
   return dataToReturn;
 };

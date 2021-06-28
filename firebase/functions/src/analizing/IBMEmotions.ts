@@ -13,6 +13,7 @@ const toneAnalyzer = new ToneAnalyzerV3({
 
 export const getTextEmotions = async (headers: string[]) => {
   // find out why the map version dosent work
+
   const a = [];
   for (let i = 0; i < headers.length; i++) {
     a.push(removeInternalStopSymbols(headers[i]));
@@ -24,19 +25,10 @@ export const getTextEmotions = async (headers: string[]) => {
     contentType: "application/json",
   };
   const rawData = await toneAnalyzer.tone(toneParams);
-  console.log(rawData.result);
+  // console.log(rawData.result);
   if (rawData.result.sentences_tone !== undefined) {
     return rawData.result.sentences_tone;
   } else {
     return null;
   }
 };
-// zawsze zwraca document tones
-const x = async () => {
-  const b = await getTextEmotions([
-    "How Russian threats in the 2000s turned this country into the go-to expert on cyber defense",
-    "a",
-  ]);
-  console.log(b);
-};
-x();

@@ -40,23 +40,11 @@ export const updateSingleWebsiteInfo = async (
   newData: DailySiteData[]
 ) => {
   const oldData = await getPageMetaData(db);
-
-  // fronda : data
-  // export interface SingleWebsiteInfo {
-  //   ListOfWords: WordMap;
-  //   TotalEmotionCount: Emotions;
-  //   TotalHeadingCount: number;
-  //   TotalWordCount: number;
-  // }
-  // export interface SiteData {
-  //   headings: string[];
-  //   imageName: string;
-  //   analizeEmotions: boolean;
-  //   nameToDisplay: string;
-  // }
+  console.log(oldData,"OLD");
   for (let siteData of newData) {
     if (siteData.websiteName in oldData) {
       updateSiteData(oldData[siteData.websiteName], siteData);
     }
   }
+  console.log(oldData,"NEW");
 };

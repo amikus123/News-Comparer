@@ -4,21 +4,40 @@ import {
   DailyEntry,
   SiteData,
   SingleWebsiteInfo,
+  headingData,
 } from "../interfaces";
 import "firebase/storage";
-import { getEmotionsFromHeading, mergeEmotionCount } from "./generalHelpers";
+import {
+  createEmotionsFromIBM,
+  getEmotionsFromHeading,
+  mergeEmotionCount,
+} from "./generalHelpers";
+import { translateText } from "../analizing/googleTranslate";
+import { getTextEmotions } from "../analizing/IBMEmotions";
 
 export const createSiteDailyEntry = async (
   data: SiteData,
   excludedWords: string[] = []
 ): Promise<DailySiteData> => {
   const { headings, analizeEmotions, nameToDisplay, imageName } = data;
-  let headingsData = [];
+  let headingsData: headingData[] = [];
   for (let i = 0; i < headings.length; i++) {
     headingsData.push({ text: headings[i] });
   }
   if (analizeEmotions) {
-    // zwraca average sentiment i modyfikuje headings data
+    // modyfikuje headings data
+    // tlumacz,
+    const translatedHeadings = await translateText(headings);
+    const emotionsData = await getTextEmotions(translatedHeadings);
+    console.log(emotionsData, "WORKS MOMN");
+    for (let headingEmotions of emotionsData) {
+      if (headingEmotions.tones.length !== 0) {
+        console.log(headingEmotions.tones);
+        headingsData[headingEmotions["sentence_id"]].emotions =
+          createEmotionsFromIBM(headingEmotions.tones);
+      }
+    }
+    console.log(headingsData);
   }
   const frequencyOfWords = createWordMap(headings, excludedWords);
   const wordCount = sumOfMapValues([frequencyOfWords]);

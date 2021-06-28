@@ -50,3 +50,10 @@ export const getEmotionsFromHeading = (headings: headingData[]) => {
   }
   return newEmotions;
 };
+export const createEmotionsFromIBM = (tones: any) => {
+  const obj = {};
+  for (let tone of tones) {
+    obj[tone["tone_id"]] = tone["score"];
+  }
+  return obj;
+};
