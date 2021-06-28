@@ -1,7 +1,11 @@
-import { DailySiteData, Screenshot } from "../interfaces";
+import { DailySiteData, Screenshot, SingleWebsiteInfo } from "../interfaces";
 import firebase from "firebase";
-import { createDailyEntry } from "../helpers/firestoreFormating";
+import {
+  createDailyEntry,
+  updateSiteData,
+} from "../helpers/firestoreFormating";
 import { createFormatedDate } from "../helpers/generalHelpers";
+import { getPageMetaData } from "./firestoreAccessHelpers";
 
 export const addImagesToStorage = async (
   screenshots: Screenshot[],
@@ -29,4 +33,30 @@ export const addDailyEntryFirebase = async (
   const docRef = db.collection("Headings").doc(formatedDate);
   const dailyEntry = createDailyEntry(dailyArray);
   await docRef.set(dailyEntry);
+};
+
+export const updateSingleWebsiteInfo = async (
+  db: FirebaseFirestore.Firestore,
+  newData: DailySiteData[]
+) => {
+  const oldData = await getPageMetaData(db);
+
+  // fronda : data
+  // export interface SingleWebsiteInfo {
+  //   ListOfWords: WordMap;
+  //   TotalEmotionCount: Emotions;
+  //   TotalHeadingCount: number;
+  //   TotalWordCount: number;
+  // }
+  // export interface SiteData {
+  //   headings: string[];
+  //   imageName: string;
+  //   analizeEmotions: boolean;
+  //   nameToDisplay: string;
+  // }
+  for (let siteData of newData) {
+    if (siteData.websiteName in oldData) {
+      updateSiteData(oldData[siteData.websiteName], siteData);
+    }
+  }
 };

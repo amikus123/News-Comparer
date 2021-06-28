@@ -4,7 +4,7 @@ import {
   createWordMap,
   combineWordMaps,
   sumOfMapValues,
-} from "../../src/helpers/mapFunctions";
+} from "../../helpers/mapFunctions";
 const exampleOfWordArray1 = ["test", "test", "not", "pog", "nah"];
 const exampleOfWordArray2 = ["test", "not", "not", "bruh"];
 const excludedWords = ["test"];

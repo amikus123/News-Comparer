@@ -2,12 +2,11 @@ require("dotenv").config();
 import admin from "firebase-admin";
 import firebase from "firebase";
 import "firebase/storage";
-import * as functions from "firebase-functions";
 
 import {
   getWebsitesInfo,
   getExcludedWords,
-} from "../../src/firebase/firestoreAccessHelpers";
+} from "../../firebase/firestoreAccessHelpers";
 var serviceAccount = require("../.../../../../../secret.json");
 
 admin.initializeApp({

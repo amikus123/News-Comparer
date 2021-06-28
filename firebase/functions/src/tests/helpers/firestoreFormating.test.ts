@@ -2,7 +2,7 @@ import {
   createSiteDailyEntry,
   createArrayOfDailySiteData,
   createDailyEntry,
-} from "../../src/helpers/firestoreFormating";
+} from "../../helpers/firestoreFormating";
 const siteData = {
   headings: ["test test pog", "test bad a"],
   imageName: "image.jpg",

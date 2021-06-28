@@ -9,26 +9,21 @@ export interface Emotions {
 }
 
 export interface DailySiteData {
-  averageSentiment?: number;
-  frequencyOfWords: any;
+  frequencyOfWords: WordMap;
   wordCount: number;
   headingsData: headingData[];
   imageName: string;
   websiteName: string;
 }
 export interface headingData {
-  sentiment?: number;
   emotions?: Emotions;
   text: string;
 }
-export interface ExcludedWords {
-  Words: string[];
-}
+
 export interface WordMap {
   [key: string]: number;
 }
 export interface DailyEntry {
-  averageSentiment?: number;
   averageEmotion?: Emotions;
   siteData: DailySiteData[];
   totalEmotionCount?: Emotions;
@@ -61,3 +56,15 @@ export interface SingleWebisteConstData {
   politicalOrientation: string;
 }
 // meta data
+export interface ExcludedWords {
+  Words: string[];
+}
+export interface WebisteInfo {
+  [key: string]: SingleWebsiteInfo;
+}
+export interface SingleWebsiteInfo {
+  ListOfWords: WordMap;
+  TotalEmotionCount: Emotions;
+  TotalHeadingCount: number;
+  TotalWordCount: number;
+}

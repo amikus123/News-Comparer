@@ -11,5 +11,5 @@
     "outDir": "lib",
     "esModuleInterop": true
   },
-  "include": ["src", "tests"]
+  "include": ["src", "src/tests"]
 }

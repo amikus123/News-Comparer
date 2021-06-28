@@ -1,3 +1,5 @@
+import { Emotions, headingData, SingleWebsiteInfo } from "../interfaces";
+
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
   const time = new Date();
@@ -18,4 +20,33 @@ export const removeInternalStopSymbols = (text: string) => {
   }
 
   return arrOfChars.join("");
+};
+
+export const mergeEmotionCount = (first: Emotions, second: Emotions) => {
+  for (let key in second) {
+    first[key] += second[key];
+  }
+  return first;
+};
+export const createEmotions = (): Emotions => {
+  return {
+    anger: 0,
+    sadness: 0,
+    fear: 0,
+    joy: 0,
+    analytical: 0,
+    confident: 0,
+    tentative: 0,
+  };
+};
+export const getEmotionsFromHeading = (headings: headingData[]) => {
+  const newEmotions = createEmotions();
+  for (let heading of headings) {
+    if (heading.emotions) {
+      for (let emotion in heading.emotions) {
+        newEmotions[emotion] += heading.emotions[emotion];
+      }
+    }
+  }
+  return newEmotions;
 };

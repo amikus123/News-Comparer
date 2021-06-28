@@ -1,6 +1,12 @@
 import { combineWordMaps, createWordMap, sumOfMapValues } from "./mapFunctions";
-import { DailySiteData, DailyEntry, SiteData } from "../interfaces";
+import {
+  DailySiteData,
+  DailyEntry,
+  SiteData,
+  SingleWebsiteInfo,
+} from "../interfaces";
 import "firebase/storage";
+import { getEmotionsFromHeading, mergeEmotionCount } from "./generalHelpers";
 
 export const createSiteDailyEntry = async (
   data: SiteData,
@@ -51,4 +57,24 @@ export const createDailyEntry = (
     frequencyOfWords: frequencyOfWordOverADay,
     totalWordCount,
   };
+};
+
+export const updateSiteData = (
+  old: SingleWebsiteInfo,
+  newData: DailySiteData
+) => {
+  old.ListOfWords = combineWordMaps([
+    old.ListOfWords,
+    newData.frequencyOfWords,
+  ]);
+  const emotionsCountFromHeadings = getEmotionsFromHeading(
+    newData.headingsData
+  );
+  old.TotalEmotionCount = mergeEmotionCount(
+    old.TotalEmotionCount,
+    emotionsCountFromHeadings
+  );
+  old.TotalHeadingCount += newData.headingsData.length;
+  old.TotalWordCount += sumOfMapValues([newData.frequencyOfWords]);
+  return old;
 };

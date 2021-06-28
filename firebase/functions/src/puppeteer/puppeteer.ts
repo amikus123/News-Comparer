@@ -7,7 +7,7 @@ import {
 } from "./puppeteerHelpers.js";
 import { PuppeteerData, SingleWebisteConstData } from "../interfaces";
 export const getPageData = async (
-  staticDataOfAllPages: SingleWebisteConstData[]
+  accessDataOfPages: SingleWebisteConstData[]
 ) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
@@ -15,8 +15,8 @@ export const getPageData = async (
     allSiteData: [],
     screenshots: [],
   };
-  if (staticDataOfAllPages) {
-    for (let index in staticDataOfAllPages) {
+  if (accessDataOfPages) {
+    for (let index in accessDataOfPages) {
       const {
         url,
         popupSelector,
@@ -24,7 +24,7 @@ export const getPageData = async (
         nameToDisplay,
         imageName,
         analizeEmotions,
-      } = staticDataOfAllPages[index];
+      } = accessDataOfPages[index];
       try {
         const screenshotFileName = `${createFormatedDate()}${imageName}`;
         // waits 500ms after last network request

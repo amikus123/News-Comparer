@@ -1,4 +1,4 @@
-import { SingleWebisteConstData } from "../interfaces";
+import { SingleWebisteConstData, WebisteInfo } from "../interfaces";
 
 export const getWebsitesInfo = async (db: FirebaseFirestore.Firestore) => {
   const docRef = db.collection("Websites").doc("WebsiteData");
@@ -35,4 +35,22 @@ export const getExcludedWords = async (
       console.error("Error getting excluded words ", e);
     });
   return data || [];
+};
+export const getPageMetaData = async (
+  db: FirebaseFirestore.Firestore
+): Promise<WebisteInfo> => {
+  const docRef = db.collection("MetaData").doc("WebsiteInfo");
+  const data = await docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const x: WebisteInfo = doc.data();
+        return x;
+      }
+      console.log("No such document!");
+    })
+    .catch((e) => {
+      console.error("Error getting excluded words ", e);
+    });
+  return data || null;
 };

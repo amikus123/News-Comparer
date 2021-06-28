@@ -15,6 +15,7 @@ import {
 import {
   addDailyEntryFirebase,
   addImagesToStorage,
+  updateSingleWebsiteInfo,
 } from "./firebase/firebaseWriteHelpers";
 import { createArrayOfDailySiteData } from "./helpers/firestoreFormating";
 
@@ -47,6 +48,7 @@ export const test = functions
       );
       await addImagesToStorage(screenshots, storageRef);
       await addDailyEntryFirebase(db, dailyArray);
+      await updateSingleWebsiteInfo(db, dailyArray);
     } else {
       console.log("Unsuccessful fetching of webiste const info");
     }
