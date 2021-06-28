@@ -26,7 +26,6 @@ export const createSiteDailyEntry = async (
   }
   if (analizeEmotions) {
     // modyfikuje headings data
-    // tlumacz,
     const translatedHeadings = await translateText(headings);
     const emotionsData = await getTextEmotions(translatedHeadings);
     console.log(emotionsData, "WORKS MOMN");
@@ -89,7 +88,7 @@ export const updateSiteData = (
   const emotionsCountFromHeadings = getEmotionsFromHeading(
     newData.headingsData
   );
-  
+
   old.TotalEmotionCount = mergeEmotionCount(
     old.TotalEmotionCount,
     emotionsCountFromHeadings

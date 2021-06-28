@@ -7,6 +7,7 @@ import {
 } from "../../helpers/mapFunctions";
 const exampleOfWordArray1 = ["test", "test", "not", "pog", "nah"];
 const exampleOfWordArray2 = ["test", "not", "not", "bruh"];
+const arr3 = [",,Chleba"];
 const excludedWords = ["test"];
 describe("Testing map functions", () => {
   test("should create a correct word map", () => {
@@ -15,6 +16,9 @@ describe("Testing map functions", () => {
       not: 1,
       pog: 1,
       nah: 1,
+    });
+    expect(createWordMap(arr3)).toStrictEqual({
+      chleba: 1,
     });
     expect(createWordMap(exampleOfWordArray2)).toStrictEqual({
       test: 1,
