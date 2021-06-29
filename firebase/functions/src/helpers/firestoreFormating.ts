@@ -24,7 +24,7 @@ export const createSiteDailyEntry = async (
   for (let i = 0; i < headings.length; i++) {
     headingsData.push({ text: headings[i] });
   }
-  if (analizeEmotions && false) {
+  if (analizeEmotions) {
     // modyfikuje headings data
     const translatedHeadings = await translateText(headings);
     const emotionsData = await getTextEmotions(translatedHeadings);

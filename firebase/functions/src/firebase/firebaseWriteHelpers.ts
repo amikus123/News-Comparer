@@ -13,6 +13,7 @@ export const addImagesToStorage = async (
 ) => {
   for (let i = 0; i < screenshots.length; i++) {
     // const formatedDate = createFormatedDate();
+    console.log(screenshots[i],"SSd")
     const screenshotRef = storageRef
       .child(`${screenshots[i].imageName}.jpg`)
       .put(screenshots[i].imageUintData)
