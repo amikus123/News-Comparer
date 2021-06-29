@@ -26,7 +26,7 @@ export const getPageData = async (
         analizeEmotions,
       } = accessDataOfPages[index];
       try {
-        const screenshotFileName = `${createFormatedDate()}${imageName}`;
+        const screenshotFileName = `${createFormatedDate()}-${imageName}`;
         // waits 500ms after last network request
         await page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });

@@ -13,10 +13,11 @@ export const createWordMap = (
     });
     for (let j in arrayOfWords) {
       arrayOfWords[j] = arrayOfWords[j]
-        .replace(/[^a-zA-Z0-9]/g, "")
+        // i may consider adding more to this regex
+        .replace(/[^a-zA-Z0-9\/\-\+]/g, "")
         .toLowerCase();
       let word = arrayOfWords[j];
-      if (excludedWords.indexOf(word) === -1) {
+      if (excludedWords.indexOf(word) === -1 && word !== "") {
         if (wordMap.hasOwnProperty(word)) {
           wordMap[word] = wordMap[word] + 1;
         } else {

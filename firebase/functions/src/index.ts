@@ -31,7 +31,7 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
-// add testes, clean up code, add assertions, fix file name, clean up "frequency of words"
+// add testes, clean up code, add assertions,clean up "frequency of words"
 export const test = functions
   .runWith({
     timeoutSeconds: 300,
