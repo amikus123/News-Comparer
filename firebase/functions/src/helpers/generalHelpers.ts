@@ -24,7 +24,11 @@ export const removeInternalStopSymbols = (text: string) => {
 
 export const mergeEmotionCount = (first: Emotions, second: Emotions) => {
   for (let key in second) {
-    first[key] += second[key];
+    if (first[key] == undefined) {
+      first[key] = second[key];
+    } else {
+      first[key] += second[key];
+    }
   }
   return first;
 };
@@ -46,7 +50,6 @@ export const getEmotionsFromHeading = (headings: headingData[]) => {
       for (let emotion in heading.emotions) {
         // newEmotions[emotion] += heading.emotions[emotion];
         newEmotions[emotion] += 1;
-
       }
     }
   }
@@ -57,6 +60,6 @@ export const createEmotionsFromIBM = (tones: any) => {
   for (let tone of tones) {
     obj[tone["tone_id"]] = tone["score"];
   }
-  console.log(obj, "CREATED")
+  console.log(obj, "CREATED");
   return obj;
 };

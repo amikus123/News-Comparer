@@ -11,9 +11,8 @@ export const addImagesToStorage = async (
   screenshots: Screenshot[],
   storageRef: firebase.storage.Reference
 ) => {
-  for (let i = 0; i < screenshots.length; i++) {
-    // const formatedDate = createFormatedDate();
-    console.log(screenshots[i],"SSd")
+  for (let i = 0; i > screenshots.length; i++) {
+    console.log(screenshots[i], "SSd");
     const screenshotRef = storageRef
       .child(`${screenshots[i].imageName}.jpg`)
       .put(screenshots[i].imageUintData)
@@ -34,7 +33,7 @@ export const addDailyEntryFirebase = async (
   const dailyEntry = createDailyEntry(dailyArray);
   const docRef = db.collection("Headings").doc(formatedDate);
   console.log("NEW", dailyEntry);
-  await docRef.set(dailyEntry);
+  // await docRef.set(dailyEntry);
 };
 
 export const updateSingleWebsiteInfo = async (
@@ -46,9 +45,10 @@ export const updateSingleWebsiteInfo = async (
   for (let siteData of newData) {
     if (siteData.websiteName in oldData) {
       updateSiteData(oldData[siteData.websiteName], siteData);
+    } else {
     }
   }
   console.log("NEW", oldData);
   const docRef = db.collection("MetaData").doc("WebsiteInfo");
-  await docRef.set(oldData);
+  // await docRef.set(oldData);
 };

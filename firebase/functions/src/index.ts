@@ -34,10 +34,34 @@ const storageRef = firebase.storage().ref();
 // add testes, clean up code, add assertions,clean up "frequency of words"
 export const test = functions
   .runWith({
-    timeoutSeconds: 300,
+    timeoutSeconds: 400,
     memory: "1GB",
   })
   .https.onRequest(async (req, res) => {
+    const websiteInfo = await getWebsitesInfo(db);
+    const excludedWords = await getExcludedWords(db);
+    if (websiteInfo && excludedWords) {
+      // checking if we d access data from db
+      const { allSiteData, screenshots } = await getPageData(websiteInfo!);
+      const dailyArray = await createArrayOfDailySiteData(
+        allSiteData,
+        excludedWords
+      );
+      await addImagesToStorage(screenshots, storageRef);
+      await addDailyEntryFirebase(db, dailyArray);
+      // await updateSingleWebsiteInfo(db, dailyArray);
+    } else {
+      console.log("Unsuccessful fetching of webiste const info");
+    }
+  });
+
+export const savePagesContent2 = functions
+  .runWith({
+    timeoutSeconds: 400,
+    memory: "1GB",
+  })
+  .pubsub.schedule("every 24 hours")
+  .onRun(async (context) => {
     const websiteInfo = await getWebsitesInfo(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
@@ -54,27 +78,3 @@ export const test = functions
       console.log("Unsuccessful fetching of webiste const info");
     }
   });
-
-// export const savePagesContent2 = functions
-//   .runWith({
-//     timeoutSeconds: 120,
-//     memory: "1GB",
-//   })
-//   .pubsub.schedule("every 24 hours")
-//   .onRun(async (context) => {
-//     const { headings, screenshots } = await getPageData();
-//     // adding headings to db
-//     headings["data"] = admin.firestore.FieldValue.serverTimestamp();
-//     console.log(headings, screenshots);
-//     const docRef = db.collection("headings").doc();
-//     // ading screenshots to storage
-//     for (let i = 0; i < screenshots.length; i++) {
-//       const screenshotRef = storageRef
-//         .child(screenshots[i].fileName)
-//         .put(screenshots[i].imageBuffer)
-//         .then((s) => {
-//           console.log("win", s);
-//         });
-//     }
-//     await docRef.set({ headings });
-//   });
