@@ -32,30 +32,31 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
 // add testes, clean up code, add assertions,clean up "frequency of words"
-export const test = functions
-  .runWith({
-    timeoutSeconds: 400,
-    memory: "1GB",
-  })
-  .https.onRequest(async (req, res) => {
-    const websiteInfo = await getWebsitesInfo(db);
-    const excludedWords = await getExcludedWords(db);
-    if (websiteInfo && excludedWords) {
-      // checking if we d access data from db
-      const { allSiteData, screenshots } = await getPageData(websiteInfo!);
-      const dailyArray = await createArrayOfDailySiteData(
-        allSiteData,
-        excludedWords
-      );
-      await addImagesToStorage(screenshots, storageRef);
-      await addDailyEntryFirebase(db, dailyArray);
-      // await updateSingleWebsiteInfo(db, dailyArray);
-    } else {
-      console.log("Unsuccessful fetching of webiste const info");
-    }
-  });
 
-export const savePagesContent2 = functions
+// export const test = functions
+//   .runWith({
+//     timeoutSeconds: 400,
+//     memory: "1GB",
+//   })
+//   .https.onRequest(async (req, res) => {
+//     const websiteInfo = await getWebsitesInfo(db);
+//     const excludedWords = await getExcludedWords(db);
+//     if (websiteInfo && excludedWords) {
+//       checking if we d access data from db
+//       const { allSiteData, screenshots } = await getPageData(websiteInfo!);
+//       const dailyArray = await createArrayOfDailySiteData(
+//         allSiteData,
+//         excludedWords
+//       );
+//       await addImagesToStorage(screenshots, storageRef);
+//       await addDailyEntryFirebase(db, dailyArray);
+//       await updateSingleWebsiteInfo(db, dailyArray);
+//     } else {
+//       console.log("Unsuccessful fetching of webiste const info");
+//     }
+//   });
+
+export const savePagesContent = functions
   .runWith({
     timeoutSeconds: 400,
     memory: "1GB",
