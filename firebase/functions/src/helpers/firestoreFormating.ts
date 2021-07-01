@@ -28,15 +28,14 @@ export const createSiteDailyEntry = async (
     // modyfikuje headings data
     const translatedHeadings = await translateText(headings);
     const emotionsData = await getTextEmotions(translatedHeadings);
-    console.log(emotionsData, "WORKS MOMN");
     for (let headingEmotions of emotionsData) {
       if (headingEmotions.tones.length !== 0) {
-        console.log(headingEmotions.tones);
+        // console.log(headingEmotions.tones);
         headingsData[headingEmotions["sentence_id"]].emotions =
           createEmotionsFromIBM(headingEmotions.tones);
       }
     }
-    console.log(headingsData);
+    // console.log(headingsData);
   }
   const frequencyOfWords = createWordMap(headings, excludedWords);
   const wordCount = sumOfMapValues([frequencyOfWords]);

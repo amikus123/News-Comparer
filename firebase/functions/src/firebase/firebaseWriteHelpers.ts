@@ -32,7 +32,7 @@ export const addDailyEntryFirebase = async (
   const formatedDate = createFormatedDate();
   const dailyEntry = createDailyEntry(dailyArray);
   const docRef = db.collection("Headings").doc(formatedDate);
-  console.log("NEW", dailyEntry);
+  // console.log("NEW", dailyEntry);
   await docRef.set(dailyEntry);
 };
 
@@ -41,15 +41,15 @@ export const updateSingleWebsiteInfo = async (
   newData: DailySiteData[]
 ) => {
   const oldData = await getPageMetaData(db);
-  console.log(oldData, "OLD");
-  console.log("new", newData);
+  // console.log(oldData, "OLD");
+  // console.log("new", newData);
   for (let siteData of newData) {
     if (siteData.websiteName in oldData) {
       updateSiteData(oldData[siteData.websiteName], siteData);
     } else {
     }
   }
-  console.log("NEW", oldData);
+  // console.log("NEW", oldData);
   const docRef = db.collection("MetaData").doc("WebsiteInfo");
   await docRef.set(oldData);
 };

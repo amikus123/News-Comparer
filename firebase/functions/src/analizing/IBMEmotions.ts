@@ -11,14 +11,14 @@ const toneAnalyzer = new ToneAnalyzerV3({
   serviceUrl: "https://api.eu-de.tone-analyzer.watson.cloud.ibm.com",
 });
 
-export const getTextEmotions = async (headers: string[]) => {
-  // find out why the map version dosent work
-
-  const a = [];
-  for (let i = 0; i < headers.length; i++) {
-    a.push(removeInternalStopSymbols(headers[i]));
+export const getTextEmotions = async (translatedHeadings: string[]) => {
+  const arr = [];
+  // ibm accepts a long string in english
+  for (let word in translatedHeadings) {
+    // removes symbols thaht would incorrectly divide the string
+    arr.push(removeInternalStopSymbols(word));
   }
-  let text = a.join(" ");
+  let text = arr.join(" ");
 
   const toneParams = {
     toneInput: { text: text },
@@ -26,9 +26,5 @@ export const getTextEmotions = async (headers: string[]) => {
   };
   const rawData = await toneAnalyzer.tone(toneParams);
   // console.log(rawData.result);
-  if (rawData.result.sentences_tone !== undefined) {
-    return rawData.result.sentences_tone;
-  } else {
-    return null;
-  }
+  return rawData.result.sentences_tone;
 };

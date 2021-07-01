@@ -8,6 +8,7 @@ export const createFormatedDate = () => {
 
 export const removeInternalStopSymbols = (text: string) => {
   // IBM api doesn't work as expected if input has following symbols inside, so we this removes them
+  console.log(text, typeof text, "CO TO JEST");
   const stopCharacters = ["!", "?", ".", ";"];
   const arrOfChars = text.split("");
   for (let i = 0; i < arrOfChars.length - 1; i++) {

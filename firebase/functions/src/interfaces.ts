@@ -68,3 +68,14 @@ export interface SingleWebsiteInfo {
   TotalHeadingCount: number;
   TotalWordCount: number;
 }
+
+// analisys
+
+export interface JointGoogleTranslate {
+  words: string[];
+  second: GoogleTranslate;
+}
+export interface GoogleTranslate {
+  words: string[];
+  translationData: any;
+}
