@@ -10,7 +10,7 @@
 
 # production
 /build
-
+/lib
 # misc
 .DS_Store
 .env.local
@@ -88,3 +88,6 @@ node_modules/
 
 # dotenv environment variables file
 .env
+secret.json
+lib
+watsonKey.ts

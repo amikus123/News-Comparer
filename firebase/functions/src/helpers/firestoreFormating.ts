@@ -24,10 +24,12 @@ export const createSiteDailyEntry = async (
   for (let i = 0; i < headings.length; i++) {
     headingsData.push({ text: headings[i] });
   }
-  if (analizeEmotions) {
-    // modyfikuje headings data
+  if (analizeEmotions && false) {
     const translatedHeadings = await translateText(headings);
     const emotionsData = await getTextEmotions(translatedHeadings);
+    // if emotions fail we can still contiunue
+    console.log(emotionsData)
+    if (emotionsData !== undefined && Symbol.iterator in Object(emotionsData)){
     for (let headingEmotions of emotionsData) {
       if (headingEmotions.tones.length !== 0) {
         // console.log(headingEmotions.tones);
@@ -35,8 +37,11 @@ export const createSiteDailyEntry = async (
           createEmotionsFromIBM(headingEmotions.tones);
       }
     }
-    // console.log(headingsData);
+  }else{
+    console.log("fail")
   }
+}
+
   const frequencyOfWords = createWordMap(headings, excludedWords);
   const wordCount = sumOfMapValues([frequencyOfWords]);
   return {
@@ -47,6 +52,7 @@ export const createSiteDailyEntry = async (
     wordCount,
   };
 };
+
 export const createArrayOfDailySiteData = async (
   allSiteData: SiteData[],
   excludedWords: string[] = []
@@ -80,19 +86,19 @@ export const updateSiteData = (
   old: SingleWebsiteInfo,
   newData: DailySiteData
 ) => {
-  old.ListOfWords = combineWordMaps([
-    old.ListOfWords,
+  old.frequencyOfWords = combineWordMaps([
+    old.frequencyOfWords,
     newData.frequencyOfWords,
   ]);
   const emotionsCountFromHeadings = getEmotionsFromHeading(
     newData.headingsData
   );
 
-  old.TotalEmotionCount = mergeEmotionCount(
-    old.TotalEmotionCount,
+  old.totalEmotionCount = mergeEmotionCount(
+    old.totalEmotionCount,
     emotionsCountFromHeadings
   );
-  old.TotalHeadingCount += newData.headingsData.length;
-  old.TotalWordCount += sumOfMapValues([newData.frequencyOfWords]);
+  old.totalHeadingCount += newData.headingsData.length;
+  old.totalWordCount += sumOfMapValues([newData.frequencyOfWords]);
   return old;
 };

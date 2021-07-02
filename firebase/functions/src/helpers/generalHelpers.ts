@@ -8,7 +8,7 @@ export const createFormatedDate = () => {
 
 export const removeInternalStopSymbols = (text: string) => {
   // IBM api doesn't work as expected if input has following symbols inside, so we this removes them
-  console.log(text, typeof text, "CO TO JEST");
+  // i may add more stop characters
   const stopCharacters = ["!", "?", ".", ";"];
   const arrOfChars = text.split("");
   for (let i = 0; i < arrOfChars.length - 1; i++) {
@@ -19,7 +19,6 @@ export const removeInternalStopSymbols = (text: string) => {
   if (stopCharacters.indexOf(arrOfChars[arrOfChars.length - 1]) === -1) {
     arrOfChars.push(".");
   }
-
   return arrOfChars.join("");
 };
 
@@ -61,6 +60,6 @@ export const createEmotionsFromIBM = (tones: any) => {
   for (let tone of tones) {
     obj[tone["tone_id"]] = tone["score"];
   }
-  console.log(obj, "CREATED");
+  // console.log(obj, "CREATED");
   return obj;
 };

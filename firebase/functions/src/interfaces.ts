@@ -63,19 +63,8 @@ export interface WebisteInfo {
   [key: string]: SingleWebsiteInfo;
 }
 export interface SingleWebsiteInfo {
-  ListOfWords: WordMap;
-  TotalEmotionCount: Emotions;
-  TotalHeadingCount: number;
-  TotalWordCount: number;
-}
-
-// analisys
-
-export interface JointGoogleTranslate {
-  words: string[];
-  second: GoogleTranslate;
-}
-export interface GoogleTranslate {
-  words: string[];
-  translationData: any;
+  frequencyOfWords: WordMap;
+  totalEmotionCount: Emotions;
+  totalHeadingCount: number;
+  totalWordCount: number;
 }

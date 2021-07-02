@@ -11,6 +11,8 @@ export const getPageData = async (
 ) => {
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
+  await page.setViewport({ width: 1024, height: 2048 });
+
   const dataToReturn: PuppeteerData = {
     allSiteData: [],
     screenshots: [],

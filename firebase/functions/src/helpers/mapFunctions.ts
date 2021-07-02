@@ -31,16 +31,17 @@ export const createWordMap = (
 
 export const combineWordMaps = (listOfMaps: WordMap[]) => {
   const mapToReturn: WordMap = {};
-  for (let i = 0; i < listOfMaps.length; i++) {
-    const keys = Object.keys(listOfMaps[i]);
-    for (let x in keys) {
-      if (mapToReturn.hasOwnProperty(keys[x])) {
-        mapToReturn[keys[x]] += listOfMaps[i][keys[x]];
-      } else {
-        mapToReturn[keys[x]] = listOfMaps[i][keys[x]];
+  if (listOfMaps)
+    for (let i = 0; i < listOfMaps.length; i++) {
+      const keys = Object.keys(listOfMaps[i]);
+      for (let x in keys) {
+        if (mapToReturn.hasOwnProperty(keys[x])) {
+          mapToReturn[keys[x]] += listOfMaps[i][keys[x]];
+        } else {
+          mapToReturn[keys[x]] = listOfMaps[i][keys[x]];
+        }
       }
     }
-  }
   return mapToReturn;
 };
 export const sumOfMapValues = (maps: WordMap[]) => {
