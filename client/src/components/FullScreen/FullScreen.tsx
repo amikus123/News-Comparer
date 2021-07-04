@@ -18,8 +18,9 @@ const FullScreen = ({
       className={`fullScreen ${fullScreenImage === "" ? "hide" : ""}`}
       onClick={close}
     >
-      <CloseIcon className="fullScreen--closeIcon" />
       <img src={fullScreenImage} alt="test" className="fullScreen--image" onClick={imageClick} />
+     {/* i doubt whether this is necessary */}
+      {/* <CloseIcon className="fullScreen--closeIcon" /> */}
     </div>
   );
 };

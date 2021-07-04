@@ -28,12 +28,18 @@ img{
   /* above defualt values of material ui header   */
   z-index:1200;
   overflow: scroll;
+  display:flex;
+   overscroll-behavior: contain;
 }
 .fullScreen--closeIcon{
+  position: relative;
+  font-size: 3rem!important;
   
 }
 .fullScreen--image{
-
+justify-self:center;
+height: fit-content;
+padding-top: 3rem;
 }
 /* helpers*/
 .hide{
