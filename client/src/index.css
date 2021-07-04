@@ -5,12 +5,40 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 6000px;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+
 img{
   margin: 0 auto;
+}
+/* ovverides default css for materail ui selected option preview in "Website Selector" */
+.MuiInputBase-input{
+  display: flex!important;
+  justify-content: center!important;
+} 
+
+
+/* full screenclases */
+.fullScreen{
+  position:fixed;
+  width:100vw;
+  background-color:rgba(255, 0, 0, 0.426);
+  height:100vh;
+  /* above defualt values of material ui header   */
+  z-index:1200;
+  overflow: scroll;
+}
+.fullScreen--closeIcon{
+  
+}
+.fullScreen--image{
+
+}
+/* helpers*/
+.hide{
+  display: none;
+}
+.hide2{
+visibility: hidden;
 }

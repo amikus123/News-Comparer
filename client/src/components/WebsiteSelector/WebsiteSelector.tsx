@@ -5,6 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
+import { Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,8 +15,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     formControl: {
       margin: theme.spacing(1),
-      minWidth: 120,
+      minWidth: 160,
     },
+    formInpput:{
+      minHeight:70,
+    
+    }
   })
 );
 
@@ -38,12 +43,9 @@ export default function WebsiteSelect() {
   };
 
   return (
-    <div>
-      <Button className={classes.button} onClick={handleOpen}>
-        Open the select
-      </Button>
+    <Grid item xs container direction="column" justify="center" alignItems="center">
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-controlled-open-select-label">Age</InputLabel>
+        {/* <InputLabel id="demo-controlled-open-select-label">Left</InputLabel> */}
         <Select
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"
@@ -52,6 +54,7 @@ export default function WebsiteSelect() {
           onOpen={handleOpen}
           value={age}
           onChange={handleChange}
+          className={classes.formInpput}
         >
           <MenuItem value={1}>
             <img src="fronda.png" alt="company logo" />
@@ -65,7 +68,7 @@ export default function WebsiteSelect() {
           <MenuItem value={4}>
             <img src="onet.png" alt="company logo" />
           </MenuItem>
-          <MenuItem value={5}>
+          {/* <MenuItem value={5}>
             <img src="fronda.png" alt="company logo" />
           </MenuItem>
           <MenuItem value={6}>
@@ -76,9 +79,9 @@ export default function WebsiteSelect() {
           </MenuItem>
           <MenuItem value={8}>
             <img src="onet.png" alt="company logo" />
-          </MenuItem>
+          </MenuItem> */}
         </Select>
       </FormControl>
-    </div>
+    </Grid>
   );
 }

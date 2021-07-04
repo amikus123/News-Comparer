@@ -1,12 +1,19 @@
-import React from "react";
+import React,{useState} from "react";
+import FullScreen from "./components/FullScreen/FullScreen";
+import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/topbar/Topbar";
-import WebsiteSelect from "./components/WebsiteSelect/WebsiteSelect";
-import {getHeadingDailyData} from "./firebase/getHeadingData"
+import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
+import { getHeadingDailyData } from "./firebase/getHeadingData";
 function App() {
+  const [fullScreenImage,setFullScreenImage] = useState("")
   return (
+    // merge all selects in one if screen is small enough
     <>
+
+    <FullScreen setFullScreenImage={setFullScreenImage} fullScreenImage={fullScreenImage}/>
       <Topbar />
-      <WebsiteSelect/>
+      <WebsiteSelecotGroping  />
+      <Screenshots setFullScreenImage={setFullScreenImage}/>
     </>
   );
 }
