@@ -17,8 +17,11 @@ img{
   display: flex!important;
   justify-content: center!important;
 } 
+/* image column  */
 
-
+.image-column--image{
+  width:30vw;
+}
 /* full screenclases */
 .fullScreen{
   position:fixed;
@@ -31,6 +34,7 @@ img{
   display:flex;
    overscroll-behavior: contain;
 }
+
 .fullScreen--closeIcon{
   position: relative;
   font-size: 3rem!important;
@@ -41,6 +45,9 @@ justify-self:center;
 height: fit-content;
 padding-top: 3rem;
 }
+.fullScreen--image-off{
+  height: 0rem;
+  }
 /* helpers*/
 .hide{
   display: none;

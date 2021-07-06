@@ -1,7 +1,7 @@
 import { Grid } from "@material-ui/core";
 import SingleScreenshot from "./SingleScreenshot";
 
-const ScreenshotGroup = ({setFullScreenImage} :{setFullScreenImage:React.Dispatch<React.SetStateAction<string>>}) => {
+const ScreenshotGroup = ({setFullScreenImage} :{setFullScreenImage:(src: string) => void}) => {
   return (
     <Grid
       item

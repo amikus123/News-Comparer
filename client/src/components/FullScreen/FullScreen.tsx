@@ -4,22 +4,28 @@ const FullScreen = ({
   setFullScreenImage,
 }: {
   fullScreenImage: string;
-  setFullScreenImage: React.Dispatch<React.SetStateAction<string>>;
+  setFullScreenImage: (src: string) => void;
 }) => {
   const close = (e: React.MouseEvent<HTMLElement>) => {
     setFullScreenImage("");
   };
   const imageClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
   };
   return (
     <div
       className={`fullScreen ${fullScreenImage === "" ? "hide" : ""}`}
       onClick={close}
     >
-      <img src={fullScreenImage} alt="test" className="fullScreen--image" onClick={imageClick} />
-     {/* i doubt whether this is necessary */}
+      <img
+        src={fullScreenImage}
+        alt="test"
+        className="fullScreen--image fullScreen--image-off"
+        id="fullScreenImage"
+        onClick={imageClick}
+      />
+      {/* i doubt whether this is necessary */}
       {/* <CloseIcon className="fullScreen--closeIcon" /> */}
     </div>
   );
