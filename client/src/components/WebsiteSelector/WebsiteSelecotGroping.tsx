@@ -1,7 +1,18 @@
 import { Grid } from "@material-ui/core";
+import { useEffect, useState } from "react";
+import { createRowObjects } from "../../firebase/firebaseAccess";
+import { imageSourceRows } from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 
-const WebsiteSelecotGroping = () => {
+const WebsiteSelecotGroping = ({setImagesSources}:{setImagesSources:React.Dispatch<React.SetStateAction<imageSourceRows>>}) => {
+  const [data,setData] = useState<imageSourceRows>({leftRow:[],centerRow:[],rightRow:[]})
+  useEffect(
+    ()=>{
+const x = await createRowObjects()
+setData(x)
+    },[]
+  )
+  
   return (
     <Grid
       container
@@ -10,9 +21,9 @@ const WebsiteSelecotGroping = () => {
       alignItems="center"
       spacing={3}
     >
-      <WebsiteSelect />
-      <WebsiteSelect />
-      <WebsiteSelect />
+      <WebsiteSelect websiteSelectData={data.leftRow}/>
+      <WebsiteSelect websiteSelectData={data.centerRow}/>
+      <WebsiteSelect websiteSelectData={data.rightRow}/>
     </Grid>
   );
 };

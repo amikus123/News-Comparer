@@ -3,10 +3,17 @@ import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
-import { getHeadingDailyData } from "./firebase/getHeadingData";
-import { getImgSrcFronName } from "./firebase/getImagesURK";
+import { getHeadingDailyData, createRowObjects,getImgSrcFronName } from "./firebase/firebaseAccess";
+import { imageSourceRows } from "./interfaces";
+
+
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
+  const [imageSources, setImagesSources] = useState<imageSourceRows>({
+    leftRow: [],
+    centerRow: [],
+    rightRow: [],
+  });
   const setFellScreenAndResetPosition = (src: string) => {
     // by toggling the height of the fullscreen image scroll position is reseted
     const fullScreenImage = document.getElementById("fullScreenImage");
@@ -23,9 +30,14 @@ function App() {
         fullScreenImage={fullScreenImage}
       />
       <Topbar />
-      <button onClick={()=>getImgSrcFronName()}>asdsdaasda</button>
-      <WebsiteSelecotGroping />
-      <Screenshots setFullScreenImage={setFellScreenAndResetPosition} />
+      <button onClick={() => getImgSrcFronName()}>asdsdaasda</button>
+      <button onClick={() => createRowObjects()}>ewqweqweqwewqe</button>
+
+      <WebsiteSelecotGroping setImagesSources={setImagesSources} />
+      <Screenshots
+        setFullScreenImage={setFellScreenAndResetPosition}
+        imageSources={imageSources}
+      />
     </>
   );
 }
