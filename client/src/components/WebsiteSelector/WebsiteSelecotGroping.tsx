@@ -4,15 +4,24 @@ import { createRowObjects } from "../../firebase/firebaseAccess";
 import { imageSourceRows } from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 
-const WebsiteSelecotGroping = ({setImagesSources}:{setImagesSources:React.Dispatch<React.SetStateAction<imageSourceRows>>}) => {
-  const [data,setData] = useState<imageSourceRows>({leftRow:[],centerRow:[],rightRow:[]})
-  useEffect(
-    ()=>{
-const x = await createRowObjects()
-setData(x)
-    },[]
-  )
-  
+const WebsiteSelecotGroping = ({
+  setImagesSources,
+}: {
+  setImagesSources: React.Dispatch<React.SetStateAction<imageSourceRows>>;
+}) => {
+  const [data, setData] = useState<imageSourceRows>({
+    leftRow: [],
+    centerRow: [],
+    rightRow: [],
+  });
+  useEffect(() => {
+    const x = async () => {
+      const x = await createRowObjects();
+      setData(x);
+    };
+    x();
+  }, []);
+
   return (
     <Grid
       container
@@ -21,9 +30,9 @@ setData(x)
       alignItems="center"
       spacing={3}
     >
-      <WebsiteSelect websiteSelectData={data.leftRow}/>
-      <WebsiteSelect websiteSelectData={data.centerRow}/>
-      <WebsiteSelect websiteSelectData={data.rightRow}/>
+      <WebsiteSelect websiteSelectData={data.leftRow} />
+      <WebsiteSelect websiteSelectData={data.centerRow} />
+      <WebsiteSelect websiteSelectData={data.rightRow} />
     </Grid>
   );
 };

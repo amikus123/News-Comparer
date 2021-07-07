@@ -6,6 +6,9 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
+import { WebsiteData } from "../../interfaces";
+import { getWebisteLogo } from "../../firebase/firebaseAccess";
+import WebisteImage from "./WebisteImage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function WebsiteSelect() {
+export default function WebsiteSelect({websiteSelectData} : {websiteSelectData:WebsiteData[]}) {
   const classes = useStyles();
   // we can change wthe default option by changing initial state
   const [age, setAge] = React.useState<string | number>(1);
@@ -56,7 +59,7 @@ export default function WebsiteSelect() {
           onChange={handleChange}
           className={classes.formInpput}
         >
-          <MenuItem value={1}>
+          {/* <MenuItem value={1}>
             <img src="fronda.png" alt="company logo" />
           </MenuItem>
           <MenuItem value={2}>
@@ -67,19 +70,16 @@ export default function WebsiteSelect() {
           </MenuItem>
           <MenuItem value={4}>
             <img src="onet.png" alt="company logo" />
-          </MenuItem>
-          {/* <MenuItem value={5}>
-            <img src="fronda.png" alt="company logo" />
-          </MenuItem>
-          <MenuItem value={6}>
-            <img src="TVP.png" alt="company logo" />
-          </MenuItem>
-          <MenuItem value={7}>
-            <img src="KP.png" alt="company logo" />
-          </MenuItem>
-          <MenuItem value={8}>
-            <img src="onet.png" alt="company logo" />
           </MenuItem> */}
+    {websiteSelectData.map((item,index)=>{
+      return(
+        <MenuItem value={index}>
+            {/* <img src={`${getWebisteLogo(item.imageName) || ""}`} alt="company logo" /> */
+            }
+            <WebisteImage name={item.imageName}/>
+          </MenuItem>
+      )
+    })}
         </Select>
       </FormControl>
     </Grid>

@@ -61,9 +61,9 @@ export const createRowObjects = async () => {
 // Create a storage reference from our storage service
 export const getImgSrcFronName = async (fileName = "4-6-2021-TVP_info.jpg") => {
   console.log(fileName);
-  getDownloadURL(ref(storage, fileName))
+  const x = getDownloadURL(ref(storage, fileName))
     .then((url) => {
-      console.log(url);
+      console.log(url,"cp wyszlo");
       return url;
     })
     .catch((error) => {
@@ -71,4 +71,11 @@ export const getImgSrcFronName = async (fileName = "4-6-2021-TVP_info.jpg") => {
       return "";
       // Handle any errors
     });
+    return x
+};
+export const getWebisteLogo = async (name: string) => {
+  const x = await getImgSrcFronName(`${name}_Logo.png`);
+  console.log("lofo", x,`${name}_Logo.png`);
+  console.log(x)
+  return x;
 };
