@@ -26,7 +26,7 @@ img{
 .fullScreen{
   position:fixed;
   width:100vw;
-  background-color:rgba(255, 0, 0, 0.426);
+  background-color:rgba(48, 48, 48, 0.05);
   height:100vh;
   /* above defualt values of material ui header   */
   z-index:1200;
