@@ -4,8 +4,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Grid } from "@material-ui/core";
-import { WebsiteData } from "../../interfaces";
-import { getWebisteLogo } from "../../firebase/firebaseAccess";
+import { WebsiteStaticData } from "../../interfaces";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function WebsiteSelect({
   websiteSelectData,
 }: {
-  websiteSelectData: WebsiteData[];
+  websiteSelectData: WebsiteStaticData[];
 }) {
   const classes = useStyles();
   const [age, setAge] = React.useState<string | number>(0);

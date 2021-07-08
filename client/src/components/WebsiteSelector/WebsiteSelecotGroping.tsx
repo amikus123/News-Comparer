@@ -1,27 +1,18 @@
 import { Grid } from "@material-ui/core";
 import { useEffect, useState } from "react";
-import { createRowObjects } from "../../firebase/firebaseAccess";
-import { imageSourceRows } from "../../interfaces";
+import {
+  DatabaseStaticDataInRows,
+  WebisteImagesInRows,
+} from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 
 const WebsiteSelecotGroping = ({
   setImagesSources,
+  databaseStaticDataInRows,
 }: {
-  setImagesSources: React.Dispatch<React.SetStateAction<imageSourceRows>>;
+  setImagesSources: React.Dispatch<React.SetStateAction<WebisteImagesInRows>>;
+  databaseStaticDataInRows: DatabaseStaticDataInRows;
 }) => {
-  const [data, setData] = useState<imageSourceRows>({
-    leftRow: [],
-    centerRow: [],
-    rightRow: [],
-  });
-  useEffect(() => {
-    const x = async () => {
-      const x = await createRowObjects();
-      setData(x);
-    };
-    x();
-  }, []);
-
   return (
     <Grid
       container
@@ -30,9 +21,9 @@ const WebsiteSelecotGroping = ({
       alignItems="center"
       spacing={3}
     >
-      <WebsiteSelect websiteSelectData={data.leftRow} />
-      <WebsiteSelect websiteSelectData={data.centerRow} />
-      <WebsiteSelect websiteSelectData={data.rightRow} />
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.leftRow} />
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.centerRow} />
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.rightRow} />
     </Grid>
   );
 };

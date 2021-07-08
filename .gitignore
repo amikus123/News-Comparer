@@ -91,3 +91,4 @@ node_modules/
 secret.json
 lib
 watsonKey.ts
+secret.ts

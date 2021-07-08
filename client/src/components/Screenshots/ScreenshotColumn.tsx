@@ -1,7 +1,13 @@
 import { Grid } from "@material-ui/core";
 import SingleScreenshot from "./SingleScreenshot";
 
-const ScreenshotGroup = ({setFullScreenImage} :{setFullScreenImage:(src: string) => void}) => {
+const ScreenshotGroup = ({
+  setFullScreenImage,
+  imageSources,
+}: {
+  setFullScreenImage: (src: string) => void;
+  imageSources: string[];
+}) => {
   return (
     <Grid
       item
@@ -11,7 +17,16 @@ const ScreenshotGroup = ({setFullScreenImage} :{setFullScreenImage:(src: string)
       justify="flex-start"
       alignItems="center"
     >
-      <SingleScreenshot setFullScreenImage={setFullScreenImage} />
+      {imageSources.map((image, index) => {
+        return (
+          <SingleScreenshot
+            key={index}
+            setFullScreenImage={setFullScreenImage}
+            imageSrc={image}
+          />
+        );
+      })}
+      {/* <SingleScreenshot setFullScreenImage={setFullScreenImage} /> */}
     </Grid>
   );
 };

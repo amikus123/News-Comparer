@@ -1,7 +1,7 @@
-const SingleScreenshot = ({setFullScreenImage} :{setFullScreenImage:(src: string) => void}) => {
+const SingleScreenshot = ({setFullScreenImage,imageSrc} :{setFullScreenImage:(src: string) => void,imageSrc:string}) => {
   return (
     <div>
-      <img src="2-6-2021-Krytyka_Polityczna.jpg" className="image-column--image" onClick={()=>setFullScreenImage("2-6-2021-Krytyka_Polityczna.jpg")} alt="test"/>
+      <img src={imageSrc} className="image-column--image" onClick={()=>setFullScreenImage(imageSrc)} alt="screenshot of webistie"/>
   
     </div>
   )

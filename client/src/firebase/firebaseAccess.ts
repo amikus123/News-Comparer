@@ -1,15 +1,17 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { imageSourceRows, WebsiteData } from "../interfaces";
+import {
+  DatabaseStaticDataInRows,
+  WebsiteJointDataMap,
+  WebsiteJointDataTemp,
+  WebsiteStaticData,
+} from "../interfaces";
+import { firebaseConfig } from "./secret";
+// initial configuration
+// const firebaseApp = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDQoHVRwE1UXiAuIbU5YU3fJL3iDzmSx_I",
-  authDomain: "newscomparer.firebaseapp.com",
-  projectId: "newscomparer",
-  storageBucket: "newscomparer.appspot.com",
-};
-const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore();
 const storage = getStorage();
 
@@ -21,22 +23,32 @@ export const getHeadingDailyData = async () => {
     console.log(`${doc.id} => ${doc.data()}`);
   });
 };
-
-export const getWebisteStaticData = async () => {
-  let toReturn: WebsiteData[] | undefined;
+// gets static wbesite data in form of an array
+export const fetchWebisteStaticData = async (): Promise<WebsiteStaticData[]> => {
+  let toReturn: WebsiteStaticData[] = [];
   const querySnapshot = await getDocs(collection(db, "Websites"));
   querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
     if (doc.id === "WebsiteData") {
       toReturn = doc.data()["listOfWebsites"];
     }
   });
-  console.log(toReturn);
   return toReturn;
 };
-export const createRowObjects = async () => {
-  const arr = await getWebisteStaticData();
-  const toReturn: imageSourceRows = {
+
+export const createWebisteDataObject =
+   (arr:WebsiteStaticData[]): WebsiteJointDataMap => {
+    const mapOfWebisteData: WebsiteJointDataMap = {};
+    if (arr !== undefined) {
+      for (let entry of arr) {
+        mapOfWebisteData[entry.imageName] = entry;
+        mapOfWebisteData[entry.imageName]["WebsiteFetchedImagesURLS"] = [];
+      }
+    }
+    return mapOfWebisteData;
+  };
+// gets static wbesite data, and categorizes them based on political orientation
+export const createRowObjects =  (arr:WebsiteStaticData[]): DatabaseStaticDataInRows => {
+  const toReturn: DatabaseStaticDataInRows = {
     leftRow: [],
     centerRow: [],
     rightRow: [],
@@ -52,18 +64,14 @@ export const createRowObjects = async () => {
       }
     }
   }
-
-  console.log(toReturn);
   return toReturn;
 };
-// Get a reference to the storage service, which is used to create references in your storage bucket
 
-// Create a storage reference from our storage service
-export const getImgSrcFronName = async (fileName = "4-6-2021-TVP_info.jpg") => {
-  console.log(fileName);
+// return src of image from firebase storage
+export const getImgSrcFronName = async (fileName: string): Promise<string> => {
   const x = getDownloadURL(ref(storage, fileName))
     .then((url) => {
-      console.log(url,"cp wyszlo");
+      console.log(url, "cp wyszlo");
       return url;
     })
     .catch((error) => {
@@ -71,11 +79,5 @@ export const getImgSrcFronName = async (fileName = "4-6-2021-TVP_info.jpg") => {
       return "";
       // Handle any errors
     });
-    return x
-};
-export const getWebisteLogo = async (name: string) => {
-  const x = await getImgSrcFronName(`${name}_Logo.png`);
-  console.log("lofo", x,`${name}_Logo.png`);
-  console.log(x)
   return x;
 };
