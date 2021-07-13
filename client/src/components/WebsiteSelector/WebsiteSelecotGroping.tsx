@@ -1,16 +1,14 @@
 import { Grid } from "@material-ui/core";
-import { useEffect, useState } from "react";
 import {
   DatabaseStaticDataInRows,
-  WebisteImagesInRows,
 } from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 
 const WebsiteSelecotGroping = ({
-  setImagesSources,
+  updateWebisteSSSelection,
   databaseStaticDataInRows,
 }: {
-  setImagesSources: React.Dispatch<React.SetStateAction<WebisteImagesInRows>>;
+  updateWebisteSSSelection: (name: string, index: number) => Promise<void>
   databaseStaticDataInRows: DatabaseStaticDataInRows;
 }) => {
   return (
@@ -21,9 +19,9 @@ const WebsiteSelecotGroping = ({
       alignItems="center"
       spacing={3}
     >
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.leftRow} />
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.centerRow} />
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.rightRow} />
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.leftRow} index={0} updateWebisteSSSelection={updateWebisteSSSelection}/>
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.centerRow} index={1} updateWebisteSSSelection={updateWebisteSSSelection} />
+      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.rightRow} index={2} updateWebisteSSSelection={updateWebisteSSSelection} />
     </Grid>
   );
 };

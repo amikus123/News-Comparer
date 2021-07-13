@@ -3,28 +3,70 @@ import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
-import { DatabaseStaticDataInRows, WebisteImagesInRows } from "./interfaces";
-import { createRowObjects, createWebisteDataObject, fetchWebisteStaticData } from "./firebase/firebaseAccess";
+import {
+  DatabaseStaticDataInRows,
+  WebsiteJointDataMap,
+  ScreenshotsData,
+} from "./interfaces";
+import {
+  createRowObjects,
+  createWebisteDataObject,
+  fetchAllScreenshotsURLFromName,
+  fetchWebisteStaticData,
+} from "./firebase/firebaseAccess";
 
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
-  const [imageSources, setImagesSources] = useState<WebisteImagesInRows>({
-    leftRow: [],
-    centerRow: [],
-    rightRow: [],
-  });
+  // array with 3 variables, which indicate which iamges to show
+  const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
+    string[]
+  >(["", "", ""]);
+  const [screenshots, setScreennshots] = useState<ScreenshotsData>({});
+  // static website data based on political orientaion
   const [databaseStaticDataInRows, setDatabaseStaticDataInRows] =
     useState<DatabaseStaticDataInRows>({
       leftRow: [],
       centerRow: [],
       rightRow: [],
     });
+  // data of all websites
+  const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
+    {}
+  );
+  const updateWebisteSSSelection = async (name: string, index: number) => {
+    const temp = [...namesOfWebiteesToDisplay];
+    temp[index] = name;
+    setNamesOfWebiteesToDisplay(temp);
+    await cretaeImagesSources(temp);
+  };
+  const cretaeImagesSources = async (names: string[]) => {
+      const fetched = await fetchAllScreenshotsURLFromName(names);
+      console.log(fetched,"res")
+      const obj:{[k: string]: any} = {}
+      for(let i=0;i<names.length;i++){
+        let name = names[i]
+        obj[name]= [fetched[i]]
+      }
+      setScreennshots({ ...screenshots,...obj});
+    }
+  
+
+  // fetches static data
   useEffect(() => {
     const x = async () => {
       const websiteStaticData = await fetchWebisteStaticData();
       const totalWebisteMap = createWebisteDataObject(websiteStaticData);
       const politicsBasedOnRows = createRowObjects(websiteStaticData);
+      console.log(politicsBasedOnRows);
+      const temp = [
+        politicsBasedOnRows.leftRow[0].imageName,
+        politicsBasedOnRows.centerRow[0].imageName,
+        politicsBasedOnRows.rightRow[0].imageName,
+      ];
+      setNamesOfWebiteesToDisplay(temp);
       setDatabaseStaticDataInRows(politicsBasedOnRows);
+      setWebisteJointData(totalWebisteMap);
+      await cretaeImagesSources(temp)
     };
     x();
   }, []);
@@ -45,15 +87,14 @@ function App() {
         fullScreenImage={fullScreenImage}
       />
       <Topbar />
-      <button onClick={() => createRowObjects()}>ewqweqweqwewqe</button>
 
       <WebsiteSelecotGroping
-        setImagesSources={setImagesSources}
         databaseStaticDataInRows={databaseStaticDataInRows}
+        updateWebisteSSSelection={updateWebisteSSSelection}
       />
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
-        imageSources={imageSources}
+        imageSources={screenshots}
       />
     </>
   );

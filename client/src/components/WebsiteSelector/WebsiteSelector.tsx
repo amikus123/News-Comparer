@@ -24,8 +24,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function WebsiteSelect({
   websiteSelectData,
+  index,
+  updateWebisteSSSelection,
 }: {
   websiteSelectData: WebsiteStaticData[];
+  index: number;
+  updateWebisteSSSelection: (name: string, index: number) => Promise<void>;
 }) {
   const classes = useStyles();
   const [age, setAge] = React.useState<string | number>(0);
@@ -33,19 +37,20 @@ export default function WebsiteSelect({
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as number);
+    const name = websiteSelectData[event.target.value as number].imageName;
+    updateWebisteSSSelection(name, index);
   };
 
   return (
     <Grid
       item
-      xs
+      xs 
       container
       direction="column"
       justify="center"
       alignItems="center"
     >
       <FormControl className={classes.formControl}>
-        {/* <InputLabel id="demo-controlled-open-select-label">Left</InputLabel> */}
         <Select
           labelId="demo-controlled-open-select-label"
           id="demo-controlled-open-select"

@@ -1,13 +1,18 @@
 import { Grid } from "@material-ui/core";
+import React from "react"
 import SingleScreenshot from "./SingleScreenshot";
 
 const ScreenshotGroup = ({
   setFullScreenImage,
-  imageSources,
+  screenshots,
 }: {
   setFullScreenImage: (src: string) => void;
-  imageSources: string[];
+  screenshots: string[];
+
 }) => {
+React.useEffect(()=>{
+  console.log(screenshots,"doszlo")
+},[screenshots])
   return (
     <Grid
       item
@@ -15,14 +20,14 @@ const ScreenshotGroup = ({
       container
       direction="column"
       justify="flex-start"
-      alignItems="center"
     >
-      {imageSources.map((image, index) => {
+      
+      {screenshots.map((screenshot, index) => {
         return (
           <SingleScreenshot
             key={index}
             setFullScreenImage={setFullScreenImage}
-            imageSrc={image}
+            screenshot={screenshot}
           />
         );
       })}

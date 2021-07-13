@@ -1,4 +1,3 @@
-import CloseIcon from "@material-ui/icons/Close";
 const FullScreen = ({
   fullScreenImage,
   setFullScreenImage,

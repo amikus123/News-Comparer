@@ -21,8 +21,8 @@ export  interface WebsiteJointDataMap {
   [key: string]: WebsiteJointData;
 }
 export interface WebsiteJointData  extends WebsiteStaticData{
-  WebsiteFetchedImagesURLS?:string[]
+  websiteFetchedImagesURLS:string[]
 }
-export interface WebsiteJointDataTemp  extends WebsiteStaticData{
-  WebsiteFetchedImagesURLS?:string[]
+export interface ScreenshotsData {
+  [key:string]: string[]
 }

@@ -4,7 +4,6 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import {
   DatabaseStaticDataInRows,
   WebsiteJointDataMap,
-  WebsiteJointDataTemp,
   WebsiteStaticData,
 } from "../interfaces";
 import { firebaseConfig } from "./secret";
@@ -23,8 +22,10 @@ export const getHeadingDailyData = async () => {
     console.log(`${doc.id} => ${doc.data()}`);
   });
 };
-// gets static wbesite data in form of an array
-export const fetchWebisteStaticData = async (): Promise<WebsiteStaticData[]> => {
+// fetches static wbesite data in form of an array
+export const fetchWebisteStaticData = async (): Promise<
+  WebsiteStaticData[]
+> => {
   let toReturn: WebsiteStaticData[] = [];
   const querySnapshot = await getDocs(collection(db, "Websites"));
   querySnapshot.forEach((doc) => {
@@ -34,20 +35,27 @@ export const fetchWebisteStaticData = async (): Promise<WebsiteStaticData[]> => 
   });
   return toReturn;
 };
+// creates map of all of webistes data
+export const createWebisteDataObject = (
+  arr: WebsiteStaticData[]
+): WebsiteJointDataMap => {
+  const mapOfWebisteData: WebsiteJointDataMap = {};
+  console.log(arr);
+  if (arr !== undefined) {
+    for (let entry of arr) {
+      let temp: any = entry;
+      temp["WebsiteFetchedImagesURLS"] = [];
 
-export const createWebisteDataObject =
-   (arr:WebsiteStaticData[]): WebsiteJointDataMap => {
-    const mapOfWebisteData: WebsiteJointDataMap = {};
-    if (arr !== undefined) {
-      for (let entry of arr) {
-        mapOfWebisteData[entry.imageName] = entry;
-        mapOfWebisteData[entry.imageName]["WebsiteFetchedImagesURLS"] = [];
-      }
+      mapOfWebisteData[entry.imageName] = temp;
     }
-    return mapOfWebisteData;
-  };
-// gets static wbesite data, and categorizes them based on political orientation
-export const createRowObjects =  (arr:WebsiteStaticData[]): DatabaseStaticDataInRows => {
+  }
+  console.log("returnes ", mapOfWebisteData);
+  return mapOfWebisteData;
+};
+//categorizes website data based on political orientation
+export const createRowObjects = (
+  arr: WebsiteStaticData[]
+): DatabaseStaticDataInRows => {
   const toReturn: DatabaseStaticDataInRows = {
     leftRow: [],
     centerRow: [],
@@ -71,7 +79,7 @@ export const createRowObjects =  (arr:WebsiteStaticData[]): DatabaseStaticDataIn
 export const getImgSrcFronName = async (fileName: string): Promise<string> => {
   const x = getDownloadURL(ref(storage, fileName))
     .then((url) => {
-      console.log(url, "cp wyszlo");
+      console.log(url, "success");
       return url;
     })
     .catch((error) => {
@@ -80,4 +88,18 @@ export const getImgSrcFronName = async (fileName: string): Promise<string> => {
       // Handle any errors
     });
   return x;
+};
+export const fetchAllScreenshotsURLFromName = async (
+  names: string[]
+): Promise<string[]> => {
+  const ret: string[] = [];
+// change to dynamic
+for( let name of names){
+
+  const url = await getImgSrcFronName(`10-6-2021-${name}.jpg`);
+  ret.push(url);
+}
+
+  return ret;
+  // check
 };
