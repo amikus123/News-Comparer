@@ -95,6 +95,7 @@ function App() {
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}
+        namesOfWebiteesToDisplay={namesOfWebiteesToDisplay}
       />
     </>
   );
