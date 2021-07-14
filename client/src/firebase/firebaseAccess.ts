@@ -1,6 +1,8 @@
+import { CompassCalibrationOutlined } from "@material-ui/icons";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { createFileNames } from "../helpers/dataCreation";
 import {
   DatabaseStaticDataInRows,
   WebsiteJointDataMap,
@@ -45,7 +47,6 @@ export const createWebisteDataObject = (
     for (let entry of arr) {
       let temp: any = entry;
       temp["WebsiteFetchedImagesURLS"] = [];
-
       mapOfWebisteData[entry.imageName] = temp;
     }
   }
@@ -95,11 +96,15 @@ export const fetchAllScreenshotsURLFromName = async (
   const ret: string[] = [];
 // change to dynamic
 for( let name of names){
-
   const url = await getImgSrcFronName(`10-6-2021-${name}.jpg`);
   ret.push(url);
 }
-
   return ret;
   // check
 };
+export const fetchScreenshotsFromNDays =async (name:string,n:number) => {
+  const names = createFileNames(name,n)
+  console.log(names)
+  const res =  await fetchAllScreenshotsURLFromName(names)
+  return res
+}

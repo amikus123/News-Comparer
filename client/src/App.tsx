@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import FullScreen from "./components/FullScreen/FullScreen";
-import Screenshots from "./components/Screenshots/Screenshots";
-import Topbar from "./components/topbar/Topbar";
-import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+
 import {
   DatabaseStaticDataInRows,
   WebsiteJointDataMap,
@@ -14,6 +17,10 @@ import {
   fetchAllScreenshotsURLFromName,
   fetchWebisteStaticData,
 } from "./firebase/firebaseAccess";
+import FullScreen from "./components/FullScreen/FullScreen";
+import Screenshots from "./components/Screenshots/Screenshots";
+import Topbar from "./components/Topbar/Topbar";
+import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
 
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
@@ -33,12 +40,14 @@ function App() {
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
+
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
     setNamesOfWebiteesToDisplay(temp);
     await cretaeImagesSources(temp);
   };
+
   const cretaeImagesSources = async (names: string[]) => {
       const fetched = await fetchAllScreenshotsURLFromName(names);
       console.log(fetched,"res")
@@ -50,7 +59,6 @@ function App() {
       setScreennshots({ ...screenshots,...obj});
     }
   
-
   // fetches static data
   useEffect(() => {
     const x = async () => {
@@ -77,6 +85,7 @@ function App() {
     fullScreenImage?.classList.toggle("fullScreen--image-off");
     setFullScreenImage(src);
   };
+
   return (
     // TODO
     // merge all selects in one if screen is small enough
@@ -92,11 +101,13 @@ function App() {
         databaseStaticDataInRows={databaseStaticDataInRows}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
+      <DateSelector/>
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}
         namesOfWebiteesToDisplay={namesOfWebiteesToDisplay}
       />
+      
     </>
   );
 }

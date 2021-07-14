@@ -3,38 +3,39 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
-import Box from "@material-ui/core/Box";
-import Container from "@material-ui/core/Container";
 import Slide from "@material-ui/core/Slide";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
+import CustomTabs from "./CustomTabs";
+
 
 function HideOnScroll() {
   const trigger = useScrollTrigger();
   return (
     <Slide appear={false} direction="down" in={!trigger}>
       <AppBar>
-        <Toolbar>
-          <Typography variant="h6">Ttile</Typography>
+        <Toolbar className="appbar--toolbar">
+          <Typography variant="h6">News-Comparer</Typography>
+          <CustomTabs/>
         </Toolbar>
       </AppBar>
     </Slide>
   );
 }
 
-const useStyles = makeStyles((theme: Theme) =>
+function ScrollTop() {
+  const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       position: "fixed",
       bottom: theme.spacing(2),
       right: theme.spacing(2),
     },
+
   })
 );
-
-function ScrollTop() {
   const classes = useStyles();
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -61,6 +62,7 @@ function ScrollTop() {
     </Zoom>
   );
 }
+
 
 export default function Topbar() {
   return (

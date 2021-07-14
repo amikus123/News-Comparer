@@ -27,11 +27,7 @@ const Screenshots = ({
           />
         );
       })}
-      {/* {Object.keys(imageSources).map((name: string, index:number) => {
-        return (
-      <ScreenshotColumn setFullScreenImage={setFullScreenImage} screenshots={imageSources[name]} key={index}/>
-        )}
-      )} */}
+    
     </Grid>
   );
 };

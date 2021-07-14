@@ -17,16 +17,32 @@ img{
   display: flex!important;
   justify-content: center!important;
 } 
+/* app bar */
+.appbar--toolbar{
+  display: flex;
+  justify-content: flex-start;
+}
+.appbarr--left-container{
+  display: flex;
+  justify-self: center;
+  margin:0 auto
+}
 /* image column  */
-
+.image-column--image-container{
+  max-height: 50rem;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 1rem;
+}
 .image-column--image{
-  width:30vw;
+  width:25vw;
+
 }
 /* full screenclases */
 .fullScreen{
   position:fixed;
   width:100vw;
-  background-color:rgba(48, 48, 48, 0.05);
+  background-color:rgba(48, 48, 48, 0.5);
   height:100vh;
   /* above defualt values of material ui header   */
   z-index:1200;
@@ -43,7 +59,7 @@ img{
 .fullScreen--image{
 justify-self:center;
 height: fit-content;
-padding-top: 3rem;
+padding-top: 1rem;
 }
 .fullScreen--image-off{
   height: 0rem;

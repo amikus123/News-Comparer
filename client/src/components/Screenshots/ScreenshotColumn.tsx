@@ -13,6 +13,7 @@ const ScreenshotGroup = ({
     console.log(screenshots, "doszlo");
   }, [screenshots]);
   return (
+    // prevents from crashing
     <Grid item sm container direction="column" justify="flex-start">
       {screenshots
         ? screenshots.map((screenshot, index) => {
@@ -25,8 +26,6 @@ const ScreenshotGroup = ({
             );
           })
         : null}
-
-      {/* <SingleScreenshot setFullScreenImage={setFullScreenImage} /> */}
     </Grid>
   );
 };
