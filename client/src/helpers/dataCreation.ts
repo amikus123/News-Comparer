@@ -31,3 +31,13 @@ export const formatedDatseFromDates = (dates: Date[]) => {
   });
   return arr;
 };
+export const dateToDayAndMonth = (d:Date) =>{
+  return `${d.getDate()}-${d.getMonth()}`;
+}
+export const formatedMonth = (dates:Date[] )=>{
+  const arr: string[] = [];
+  dates.forEach((date) => {
+    arr.push(dateToDayAndMonth(date));
+  });
+  return arr;
+}
