@@ -1,16 +1,28 @@
+import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
+import { createRowObjects } from "../../firebase/firebaseAccess";
 import {
-  DatabaseStaticDataInRows,
+  DatabaseStaticDataInRows,WebsiteJointDataMap,WebsiteJointDataInRows
 } from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 
 const WebsiteSelecotGroping = ({
   updateWebisteSSSelection,
-  databaseStaticDataInRows,
+  webisteJointData,
 }: {
   updateWebisteSSSelection: (name: string, index: number) => Promise<void>
-  databaseStaticDataInRows: DatabaseStaticDataInRows;
+  webisteJointData: WebsiteJointDataMap;
 }) => {
+  const [webisteDataInRows, setWebisteDataInRows] = useState<WebsiteJointDataInRows>({
+    leftRow: [],
+    centerRow: [],
+    rightRow: [],
+  });
+  useEffect(()=>{
+    const politicsBasedOnRows = createRowObjects(webisteJointData);
+    setWebisteDataInRows(politicsBasedOnRows)
+
+  },[webisteJointData])
   return (
     <Grid
       container
@@ -19,9 +31,9 @@ const WebsiteSelecotGroping = ({
       alignItems="center"
       spacing={3}
     >
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.leftRow} index={0} updateWebisteSSSelection={updateWebisteSSSelection}/>
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.centerRow} index={1} updateWebisteSSSelection={updateWebisteSSSelection} />
-      <WebsiteSelect websiteSelectData={databaseStaticDataInRows.rightRow} index={2} updateWebisteSSSelection={updateWebisteSSSelection} />
+      <WebsiteSelect websiteSelectData={webisteDataInRows.leftRow} index={0} updateWebisteSSSelection={updateWebisteSSSelection}/>
+      <WebsiteSelect websiteSelectData={webisteDataInRows.centerRow} index={1} updateWebisteSSSelection={updateWebisteSSSelection} />
+      <WebsiteSelect websiteSelectData={webisteDataInRows.rightRow} index={2} updateWebisteSSSelection={updateWebisteSSSelection} />
     </Grid>
   );
 };

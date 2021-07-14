@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import {
   DatabaseStaticDataInRows,
@@ -30,13 +25,6 @@ function App() {
     string[]
   >(["", "", ""]);
   const [screenshots, setScreennshots] = useState<ScreenshotsData>({});
-  // static website data based on political orientaion
-  const [databaseStaticDataInRows, setDatabaseStaticDataInRows] =
-    useState<DatabaseStaticDataInRows>({
-      leftRow: [],
-      centerRow: [],
-      rightRow: [],
-    });
   // data of all websites
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
@@ -50,35 +38,41 @@ function App() {
   };
 
   const cretaeImagesSources = async (names: string[]) => {
-      const fetched = await fetchAllScreenshotsURLFromName(names);
-      console.log(fetched,"res")
-      const obj:{[k: string]: any} = {}
-      for(let i=0;i<names.length;i++){
-        let name = names[i]
-        obj[name]= [fetched[i]]
-      }
-      setScreennshots({ ...screenshots,...obj});
+    const fetched = await fetchAllScreenshotsURLFromName(names);
+    console.log(fetched, "res");
+    const obj: { [k: string]: any } = {};
+    for (let i = 0; i < names.length; i++) {
+      let name = names[i];
+      obj[name] = [fetched[i]];
     }
-  
+    setScreennshots({ ...screenshots, ...obj });
+  };
+
   // fetches static data
   useEffect(() => {
     const x = async () => {
       const websiteStaticData = await fetchWebisteStaticData();
       const totalWebisteMap = createWebisteDataObject(websiteStaticData);
-      const politicsBasedOnRows = createRowObjects(websiteStaticData);
-      console.log(politicsBasedOnRows);
-      const temp = [
-        politicsBasedOnRows.leftRow[0].imageName,
-        politicsBasedOnRows.centerRow[0].imageName,
-        politicsBasedOnRows.rightRow[0].imageName,
-      ];
-      setNamesOfWebiteesToDisplay(temp);
-      setDatabaseStaticDataInRows(politicsBasedOnRows);
       setWebisteJointData(totalWebisteMap);
-      await cretaeImagesSources(temp)
     };
     x();
   }, []);
+  useEffect(() => {
+    const y = async () => {
+      const politicsBasedOnRows = createRowObjects(webisteJointData);
+      if (politicsBasedOnRows.leftRow.length !== 0) {
+        console.log(politicsBasedOnRows, "rows main");
+        const temp = [
+          politicsBasedOnRows.leftRow[0].imageName,
+          politicsBasedOnRows.centerRow[0].imageName,
+          politicsBasedOnRows.rightRow[0].imageName,
+        ];
+        setNamesOfWebiteesToDisplay(temp);
+        await cretaeImagesSources(temp);
+      }
+    };
+    y();
+  }, [webisteJointData]);
 
   const setFellScreenAndResetPosition = (src: string) => {
     // by toggling the height of the fullscreen image scroll position is reseted
@@ -99,16 +93,15 @@ function App() {
       <Topbar />
 
       <WebsiteSelecotGroping
-        databaseStaticDataInRows={databaseStaticDataInRows}
+        webisteJointData={webisteJointData}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
-      <DateSelector/>
+      <DateSelector />
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}
         namesOfWebiteesToDisplay={namesOfWebiteesToDisplay}
       />
-      
     </>
   );
 }

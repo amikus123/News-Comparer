@@ -12,16 +12,16 @@ export interface WebsiteStaticData{
   popupSelector:string,
   url:string,
 }
-export  interface WebisteImagesInRows {
-  leftRow: string[];
-  centerRow: string[];
-  rightRow: string[];
+export  interface WebsiteJointDataInRows {
+  leftRow: WebsiteJointData[];
+  centerRow: WebsiteJointData[];
+  rightRow: WebsiteJointData[];
 }
 export  interface WebsiteJointDataMap {
   [key: string]: WebsiteJointData;
 }
 export interface WebsiteJointData  extends WebsiteStaticData{
-  websiteFetchedImagesURLS:string[]
+  websiteFetchedImagesURLS?:string[]
 }
 export interface ScreenshotsData {
   [key:string]: string[]

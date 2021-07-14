@@ -4,7 +4,7 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { createFileNames } from "../helpers/dataCreation";
 import {
-  DatabaseStaticDataInRows,
+  WebsiteJointDataInRows,
   WebsiteJointDataMap,
   WebsiteStaticData,
 } from "../interfaces";
@@ -55,21 +55,23 @@ export const createWebisteDataObject = (
 };
 //categorizes website data based on political orientation
 export const createRowObjects = (
-  arr: WebsiteStaticData[]
-): DatabaseStaticDataInRows => {
-  const toReturn: DatabaseStaticDataInRows = {
+  arr: WebsiteJointDataMap
+): WebsiteJointDataInRows => {
+  const toReturn: WebsiteJointDataInRows = {
     leftRow: [],
     centerRow: [],
     rightRow: [],
   };
+  console.log(arr)
   if (arr !== undefined) {
-    for (let entry of arr) {
-      if (entry!.politicalOrientation === "left") {
-        toReturn.leftRow.push(entry);
-      } else if (entry!.politicalOrientation === "center") {
-        toReturn.centerRow.push(entry);
+    for (let entry in arr) {
+      const item = arr[entry]
+      if (item!.politicalOrientation === "left") {
+        toReturn.leftRow.push(item);
+      } else if (item!.politicalOrientation === "center") {
+        toReturn.centerRow.push(item);
       } else {
-        toReturn.rightRow.push(entry);
+        toReturn.rightRow.push(item);
       }
     }
   }
