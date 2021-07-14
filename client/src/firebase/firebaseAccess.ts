@@ -1,4 +1,3 @@
-import { CompassCalibrationOutlined } from "@material-ui/icons";
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
