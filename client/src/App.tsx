@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import {
   WebsiteJointDataMap,
   ScreenshotsData,
+  FringeDates,
 } from "./interfaces";
 import {
   createRowObjects,
@@ -27,7 +28,15 @@ function App() {
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
+  // fringe - based on databse, chosen - based on user input
+  const [fringeDates,setFringeDates] = useState<FringeDates|null>(null)
+  const [chosenDates,setChosenDates] = useState<FringeDates|null>(null)
 
+  // 2-6-2021 is current min
+  const updateFringeDates = (min:Date|null=null,max:Date|null=null)=>{
+    
+  }
+  const updateChosenDates = (min:Date|null=null,max:Date|null=null)=>{}
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
@@ -47,6 +56,7 @@ function App() {
   };
 
   // fetches static data
+  // attept to grad todays data 
   useEffect(() => {
     const x = async () => {
       const websiteStaticData = await fetchWebisteStaticData();
@@ -55,6 +65,7 @@ function App() {
     };
     x();
   }, []);
+  // splits based on rows
   useEffect(() => {
     const y = async () => {
       const politicsBasedOnRows = createRowObjects(webisteJointData);
@@ -94,7 +105,7 @@ function App() {
         webisteJointData={webisteJointData}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
-      <DateGroup />
+      <DateGroup  fringeDates={fringeDates} updateChosenDates={updateChosenDates} chosenDates = {chosenDates}/>
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}

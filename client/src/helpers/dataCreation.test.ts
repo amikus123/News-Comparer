@@ -1,7 +1,7 @@
 import {
-  formatedDateFromDate,
+  formatedYearFromDate,
   getNPreviousDates,
-  formatedDatseFromDates,
+  formatedYearsFromDates,
   createFileNames,
 } from "./dataCreation";
 
@@ -17,16 +17,16 @@ describe("performing test for functions interacting with dates", () => {
   });
 
   it("should return correct string", () => {
-    const formated = formatedDateFromDate(baseDate);
+    const formated = formatedYearFromDate(baseDate);
     expect(formated).toBe("13-0-2003");
   });
 
   it("should return correct previous dates", () => {
-    const changedMonth = formatedDatseFromDates(
+    const changedMonth = formatedYearsFromDates(
       getNPreviousDates(2, monthChange)
     );
     expect(changedMonth).toEqual(["1-1-2003", "31-0-2003","30-0-2003"]);
-    const changedYear = formatedDatseFromDates(
+    const changedYear = formatedYearsFromDates(
       getNPreviousDates(1, yearChange)
     );
     expect(changedYear).toEqual(["1-0-2004", "31-11-2003"]);
@@ -44,13 +44,13 @@ describe("performing test for functions interacting with dates", () => {
   });
 
   it("should return correct formated strings", () => {
-    const formated = formatedDatseFromDates([baseDate, yearChange]);
+    const formated = formatedYearsFromDates([baseDate, yearChange]);
     expect(formated).toEqual(["13-0-2003", "1-0-2004"]);
   });
   it("functions should be pure", () => {
-    const formated1 = formatedDateFromDate(baseDate);
-    const formated2 = formatedDateFromDate(monthChange);
-    const formated3 = formatedDateFromDate(yearChange);
+    const formated1 = formatedYearFromDate(baseDate);
+    const formated2 = formatedYearFromDate(monthChange);
+    const formated3 = formatedYearFromDate(yearChange);
     expect(formated1).toBe("13-0-2003");
     expect(formated2).toBe("1-1-2003");
     expect(formated3).toBe("1-0-2004");

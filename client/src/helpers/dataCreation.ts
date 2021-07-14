@@ -8,36 +8,36 @@ export const getNPreviousDates = (n: number=0,passedDate:Date= new Date()) => {
     console.log(passedDate,copy,"XD")
     res.push(new Date(copy))
   }
-  // dateObj.setDate(dateObj.getDate()-1);
     return res
 };
 export const createFileNames = (name:string,n:number,passedDate:Date=new Date()) =>{
   const res:string[] = []
   const dates = getNPreviousDates(n,passedDate)
-  const dateStrings = formatedDatseFromDates(dates)
+  const dateStrings = formatedYearsFromDates(dates)
   dateStrings.forEach(dateString=>{
     res.push(`${dateString}-${name}.jpg`)
   })
   return res
 }
-export const formatedDateFromDate = (d: Date) => {
+export const formatedYearFromDate = (d: Date) => {
   return `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
 };
-export const formatedDatseFromDates = (dates: Date[]) => {
-// gets list of dates from previous  days
+
+export const formatedYearsFromDates = (dates: Date[]) => {
   const arr: string[] = [];
   dates.forEach((date) => {
-    arr.push(formatedDateFromDate(date));
+    arr.push(formatedYearFromDate(date));
   });
   return arr;
 };
-export const dateToDayAndMonth = (d:Date) =>{
+
+export const dateToFormatedMonth = (d:Date) =>{
   return `${d.getDate()}-${d.getMonth()}`;
 }
-export const formatedMonth = (dates:Date[] )=>{
+export const datesToFormatedMonths = (dates:Date[] )=>{
   const arr: string[] = [];
   dates.forEach((date) => {
-    arr.push(dateToDayAndMonth(date));
+    arr.push(dateToFormatedMonth(date));
   });
   return arr;
 }

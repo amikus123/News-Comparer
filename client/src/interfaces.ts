@@ -26,3 +26,8 @@ export interface WebsiteJointData  extends WebsiteStaticData{
 export interface ScreenshotsData {
   [key:string]: string[]
 }
+
+export interface FringeDates{
+  max:Date;
+  min:Date;
+}

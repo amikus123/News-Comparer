@@ -2,15 +2,14 @@ import "date-fns";
 import React from "react";
 import Grid from "@material-ui/core/Grid";
 import MomentUtils from "@date-io/moment";
-// import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import { FringeDates } from "../../interfaces"
 
-export default function DateSelector() {
+export default function DateSelector({fringeDates,updateChosenDates,chosenDates}:{chosenDates:FringeDates | null,fringeDates :FringeDates | null,updateChosenDates:(min?: Date | null, max?: Date | null) => void}) {
   // The first commit of Material-UI
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
     new Date("2014-08-18T21:11:54")
@@ -37,6 +36,7 @@ export default function DateSelector() {
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
+
         />
           <KeyboardDatePicker
           disableToolbar

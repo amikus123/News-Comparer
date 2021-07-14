@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import { createRowObjects } from "../../firebase/firebaseAccess";
 import {
-  DatabaseStaticDataInRows,WebsiteJointDataMap,WebsiteJointDataInRows
+WebsiteJointDataMap,WebsiteJointDataInRows
 } from "../../interfaces";
 import WebsiteSelect from "./WebsiteSelector";
 

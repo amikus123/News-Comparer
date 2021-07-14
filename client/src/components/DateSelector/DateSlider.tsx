@@ -3,9 +3,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import {
-  dateToDayAndMonth,
+  dateToFormatedMonth,
   getNPreviousDates,
 } from "../../helpers/dataCreation";
+import { FringeDates } from "../../interfaces"
 
 const useStyles = makeStyles({
   root: {
@@ -13,9 +14,7 @@ const useStyles = makeStyles({
   },
 });
 
-function valuetext(value: number) {
-  return `${value}°C`;
-}
+
 interface mark {
   label: string;
   value: number;
@@ -24,14 +23,19 @@ interface pog {
   marks: mark[];
   dates: Date[];
 }
-export default function RangeSlider() {
+export default function DateSlider({fringeDates,updateChosenDates,chosenDates}:{chosenDates:FringeDates | null,fringeDates :FringeDates | null,updateChosenDates:(min?: Date | null, max?: Date | null) => void}) {
   const classes = useStyles();
   const [value, setValue] = React.useState<number[]>([60, 70]);
   const getSevenPreviousDays = (): pog => {
     const res = getNPreviousDates(7);
+    if(fringeDates?.min.getDay() === new Date().getDay()){
+      res.pop()
+      }else{
+      res.shift()
+    }
     const marks: mark[] = res.map((date, index) => {
       return {
-        label: dateToDayAndMonth(date),
+        label: dateToFormatedMonth(date),
         value: index * 10,
       };
     });
@@ -45,8 +49,7 @@ export default function RangeSlider() {
     setDates(getSevenPreviousDays());
   }, []);
   const [dates, setDates] = React.useState<pog | null>(null);
-  // const [value, setValue] = React.useState<string[]>([]);
-  // const marks =
+
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
