@@ -1,12 +1,14 @@
 import "date-fns";
 import React from "react";
 import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
+import MomentUtils from "@date-io/moment";
+// import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 export default function DateSelector() {
   // The first commit of Material-UI
@@ -14,13 +16,15 @@ export default function DateSelector() {
     new Date("2014-08-18T21:11:54")
   );
 
-  const handleDateChange = (date: Date | null) => {
-    setSelectedDate(date);
+  const handleDateChange = (date: MaterialUiPickersDate | null) => {
+    if (date) {
+      setSelectedDate(new Date(date?.toString()));
+    }
   };
 
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <Grid container justifyContent="space-around">
+    <MuiPickersUtilsProvider utils={MomentUtils}>
+      <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -34,25 +38,17 @@ export default function DateSelector() {
             "aria-label": "change date",
           }}
         />
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Date picker dialog"
+          <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
           format="MM/dd/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Date picker inline"
           value={selectedDate}
           onChange={handleDateChange}
           KeyboardButtonProps={{
             "aria-label": "change date",
-          }}
-        />
-        <KeyboardTimePicker
-          margin="normal"
-          id="time-picker"
-          label="Time picker"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            "aria-label": "change time",
           }}
         />
       </Grid>

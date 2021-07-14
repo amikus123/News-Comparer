@@ -21,6 +21,7 @@ import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
+import DateSelector from "./components/DateSelector/DateSelector";
 
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
