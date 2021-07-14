@@ -1,4 +1,3 @@
-import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { createFileNames } from "../helpers/dataCreation";
@@ -7,10 +6,8 @@ import {
   WebsiteJointDataMap,
   WebsiteStaticData,
 } from "../interfaces";
-import { firebaseConfig } from "./secret";
 // initial configuration
-// const firebaseApp = initializeApp(firebaseConfig);
-initializeApp(firebaseConfig);
+
 
 const db = getFirestore();
 const storage = getStorage();
