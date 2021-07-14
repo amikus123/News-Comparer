@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import {
-  DatabaseStaticDataInRows,
   WebsiteJointDataMap,
   ScreenshotsData,
 } from "./interfaces";
@@ -16,8 +15,7 @@ import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
-import DateSelector from "./components/DateSelector/DateSelector";
-
+import DateGroup from "./components/DateSelector/DateGroup";
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
   // array with 3 variables, which indicate which iamges to show
@@ -96,7 +94,7 @@ function App() {
         webisteJointData={webisteJointData}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
-      <DateSelector />
+      <DateGroup />
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}

@@ -38,6 +38,13 @@ img{
   width:25vw;
 
 }
+/* dates */
+.date-group--container{
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}
 /* full screenclases */
 .fullScreen{
   position:fixed;
