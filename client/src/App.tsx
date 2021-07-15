@@ -19,6 +19,7 @@ import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
 import DateGroup from "./components/DateSelector/DateGroup";
+import { returnMaxAndMinDateFromKeys,getPreviousDay } from "./helpers/dataCreation";
 
 function App() {
   // STATES
@@ -36,21 +37,18 @@ function App() {
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-
-  // 2-6-2021 is current min
-
   // FUNCTIONS
 
   const updateChosenDates = (
-    min: Date | null = null,
-    max: Date | null = null
-  ) => {};
-  const updateFringeDates = (
-    min: Date | null = null,
-    max: Date | null = null
-  ) => {};
+    obj:FringeDates
+  ) => {
+    setChosenDates(obj)
+  };
+
   const updateFringesBasedOnHeadigs = (headings: Headings) => {
-    const today = 1
+    const maxAndMin = returnMaxAndMinDateFromKeys(headings)
+    setFringeDates(maxAndMin)
+    updateChosenDates({max:maxAndMin.max,min: getPreviousDay(maxAndMin.max)})
   };
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];

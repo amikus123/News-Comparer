@@ -23,7 +23,8 @@ interface pog {
   marks: mark[];
   dates: Date[];
 }
-export default function DateSlider({fringeDates,updateChosenDates,chosenDates}:{chosenDates:FringeDates | null,fringeDates :FringeDates | null,updateChosenDates:(min?: Date | null, max?: Date | null) => void}) {
+export default function DateSlider({fringeDates,updateChosenDates,chosenDates}:{chosenDates:FringeDates | null,fringeDates :FringeDates | null,  updateChosenDates: (obj: FringeDates) => void;
+ } ) {
   const classes = useStyles();
   const [value, setValue] = React.useState<number[]>([60, 70]);
   const getSevenPreviousDays = (): pog => {

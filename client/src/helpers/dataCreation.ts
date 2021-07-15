@@ -1,4 +1,5 @@
 import { AnyMap, FringeDates } from "../interfaces";
+// why so long? TODO
 export const getNPreviousDates = (
   n: number = 0,
   passedDate: Date = new Date()
@@ -64,11 +65,8 @@ export const returnMaxAndMinDateFromKeys = (
   const keys = Object.keys(headings);
   console.log(maxStr,"max str")
   if (keys.indexOf(maxStr) !== -1) {
-    // console.log("wynosi ",max )
   } else {
     max = getPreviousDay(max);
-    // console.log("wynosi  prev",max )
-
   }
   while (true) {
     let nextIteration = formatedYearFromDate(getPreviousDay(min));
@@ -78,7 +76,6 @@ export const returnMaxAndMinDateFromKeys = (
     }
     min = getPreviousDay(min);
   }
-  // console.log(formatedYearFromDate(max),formatedYearFromDate(min),"end")
   return {
     max: max,
     min: min,
