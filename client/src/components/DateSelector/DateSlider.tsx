@@ -5,7 +5,7 @@ import Slider from "@material-ui/core/Slider";
 import {
   dateToFormatedMonth,
   getNPreviousDates,
-  checkIfSameDay
+  checkIfSameDay,
 } from "../../helpers/dataCreation";
 import { FringeDates } from "../../interfaces";
 
@@ -64,38 +64,41 @@ export default function DateSlider({
     setDates(getSevenPreviousDays());
   }, []);
   useEffect(() => {
-    if(dates){
-      const arr = dates.dates
-      let num1 = 0
-      let num2 = 0
-      const first = arr.map(item=>{
-        return checkIfSameDay(item,chosenDates.max)
-      })
-      const second = arr.map(item=>{
-        return checkIfSameDay(item,chosenDates.min)
-      })  
-      const firstIndex = first.indexOf(true)
-      const secondIndex = second.indexOf(true)
+    if (dates) {
+      const arr = dates.dates;
+      let num1 = 0;
+      let num2 = 0;
+      const first = arr.map((item) => {
+        return checkIfSameDay(item, chosenDates.max);
+      });
+      const second = arr.map((item) => {
+        return checkIfSameDay(item, chosenDates.min);
+      });
+      const firstIndex = first.indexOf(true);
+      const secondIndex = second.indexOf(true);
 
-      if(firstIndex ===-1){
-        num1 = 70
-      } else{
-        num1 = (firstIndex)*10
+      if (firstIndex === -1) {
+        num1 = 70;
+      } else {
+        num1 = firstIndex * 10;
       }
 
-      if(secondIndex ===-1){
-        num2 = 70
-      } else{
-        num2 = (secondIndex)*10
+      if (secondIndex === -1) {
+        num2 = 70;
+      } else {
+        num2 = secondIndex * 10;
       }
-      console.log(arr,chosenDates)
-      console.log(first,second)
-      setValue([num1,num2])
+      // console.log(arr, chosenDates);
+      // console.log(first, second);
+      setValue([num1, num2]);
     }
-  }, [chosenDates]);
+  }, [chosenDates,dates]);
 
   // 0 min
   const handleChange = (event: any, newValue: number | number[]) => {
+    setValue(newValue as number[]);
+  };
+  const handleChangeEnd = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
     if (dates) {
       updateChosenDates({
@@ -115,6 +118,7 @@ export default function DateSlider({
           <Slider
             value={value}
             onChange={handleChange}
+            onChangeCommitted={handleChangeEnd}
             marks={dates.marks}
             max={60}
             step={10}
