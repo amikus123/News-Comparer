@@ -66,3 +66,6 @@ export interface Emotions {
 export interface WordMap {
   [key: string]: number;
 }
+export interface AnyMap {
+  [key:string] : any
+}

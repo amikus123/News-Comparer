@@ -17,7 +17,7 @@ function isDailyHEadings(object: any): object is DailyHeadings {
 }
 
 
-export const getHeadingDailyData = async () => {
+export const getHeadingDailyData = async () :Promise<Headings> => {
   const res :Headings  = {}
   const querySnapshot = await getDocs(collection(db, "Headings"));
   console.log("click");

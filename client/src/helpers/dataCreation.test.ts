@@ -3,6 +3,7 @@ import {
   getNPreviousDates,
   formatedYearsFromDates,
   createFileNames,
+  returnMaxAndMinDateFromKeys,
 } from "./dataCreation";
 
 // 2003 1 13
@@ -51,8 +52,22 @@ describe("performing test for functions interacting with dates", () => {
     const formated1 = formatedYearFromDate(baseDate);
     const formated2 = formatedYearFromDate(monthChange);
     const formated3 = formatedYearFromDate(yearChange);
-    expect(formated1).toBe("13-0-2003");
-    expect(formated2).toBe("1-1-2003");
-    expect(formated3).toBe("1-0-2004");
+    expect(formated1).toEqual("13-0-2003");
+    expect(formated2).toEqual("1-1-2003");
+    expect(formated3).toEqual("1-0-2004");
   });
+  it("should return correct max and min dates in object keys",()=>{
+    const testObj = {
+      "13-1-2003":1,
+      "11-1-2003":1,
+      "12-1-2003":1,
+      "14-1-2003":1,
+      "15-1-2003":1,
+    }
+    const testDay = new Date(2003,1,13)
+    expect(returnMaxAndMinDateFromKeys(testObj,testDay)).toEqual({
+      max:new Date(2003,1,13),
+      min: new Date(2003,1,11)
+    })
+  })
 });

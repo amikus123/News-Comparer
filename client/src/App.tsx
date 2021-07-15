@@ -5,6 +5,7 @@ import {
   WebsiteJointDataMap,
   ScreenshotsData,
   FringeDates,
+  Headings,
 } from "./interfaces";
 import {
   createRowObjects,
@@ -12,9 +13,7 @@ import {
   fetchWebisteStaticData,
   getHeadingDailyData,
 } from "./firebase/firestore";
-import{
-  fetchAllScreenshotsURLFromName,
-}from "./firebase/storage"
+import { fetchAllScreenshotsURLFromName } from "./firebase/storage";
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
@@ -22,6 +21,7 @@ import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGr
 import DateGroup from "./components/DateSelector/DateGroup";
 
 function App() {
+  // STATES
   const [fullScreenImage, setFullScreenImage] = useState("");
   // array with 3 variables, which indicate which iamges to show
   const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
@@ -32,15 +32,26 @@ function App() {
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
+  const [headingMap, setHeadingMap] = useState<Headings>({});
   // fringe - based on databse, chosen - based on user input
-  const [fringeDates,setFringeDates] = useState<FringeDates|null>(null)
-  const [chosenDates,setChosenDates] = useState<FringeDates|null>(null)
+  const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
+  const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
 
   // 2-6-2021 is current min
-  const updateFringeDates = (min:Date|null=null,max:Date|null=null)=>{
-    
-  }
-  const updateChosenDates = (min:Date|null=null,max:Date|null=null)=>{}
+
+  // FUNCTIONS
+
+  const updateChosenDates = (
+    min: Date | null = null,
+    max: Date | null = null
+  ) => {};
+  const updateFringeDates = (
+    min: Date | null = null,
+    max: Date | null = null
+  ) => {};
+  const updateFringesBasedOnHeadigs = (headings: Headings) => {
+    const today = 1
+  };
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
@@ -59,15 +70,23 @@ function App() {
     setScreennshots({ ...screenshots, ...obj });
   };
 
+  const setFellScreenAndResetPosition = (src: string) => {
+    // by toggling the height of the fullscreen image scroll position is reseted
+    const fullScreenImage = document.getElementById("fullScreenImage");
+    fullScreenImage?.classList.toggle("fullScreen--image-off");
+    setFullScreenImage(src);
+  };
   // fetches static data
-  // attept to grad todays data 
+  // attept to grad todays data
+  // EFFECTS //
   useEffect(() => {
     const x = async () => {
-      await getHeadingDailyData()
+      const headings = await getHeadingDailyData();
       const websiteStaticData = await fetchWebisteStaticData();
       const totalWebisteMap = createWebisteDataObject(websiteStaticData);
       setWebisteJointData(totalWebisteMap);
-      getHeadingDailyData()
+      updateFringesBasedOnHeadigs(headings);
+      setHeadingMap(headings);
     };
     x();
   }, []);
@@ -89,13 +108,6 @@ function App() {
     y();
   }, [webisteJointData]);
 
-  const setFellScreenAndResetPosition = (src: string) => {
-    // by toggling the height of the fullscreen image scroll position is reseted
-    const fullScreenImage = document.getElementById("fullScreenImage");
-    fullScreenImage?.classList.toggle("fullScreen--image-off");
-    setFullScreenImage(src);
-  };
-
   return (
     // TODO
     // merge all selects in one if screen is small enough
@@ -106,12 +118,15 @@ function App() {
         fullScreenImage={fullScreenImage}
       />
       <Topbar />
-
       <WebsiteSelecotGroping
         webisteJointData={webisteJointData}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
-      <DateGroup  fringeDates={fringeDates} updateChosenDates={updateChosenDates} chosenDates = {chosenDates}/>
+      <DateGroup
+        fringeDates={fringeDates}
+        updateChosenDates={updateChosenDates}
+        chosenDates={chosenDates}
+      />
       <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
         imageSources={screenshots}
