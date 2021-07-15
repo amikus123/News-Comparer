@@ -37,6 +37,7 @@ function App() {
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
+  const [chosenScreenshots, setChosenScreenshots] = useState<string[][]>([]);
   // data of all websites
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
@@ -47,14 +48,26 @@ function App() {
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
 
   // FUNCTIONS
-  const updateChosenDates = (obj: FringeDates) => {
-    setChosenDates(obj);
+  const updateChosenScreenshots = (data: ScreenshotsByDate) => {
+    console.log(data,"SSS")
+    const res: string[][] = [[], [], []];
+    const keys = Object.keys(data);
+    const values = namesOfWebiteesToDisplay;
+    console.log(keys,values,"pary")
+    for(let key in data){
+      const inception = Object.keys(data[key])
+      console.log(inception,"CO TO")
+      res[0].push(data[key]["Onet"]);
+      res[1].push(data[key][values[1]]);
+      res[2].push(data[key][values[2]]);
+    }
+    setChosenScreenshots(res)
+    console.log(res, "koniec");
   };
-
   const updateFringesBasedOnHeadigs = (headings: Headings) => {
     const maxAndMin = returnMaxAndMinDateFromKeys(headings);
     setFringeDates(maxAndMin);
-    updateChosenDates({
+    setChosenDates({
       max: maxAndMin.max,
       min: getPreviousDay(maxAndMin.max),
     });
@@ -63,7 +76,6 @@ function App() {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
     setNamesOfWebiteesToDisplay(temp);
-    // await cretaeImagesSources(temp);
   };
 
   const setFellScreenAndResetPosition = (src: string) => {
@@ -75,7 +87,6 @@ function App() {
 
   // EFFECTS //
   // fetches static data
-  // attept to grad todays data
   useEffect(() => {
     const x = async () => {
       const headings = await getHeadingDailyData();
@@ -105,27 +116,28 @@ function App() {
   }, [webisteJointData]);
 
   useEffect(() => {
-    const cretaeImagesSources = async (names: string[], dates: Date[]) => {
-      console.log(checkIfShouldRequest(names,dates,screenshotsByDate),"BOOL")
-      // if(checkIfShouldRequest(names,dates,screenshotsByDate)){
-      // }
+    const cretaeImagesSources = async () => {
+      if (namesOfWebiteesToDisplay[0] !== "" && chosenDates) {
+        const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
+        const names = namesOfWebiteesToDisplay;
 
         const missing = await getMissingScreenshots(
           names,
           dates,
           screenshotsByDate
         );
+        updateChosenScreenshots(missing)
         const newData = merge(screenshotsByDate, missing);
-        setScreenshotsByDate(newData)
-        console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);    
-    }
+        setScreenshotsByDate(newData);
+        console.log(newData, "wynik");
+      }
+    };
 
     const a = async () => {
-      if(namesOfWebiteesToDisplay[0] !== "" && chosenDates)
-      cretaeImagesSources(namesOfWebiteesToDisplay, getAllDatesBetween(chosenDates.min,chosenDates.max));
+      cretaeImagesSources();
     };
     a();
-  }, [namesOfWebiteesToDisplay,chosenDates]);
+  }, [namesOfWebiteesToDisplay, chosenDates]);
   return (
     // TODO
     // merge all selects in one if screen is small enough
@@ -142,14 +154,13 @@ function App() {
       />
       <DateGroup
         fringeDates={fringeDates}
-        updateChosenDates={updateChosenDates}
+        updateChosenDates={setChosenDates}
         chosenDates={chosenDates}
       />
-      {/* <Screenshots
+      <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
-        imageSources={screenshotsByDate}
-        namesOfWebiteesToDisplay={namesOfWebiteesToDisplay}
-      /> */}
+        chosenScreenshots={chosenScreenshots}
+      />
     </>
   );
 }

@@ -36,15 +36,10 @@ export const fetchAllScreenshotsURLFromName = async (
   return ret;
   // check
 };
-// export const fetchScreenshotsFromNDays =async (name:string,n:number) => {
-//   const names = createFileNames(name,n)
-//   console.log(names)
-//   const res =  await fetchAllScreenshotsURLFromName(names)
-//   return res
-// }
+
 const getScreenshotURL = async (name: string, formatedDate: string) => {
-  // const url = await getImgSrcFromName(`${formatedDate}-${name}.jpg`);
-  const url = "A"
+  const url = await getImgSrcFromName(`${formatedDate}-${name}.jpg`);
+  // const url = "A"
   return url;
 };
 export const getMissingScreenshots = async (
@@ -55,10 +50,10 @@ export const getMissingScreenshots = async (
   console.log("input", names, dates, currentData);
   const toReturn: ScreenshotsByDate = {};
   const formatedDates: string[] = formatedYearsFromDates(dates);
-  formatedDates.forEach((formatedDate) => {
+    for(let formatedDate of formatedDates){
     toReturn[formatedDate] = {};
     console.log(toReturn, "poczatek");
-    names.forEach(async (name: string) => {
+    for(let name of names){
       if (
         currentData.formatedDate &&
         currentData.formatedDate.name
@@ -70,8 +65,10 @@ export const getMissingScreenshots = async (
           formatedDate
         );
       }
-    });
-  });
+    }
+  }
+
   console.log(toReturn, "KONIEC");
   return toReturn;
 };
+// probmelm with promises

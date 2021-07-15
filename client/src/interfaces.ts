@@ -29,6 +29,11 @@ export interface ScreenshotsByDate {
 export interface ScreenshotDayData {
   [webisteName: string]: string;
 }
+// 
+export interface ScreenshostForColumns{
+  websiteName:string,
+  screenshots:string[]
+}
 // dates
 export interface FringeDates {
   max: Date;
