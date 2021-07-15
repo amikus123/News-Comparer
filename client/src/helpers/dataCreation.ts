@@ -43,9 +43,9 @@ export const formatedYearsFromDates = (dates: Date[]) => {
   });
   return arr;
 };
-
+// human readable
 export const dateToFormatedMonth = (d: Date) => {
-  return `${d.getDate()}-${d.getMonth()}`;
+  return `${d.getDate()}-${d.getMonth()+1}`;
 };
 export const datesToFormatedMonths = (dates: Date[]) => {
   const arr: string[] = [];
@@ -81,3 +81,17 @@ export const returnMaxAndMinDateFromKeys = (
     min: min,
   };
 };
+export const checkIfSameDay = (d1:Date,d2:Date)=>{
+  const a1 = d1.getDate()
+  const b1 = d1.getMonth()
+  const c1 = d1.getFullYear()
+  const a2= d2.getDate()
+  const b2 = d2.getMonth()
+  const c2 = d2.getFullYear()
+  if(a1===a2 && b1===b2 && c1 === c2 ){
+    console.log(a1,a2)
+    return true
+  }
+  return false
+
+}

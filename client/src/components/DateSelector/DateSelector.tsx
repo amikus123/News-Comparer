@@ -37,7 +37,7 @@ export default function DateSelector({
         }
 
         if (res.min.getTime() > res.max.getTime()) {
-          setError("The date on left should be before the one on the right");
+          setError("The date on right should be before the one on the right");
         } else {
           updateChosenDates(res);
           setError("");
@@ -55,22 +55,7 @@ export default function DateSelector({
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <p>epxlatiation</p>
       <Grid container justify="space-around">
-        <KeyboardDatePicker
-          disableToolbar
-          variant="inline"
-          format="DD/MM/yyyy"
-          margin="normal"
-          id="date-picker-inline"
-          label="Date picker inline"
-          value={chosenDates.min}
-          onChange={handleGenerator(0)}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-          maxDate={fringeDates.max}
-          minDate={fringeDates.min}
-          onClose={handleClose}
-        />
+
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -80,6 +65,23 @@ export default function DateSelector({
           label="Date picker inline"
           value={chosenDates ? chosenDates.max : new Date()}
           onChange={handleGenerator(1)}
+          KeyboardButtonProps={{
+            "aria-label": "change date",
+          }}
+          maxDate={fringeDates.max}
+          minDate={fringeDates.min}
+          onClose={handleClose}
+        />
+
+                <KeyboardDatePicker
+          disableToolbar
+          variant="inline"
+          format="DD/MM/yyyy"
+          margin="normal"
+          id="date-picker-inline"
+          label="Date picker inline"
+          value={chosenDates.min}
+          onChange={handleGenerator(0)}
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}

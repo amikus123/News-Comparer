@@ -5,6 +5,7 @@ import Slider from "@material-ui/core/Slider";
 import {
   dateToFormatedMonth,
   getNPreviousDates,
+  checkIfSameDay
 } from "../../helpers/dataCreation";
 import { FringeDates } from "../../interfaces";
 
@@ -32,52 +33,76 @@ export default function DateSlider({
   updateChosenDates: (obj: FringeDates) => void;
 }) {
   const classes = useStyles();
-  const [value, setValue] = React.useState<number[]>([30, 40]);
+  const [value, setValue] = React.useState<number[]>([0, 10]);
 
   const getSevenPreviousDays = (): pog => {
     console.log("WTRF");
     const res = getNPreviousDates(7);
-    // revesring
-    const copy :Date[] =[]
-   
     if (fringeDates?.max.getDay() === new Date().getDay()) {
       res.pop();
     } else {
       res.shift();
     }
-    for(let i =0;i<res.length;i++){
-      copy.unshift(res[i])
-    }
+
     const marks: mark[] = [];
     for (let i = 0; i < 7; i++) {
       marks.push({
-        label: dateToFormatedMonth(copy[i]),
+        label: dateToFormatedMonth(res[i]),
         value: i * 10,
       });
     }
 
     return {
-      dates: copy,
+      dates: res,
       marks: marks,
     };
   };
 
-  const [dates, setDates] = React.useState<pog>(getSevenPreviousDays());
+  const [dates, setDates] = React.useState<pog | null>(null);
 
   useEffect(() => {
-    // setDates(getSevenPreviousDays());
+    setDates(getSevenPreviousDays());
   }, []);
   useEffect(() => {
-    // what to do when they are out of bounds
+    if(dates){
+      const arr = dates.dates
+      let num1 = 0
+      let num2 = 0
+      const first = arr.map(item=>{
+        return checkIfSameDay(item,chosenDates.max)
+      })
+      const second = arr.map(item=>{
+        return checkIfSameDay(item,chosenDates.min)
+      })  
+      const firstIndex = first.indexOf(true)
+      const secondIndex = second.indexOf(true)
+
+      if(firstIndex ===-1){
+        num1 = 70
+      } else{
+        num1 = (firstIndex)*10
+      }
+
+      if(secondIndex ===-1){
+        num2 = 70
+      } else{
+        num2 = (secondIndex)*10
+      }
+      console.log(arr,chosenDates)
+      console.log(first,second)
+      setValue([num1,num2])
+    }
   }, [chosenDates]);
 
   // 0 min
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
-    updateChosenDates({
-      max: dates.dates[value[1] / 10],
-      min: dates.dates[value[0] / 10],
-    });
+    if (dates) {
+      updateChosenDates({
+        min: dates.dates[value[1] / 10],
+        max: dates.dates[value[0] / 10],
+      });
+    }
   };
 
   return (
