@@ -9,14 +9,18 @@ import {
 import {
   createRowObjects,
   createWebisteDataObject,
-  fetchAllScreenshotsURLFromName,
   fetchWebisteStaticData,
-} from "./firebase/firebaseAccess";
+  getHeadingDailyData,
+} from "./firebase/firestore";
+import{
+  fetchAllScreenshotsURLFromName,
+}from "./firebase/storage"
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
 import DateGroup from "./components/DateSelector/DateGroup";
+
 function App() {
   const [fullScreenImage, setFullScreenImage] = useState("");
   // array with 3 variables, which indicate which iamges to show
@@ -59,9 +63,11 @@ function App() {
   // attept to grad todays data 
   useEffect(() => {
     const x = async () => {
+      await getHeadingDailyData()
       const websiteStaticData = await fetchWebisteStaticData();
       const totalWebisteMap = createWebisteDataObject(websiteStaticData);
       setWebisteJointData(totalWebisteMap);
+      getHeadingDailyData()
     };
     x();
   }, []);
