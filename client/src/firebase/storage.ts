@@ -43,7 +43,8 @@ export const fetchAllScreenshotsURLFromName = async (
 //   return res
 // }
 const getScreenshotURL = async (name: string, formatedDate: string) => {
-  const url = await getImgSrcFromName(`${formatedDate}-${name}.jpg`);
+  // const url = await getImgSrcFromName(`${formatedDate}-${name}.jpg`);
+  const url = "A"
   return url;
 };
 export const getMissingScreenshots = async (
@@ -59,8 +60,8 @@ export const getMissingScreenshots = async (
     console.log(toReturn, "poczatek");
     names.forEach(async (name: string) => {
       if (
-        currentData.hasOwnProperty(formatedDate) &&
-        currentData.formatedDate.hasOwnProperty(name)
+        currentData.formatedDate &&
+        currentData.formatedDate.name
       ) {
         // already present so we dont do anything
       } else {

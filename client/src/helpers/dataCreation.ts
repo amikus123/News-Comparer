@@ -16,8 +16,12 @@ export const getNPreviousDates = (
 export const getPreviousDay = (d: Date) => {
   const copy = new Date(d);
   copy.setDate(copy.getDate() - 1);
-  return  new Date(copy)
-
+  return new Date(copy);
+};
+const getNextDay = (d: Date) => {
+  const copy = new Date(d);
+  copy.setDate(copy.getDate() + 1);
+  return new Date(copy);
 };
 export const createFileNames = (
   name: string,
@@ -45,7 +49,7 @@ export const formatedYearsFromDates = (dates: Date[]) => {
 };
 // human readable
 export const dateToFormatedMonth = (d: Date) => {
-  return `${d.getDate()}-${d.getMonth()+1}`;
+  return `${d.getDate()}-${d.getMonth() + 1}`;
 };
 export const datesToFormatedMonths = (dates: Date[]) => {
   const arr: string[] = [];
@@ -79,16 +83,33 @@ export const returnMaxAndMinDateFromKeys = (
     min: min,
   };
 };
-export const checkIfSameDay = (d1:Date,d2:Date)=>{
-  const a1 = d1.getDate()
-  const b1 = d1.getMonth()
-  const c1 = d1.getFullYear()
-  const a2= d2.getDate()
-  const b2 = d2.getMonth()
-  const c2 = d2.getFullYear()
-  if(a1===a2 && b1===b2 && c1 === c2 ){
-    return true
+export const getAllDatesBetween = (d1: Date, d2: Date): Date[] => {
+  // d1 is smaller
+  let d1Time = d1.getTime()
+  let d2Time = d2.getTime()
+  if(d1Time>d2Time) {
+    d2 = new Date(d1Time)
+    d1 = new Date(d2Time)
   }
-  return false
 
-}
+  const res: Date[] = [];
+  let temp = new Date(d1);
+  while (!checkIfSameDay(temp, d2)) {
+    res.push(temp);
+    temp = getNextDay(temp)
+  }
+  res.push(temp)
+  return res;
+};
+export const checkIfSameDay = (d1: Date, d2: Date) => {
+  const a1 = d1.getDate();
+  const b1 = d1.getMonth();
+  const c1 = d1.getFullYear();
+  const a2 = d2.getDate();
+  const b2 = d2.getMonth();
+  const c2 = d2.getFullYear();
+  if (a1 === a2 && b1 === b2 && c1 === c2) {
+    return true;
+  }
+  return false;
+};

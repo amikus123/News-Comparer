@@ -22,7 +22,9 @@ import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
   getPreviousDay,
+  getAllDatesBetween,
 } from "./helpers/dataCreation";
+import { checkIfShouldRequest } from "./helpers/general";
 const merge = require("deepmerge");
 
 function App() {
@@ -101,30 +103,30 @@ function App() {
     };
     y();
   }, [webisteJointData]);
+
   useEffect(() => {
     const cretaeImagesSources = async (names: string[], dates: Date[]) => {
-      const missing = await getMissingScreenshots(
-        names,
-        dates,
-        screenshotsByDate
-      );
-      const newData = merge(screenshotsByDate, missing);
-      console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);
-      // const fetched = await fetchAllScreenshotsURLFromName(names);
-      // console.log(fetched, "res");
-      // const obj: { [k: string]: any } = {};
-      // for (let i = 0; i < names.length; i++) {
-      //   let name = names[i];
-      //   obj[name] = [fetched[i]];
-      // }
-      // setScreennshots({ ...screenshots, ...obj });
+      console.log(checkIfShouldRequest(names,dates,screenshotsByDate),"BOOL")
+      if(checkIfShouldRequest(names,dates,screenshotsByDate)){
+        const missing = await getMissingScreenshots(
+          names,
+          dates,
+          screenshotsByDate
+        );
+        const newData = merge(screenshotsByDate, missing);
+        setScreenshotsByDate(newData)
+        console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);
+        debugger
+      }
+     
+        
     };
     const a = async () => {
-      if(namesOfWebiteesToDisplay[0] !== "")
-      cretaeImagesSources(namesOfWebiteesToDisplay, [new Date(2021,6,10),new Date(2021,6,11)]);
+      if(namesOfWebiteesToDisplay[0] !== "" && chosenDates)
+      cretaeImagesSources(namesOfWebiteesToDisplay, getAllDatesBetween(chosenDates.min,chosenDates.max));
     };
     a();
-  }, [screenshotsByDate,namesOfWebiteesToDisplay]);
+  }, [screenshotsByDate,namesOfWebiteesToDisplay,chosenDates]);
   return (
     // TODO
     // merge all selects in one if screen is small enough

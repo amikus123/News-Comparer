@@ -4,6 +4,7 @@ import {
   formatedYearsFromDates,
   createFileNames,
   returnMaxAndMinDateFromKeys,
+  getAllDatesBetween
 } from "./dataCreation";
 
 // 2003 1 13
@@ -69,4 +70,8 @@ describe("performing test for functions interacting with dates", () => {
       min: new Date(2003,1,11)
     })
   })
+  it("should return dates between", () => {
+    const between = getAllDatesBetween(new Date(2003,1,13),new Date(2003,1,11))
+    expect(between).toEqual([new Date(2003,1,11),new Date(2003,1,12),new Date(2003,1,13)]);
+  });
 });
