@@ -107,7 +107,9 @@ function App() {
   useEffect(() => {
     const cretaeImagesSources = async (names: string[], dates: Date[]) => {
       console.log(checkIfShouldRequest(names,dates,screenshotsByDate),"BOOL")
-      if(checkIfShouldRequest(names,dates,screenshotsByDate)){
+      // if(checkIfShouldRequest(names,dates,screenshotsByDate)){
+      // }
+
         const missing = await getMissingScreenshots(
           names,
           dates,
@@ -115,18 +117,15 @@ function App() {
         );
         const newData = merge(screenshotsByDate, missing);
         setScreenshotsByDate(newData)
-        console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);
-        debugger
-      }
-     
-        
-    };
+        console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);    
+    }
+
     const a = async () => {
       if(namesOfWebiteesToDisplay[0] !== "" && chosenDates)
       cretaeImagesSources(namesOfWebiteesToDisplay, getAllDatesBetween(chosenDates.min,chosenDates.max));
     };
     a();
-  }, [screenshotsByDate,namesOfWebiteesToDisplay,chosenDates]);
+  }, [namesOfWebiteesToDisplay,chosenDates]);
   return (
     // TODO
     // merge all selects in one if screen is small enough
