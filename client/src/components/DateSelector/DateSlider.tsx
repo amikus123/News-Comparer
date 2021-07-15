@@ -6,14 +6,13 @@ import {
   dateToFormatedMonth,
   getNPreviousDates,
 } from "../../helpers/dataCreation";
-import { FringeDates } from "../../interfaces"
+import { FringeDates } from "../../interfaces";
 
 const useStyles = makeStyles({
   root: {
-    width: 300,
+    width: 250,
   },
 });
-
 
 interface mark {
   label: string;
@@ -23,36 +22,62 @@ interface pog {
   marks: mark[];
   dates: Date[];
 }
-export default function DateSlider({fringeDates,updateChosenDates,chosenDates}:{chosenDates:FringeDates | null,fringeDates :FringeDates | null,  updateChosenDates: (obj: FringeDates) => void;
- } ) {
+export default function DateSlider({
+  fringeDates,
+  updateChosenDates,
+  chosenDates,
+}: {
+  chosenDates: FringeDates;
+  fringeDates: FringeDates;
+  updateChosenDates: (obj: FringeDates) => void;
+}) {
   const classes = useStyles();
-  const [value, setValue] = React.useState<number[]>([60, 70]);
+  const [value, setValue] = React.useState<number[]>([30, 40]);
+
   const getSevenPreviousDays = (): pog => {
+    console.log("WTRF");
     const res = getNPreviousDates(7);
-    if(fringeDates?.min.getDay() === new Date().getDay()){
-      res.pop()
-      }else{
-      res.shift()
+    // revesring
+    const copy :Date[] =[]
+   
+    if (fringeDates?.max.getDay() === new Date().getDay()) {
+      res.pop();
+    } else {
+      res.shift();
     }
-    const marks: mark[] = res.map((date, index) => {
-      return {
-        label: dateToFormatedMonth(date),
-        value: index * 10,
-      };
-    });
+    for(let i =0;i<res.length;i++){
+      copy.unshift(res[i])
+    }
+    const marks: mark[] = [];
+    for (let i = 0; i < 7; i++) {
+      marks.push({
+        label: dateToFormatedMonth(copy[i]),
+        value: i * 10,
+      });
+    }
 
     return {
-      dates: res,
+      dates: copy,
       marks: marks,
     };
   };
-  useEffect(() => {
-    setDates(getSevenPreviousDays());
-  }, []);
-  const [dates, setDates] = React.useState<pog | null>(null);
 
+  const [dates, setDates] = React.useState<pog>(getSevenPreviousDays());
+
+  useEffect(() => {
+    // setDates(getSevenPreviousDays());
+  }, []);
+  useEffect(() => {
+    // what to do when they are out of bounds
+  }, [chosenDates]);
+
+  // 0 min
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
+    updateChosenDates({
+      max: dates.dates[value[1] / 10],
+      min: dates.dates[value[0] / 10],
+    });
   };
 
   return (
@@ -66,7 +91,7 @@ export default function DateSlider({fringeDates,updateChosenDates,chosenDates}:{
             value={value}
             onChange={handleChange}
             marks={dates.marks}
-            max={70}
+            max={60}
             step={10}
           />
         </>

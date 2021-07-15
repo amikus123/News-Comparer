@@ -8,23 +8,20 @@ import {
 } from "@material-ui/pickers";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import { FringeDates } from "../../interfaces";
-import { getPreviousDay } from "../../helpers/dataCreation";
 
 export default function DateSelector({
   chosenDates,
   fringeDates,
   updateChosenDates,
 }: {
-  chosenDates: FringeDates | null;
-  fringeDates: FringeDates | null;
+  chosenDates: FringeDates;
+  fringeDates: FringeDates;
   updateChosenDates: (obj: FringeDates) => void;
 }) {
-  // The first commit of Material-UI
-
   const [error, setError] = useState<string>("");
   const handleGenerator = (num: number) => {
     const handleDateChange = (date: MaterialUiPickersDate | null) => {
-      if (date !== null && chosenDates !== null) {
+      if (date !== null) {
         const normalDate = date.toDate();
         let res: FringeDates;
         if (num === 0) {
@@ -45,16 +42,15 @@ export default function DateSelector({
           updateChosenDates(res);
           setError("");
         }
-      }else{
+      } else {
         setError("");
       }
     };
     return handleDateChange;
   };
-  const handleClose = () =>{
+  const handleClose = () => {
     setError("");
-
-  }
+  };
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <p>epxlatiation</p>
@@ -66,14 +62,14 @@ export default function DateSelector({
           margin="normal"
           id="date-picker-inline"
           label="Date picker inline"
-          value={chosenDates ? chosenDates.min : new Date()}
+          value={chosenDates.min}
           onChange={handleGenerator(0)}
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
-          maxDate={fringeDates ? fringeDates.max : new Date()}
-          minDate={fringeDates ? fringeDates.min : new Date()}
-          onClose = {handleClose}
+          maxDate={fringeDates.max}
+          minDate={fringeDates.min}
+          onClose={handleClose}
         />
         <KeyboardDatePicker
           disableToolbar
@@ -87,13 +83,12 @@ export default function DateSelector({
           KeyboardButtonProps={{
             "aria-label": "change date",
           }}
-          maxDate={fringeDates ? fringeDates.max : new Date()}
-          minDate={fringeDates ? fringeDates.min : new Date()}
-          onClose = {handleClose}
-
+          maxDate={fringeDates.max}
+          minDate={fringeDates.min}
+          onClose={handleClose}
         />
       </Grid>
-        <p> {error} </p>
+      <p> {error} </p>
     </MuiPickersUtilsProvider>
   );
 }
