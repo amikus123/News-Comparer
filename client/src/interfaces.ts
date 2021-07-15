@@ -23,8 +23,11 @@ export interface WebsiteJointDataMap {
 export interface WebsiteJointData extends WebsiteStaticData {
   websiteFetchedImagesURLS?: string[];
 }
-export interface ScreenshotsData {
-  [key: string]: string[];
+export interface ScreenshotsByDate {
+  [date:string] : ScreenshotDayData
+}
+export interface ScreenshotDayData {
+  [webisteName: string]: string;
 }
 // dates
 export interface FringeDates {

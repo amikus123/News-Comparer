@@ -63,14 +63,12 @@ export const returnMaxAndMinDateFromKeys = (
   let min = now;
   let maxStr = formatedYearFromDate(max);
   const keys = Object.keys(headings);
-  console.log(maxStr,"max str")
   if (keys.indexOf(maxStr) !== -1) {
   } else {
     max = getPreviousDay(max);
   }
   while (true) {
     let nextIteration = formatedYearFromDate(getPreviousDay(min));
-    console.log(nextIteration,keys.indexOf(nextIteration),keys,min)
     if (keys.indexOf(nextIteration) === -1) {
       break;
     }
@@ -89,7 +87,6 @@ export const checkIfSameDay = (d1:Date,d2:Date)=>{
   const b2 = d2.getMonth()
   const c2 = d2.getFullYear()
   if(a1===a2 && b1===b2 && c1 === c2 ){
-    console.log(a1,a2)
     return true
   }
   return false

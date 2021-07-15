@@ -3,9 +3,9 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 import {
   WebsiteJointDataMap,
-  ScreenshotsData,
   FringeDates,
   Headings,
+  ScreenshotsByDate,
 } from "./interfaces";
 import {
   createRowObjects,
@@ -13,13 +13,17 @@ import {
   fetchWebisteStaticData,
   getHeadingDailyData,
 } from "./firebase/firestore";
-import { fetchAllScreenshotsURLFromName } from "./firebase/storage";
+import { getMissingScreenshots } from "./firebase/storage";
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
 import DateGroup from "./components/DateSelector/DateGroup";
-import { returnMaxAndMinDateFromKeys,getPreviousDay } from "./helpers/dataCreation";
+import {
+  returnMaxAndMinDateFromKeys,
+  getPreviousDay,
+} from "./helpers/dataCreation";
+const merge = require("deepmerge");
 
 function App() {
   // STATES
@@ -28,7 +32,9 @@ function App() {
   const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
     string[]
   >(["", "", ""]);
-  const [screenshots, setScreennshots] = useState<ScreenshotsData>({});
+  const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
+    {}
+  );
   // data of all websites
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
@@ -37,35 +43,25 @@ function App() {
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-  // FUNCTIONS
 
-  const updateChosenDates = (
-    obj:FringeDates
-  ) => {
-    setChosenDates(obj)
+  // FUNCTIONS
+  const updateChosenDates = (obj: FringeDates) => {
+    setChosenDates(obj);
   };
 
   const updateFringesBasedOnHeadigs = (headings: Headings) => {
-    const maxAndMin = returnMaxAndMinDateFromKeys(headings)
-    setFringeDates(maxAndMin)
-    updateChosenDates({max:maxAndMin.max,min: getPreviousDay(maxAndMin.max)})
+    const maxAndMin = returnMaxAndMinDateFromKeys(headings);
+    setFringeDates(maxAndMin);
+    updateChosenDates({
+      max: maxAndMin.max,
+      min: getPreviousDay(maxAndMin.max),
+    });
   };
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
     setNamesOfWebiteesToDisplay(temp);
-    await cretaeImagesSources(temp);
-  };
-
-  const cretaeImagesSources = async (names: string[]) => {
-    const fetched = await fetchAllScreenshotsURLFromName(names);
-    console.log(fetched, "res");
-    const obj: { [k: string]: any } = {};
-    for (let i = 0; i < names.length; i++) {
-      let name = names[i];
-      obj[name] = [fetched[i]];
-    }
-    setScreennshots({ ...screenshots, ...obj });
+    // await cretaeImagesSources(temp);
   };
 
   const setFellScreenAndResetPosition = (src: string) => {
@@ -74,9 +70,10 @@ function App() {
     fullScreenImage?.classList.toggle("fullScreen--image-off");
     setFullScreenImage(src);
   };
+
+  // EFFECTS //
   // fetches static data
   // attept to grad todays data
-  // EFFECTS //
   useEffect(() => {
     const x = async () => {
       const headings = await getHeadingDailyData();
@@ -93,19 +90,41 @@ function App() {
     const y = async () => {
       const politicsBasedOnRows = createRowObjects(webisteJointData);
       if (politicsBasedOnRows.leftRow.length !== 0) {
-        console.log(politicsBasedOnRows, "rows main");
         const temp = [
           politicsBasedOnRows.leftRow[0].imageName,
           politicsBasedOnRows.centerRow[0].imageName,
           politicsBasedOnRows.rightRow[0].imageName,
         ];
         setNamesOfWebiteesToDisplay(temp);
-        await cretaeImagesSources(temp);
+        // await cretaeImagesSources(temp);
       }
     };
     y();
   }, [webisteJointData]);
-
+  useEffect(() => {
+    const cretaeImagesSources = async (names: string[], dates: Date[]) => {
+      const missing = await getMissingScreenshots(
+        names,
+        dates,
+        screenshotsByDate
+      );
+      const newData = merge(screenshotsByDate, missing);
+      console.log(newData,"nopwe",missing,"pauza",screenshotsByDate);
+      // const fetched = await fetchAllScreenshotsURLFromName(names);
+      // console.log(fetched, "res");
+      // const obj: { [k: string]: any } = {};
+      // for (let i = 0; i < names.length; i++) {
+      //   let name = names[i];
+      //   obj[name] = [fetched[i]];
+      // }
+      // setScreennshots({ ...screenshots, ...obj });
+    };
+    const a = async () => {
+      if(namesOfWebiteesToDisplay[0] !== "")
+      cretaeImagesSources(namesOfWebiteesToDisplay, [new Date(2021,6,10),new Date(2021,6,11)]);
+    };
+    a();
+  }, [screenshotsByDate,namesOfWebiteesToDisplay]);
   return (
     // TODO
     // merge all selects in one if screen is small enough
@@ -125,11 +144,11 @@ function App() {
         updateChosenDates={updateChosenDates}
         chosenDates={chosenDates}
       />
-      <Screenshots
+      {/* <Screenshots
         setFullScreenImage={setFellScreenAndResetPosition}
-        imageSources={screenshots}
+        imageSources={screenshotsByDate}
         namesOfWebiteesToDisplay={namesOfWebiteesToDisplay}
-      />
+      /> */}
     </>
   );
 }

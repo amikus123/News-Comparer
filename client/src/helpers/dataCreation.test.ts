@@ -34,7 +34,6 @@ describe("performing test for functions interacting with dates", () => {
   });
 
   it("should return correct file names", () => {
-    console.log(baseDate, "baza");
     const res = createFileNames("onet", 2, baseDate);
     const expected = [
       "13-0-2003-onet.jpg",

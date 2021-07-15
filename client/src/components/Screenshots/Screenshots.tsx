@@ -1,6 +1,6 @@
 import { Grid } from "@material-ui/core";
 import React from "react";
-import { ScreenshotsData } from "../../interfaces";
+import { ScreenshotsByDate } from "../../interfaces";
 import ScreenshotColumn from "./ScreenshotColumn";
 // this component is responsible for rendering screenshots, and allows to "fullscreen" them
 // TODO do something for mobile
@@ -10,7 +10,7 @@ const Screenshots = ({
   namesOfWebiteesToDisplay,
 }: {
   setFullScreenImage: (src: string) => void;
-  imageSources: ScreenshotsData;
+  imageSources: ScreenshotsByDate;
   namesOfWebiteesToDisplay: string[];
 }) => {
   React.useEffect(()=>{
@@ -18,7 +18,7 @@ const Screenshots = ({
   },[namesOfWebiteesToDisplay])
   return (  
     <Grid container direction="row" justify="center">
-      {namesOfWebiteesToDisplay.map((name, index) => {
+      {/* {namesOfWebiteesToDisplay.map((name, index) => {
         return (
           <ScreenshotColumn
             setFullScreenImage={setFullScreenImage}
@@ -26,7 +26,7 @@ const Screenshots = ({
             key={index}
           />
         );
-      })}
+      })} */}
     
     </Grid>
   );
