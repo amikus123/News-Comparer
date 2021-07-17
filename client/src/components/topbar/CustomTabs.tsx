@@ -1,31 +1,59 @@
-import React from 'react';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import {Link } from "react-router-dom";
-
+import React, { useEffect } from "react";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import { NavLink,Link, useLocation } from "react-router-dom";
+import { WordMap } from "../../interfaces";
 
 const CustomTabs = () => {
+  let location = useLocation();
+  useEffect(() => {
+    console.log(location.pathname);
+  }, [location]);
+  const locationMap  : WordMap= {
+    "/" : 0,
+    "/words":1,
+    "/emotions":2,
+  }
+  const getValue = (locationString:string) =>{
+    const value = locationMap[locationString]
+    return value?value:false
+  }
   function a11yProps(index: any) {
     return {
       id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
     };
   }
-  const [value, setValue] = React.useState(0);
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setValue(newValue);
-  };
   return (
     <div className="appbarr--left-container">
+      <Tabs
+        value={getValue(location.pathname)}
+        aria-label="simple tabs example"
+      >
+        <Tab
+          label="Screenshots"
+          {...a11yProps(0)}
+          to="/"
+          component={NavLink}
+        />
+        <Tab
+          label="Word analysis"
+          {...a11yProps(1)}
+          component={NavLink}
+          activeClassName="selected"
+          to="/words"
 
-        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Screenshots" {...a11yProps(0)}  component={Link} to="/"/>
-          <Tab label="Word analysis" {...a11yProps(1)} component={Link} to="/words"/>
-          <Tab label="Emotions" {...a11yProps(2)} component={Link} to="/emotions" />
-        </Tabs>
+        />
+        <Tab
+          label="Emotions"
+          {...a11yProps(2)}
+          component={NavLink}
+          activeClassName="selected"
+          to="/emotions"
+        />
+      </Tabs>
     </div>
   );
-}
+};
 
-export default CustomTabs
-
+export default CustomTabs;

@@ -27,6 +27,9 @@ img{
   justify-self: center;
   margin:0 auto
 }
+.selected{
+  /* background-color:red!important */
+}
 /* image column  */
 .image-column--image-container{
   max-height: 50rem;

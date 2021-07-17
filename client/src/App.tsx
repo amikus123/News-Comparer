@@ -136,6 +136,7 @@ function App() {
       />
 
       <Switch>
+        
         <Route path="/words">
           <Words/>
         </Route>
