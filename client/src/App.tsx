@@ -91,7 +91,6 @@ function App() {
     const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
-        console.log("PRZESZLO DO A");
         if (
           checkIfShouldRequest(
             namesOfWebiteesToDisplay,
@@ -99,18 +98,14 @@ function App() {
             screenshotsByDate
           )
         ) {
-          console.log("111");
           const newData = await cretaeImagesSources(
             namesOfWebiteesToDisplay,
             dates,
             screenshotsByDate
           );
-          console.log(newData, "XDD");
           setChosenScreenshots(newData.chosenScreenshotsFromData);
           setScreenshotsByDate(newData.newData);
-        } else {
-          console.log(false);
-        }
+        } 
       }
     };
     a();
@@ -118,7 +113,6 @@ function App() {
   return (
     // TODO
     // merge all selects in one if screen is small enough
-    // add diffrent section on the right side of the topbar
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}
@@ -136,7 +130,7 @@ function App() {
       />
 
       <Switch>
-        
+
         <Route path="/words">
           <Words/>
         </Route>

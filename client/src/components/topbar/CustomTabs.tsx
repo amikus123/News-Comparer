@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { NavLink,Link, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { WordMap } from "../../interfaces";
 
 const CustomTabs = () => {

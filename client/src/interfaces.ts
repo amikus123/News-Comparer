@@ -49,7 +49,13 @@ export interface DailyHeadings {
   totalWordCount: number;
   siteData: DailySiteData[];
 }
-
+export interface TotalWordSiteData{
+  [name:string] : WordSiteData
+}
+export interface WordSiteData {
+  frequencyOfWords: WordMap;
+  totalWordCount: number;
+}
 export interface DailySiteData {
   frequencyOfWords: WordMap;
   wordCount: number;

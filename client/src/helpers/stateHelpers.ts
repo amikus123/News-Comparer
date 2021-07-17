@@ -1,7 +1,13 @@
 import { createRowObjects } from "../firebase/firestore";
 import { getMissingScreenshots } from "../firebase/storage";
-import { ScreenshotsByDate, WebsiteJointDataMap } from "../interfaces";
-import merge from "deepmerge"
+import {
+  ScreenshotsByDate,
+  TotalWordSiteData,
+  WebsiteJointDataMap,
+  Headings
+} from "../interfaces";
+import merge from "deepmerge";
+import { formatedYearsFromDates } from "./dataCreation";
 
 // TODO TESTS
 export const getChosenScreenshotsFromData = (
@@ -45,34 +51,64 @@ export const checkIfShouldRequest = (
   if (dates.length > keys.length) {
     return true;
   }
-  for(let key of keys){
+  for (let key of keys) {
     const dateKeys = Object.keys(screenshotsByDate[key]);
-    if (checkIfNamesAreMissing(dateKeys,names)) {
+    if (checkIfNamesAreMissing(dateKeys, names)) {
       return true;
     }
   }
   return false;
 };
-export const checkIfNamesAreMissing = (keys:string[],names:string[]) =>{
-  for(let name of names){
-    if(keys.indexOf(name) === -1){
-      return true
+export const checkIfNamesAreMissing = (keys: string[], names: string[]) => {
+  for (let name of names) {
+    if (keys.indexOf(name) === -1) {
+      return true;
     }
   }
-  return false
-}
+  return false;
+};
 
 export const cretaeImagesSources = async (
   names: string[],
   dates: Date[],
-  screenshotsByDate : ScreenshotsByDate
+  screenshotsByDate: ScreenshotsByDate
 ) => {
   const missing = await getMissingScreenshots(names, dates, screenshotsByDate);
-  const chosenScreenshotsFromData = getChosenScreenshotsFromData(missing, names);
+  const chosenScreenshotsFromData = getChosenScreenshotsFromData(
+    missing,
+    names
+  );
   const newData = merge(screenshotsByDate, missing);
 
   return {
     chosenScreenshotsFromData: chosenScreenshotsFromData,
-    newData : newData,
+    newData: newData,
   };
+};
+
+export const passOnlyChosenData = (
+  names: string[],
+  dates: Date[],
+  fullHeadings: Headings
+) => {
+  const res: TotalWordSiteData = {};
+  for (let name in names) {
+    res[name] = {
+      frequencyOfWords: {},
+      totalWordCount: 0,
+    };
+  }
+  const formatedDates = formatedYearsFromDates(dates);
+  formatedDates.forEach(date=>{
+    // it should exists
+    const data = fullHeadings[date]
+    for (let name in names) {
+      res[name] = {
+        frequencyOfWords: {},
+        totalWordCount: 0,
+      };
+    }
+  })
+
+  // keys : names of webistes
 };
