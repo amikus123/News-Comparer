@@ -1,5 +1,7 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { Headings, TotalWordSiteData ,FringeDates} from '../../interfaces';
+import{useEffect,useState} from "react"
+import { passOnlyChosenData } from '../../helpers/stateHelpers';
 const data = [
   {
     name: 'Page A',
@@ -45,7 +47,11 @@ const data = [
   },
 ];
 
-const Words = () => {
+const Words = ({names,chosenDates,headingMap}:{names:string[],chosenDates:FringeDates ,headingMap:Headings})  => {
+  const [pog,setData] = useState<TotalWordSiteData>({})
+  useEffect(()=>{
+    setData(passOnlyChosenData(names,chosenDates,headingMap))
+  },[])
   return (
     <>
       <BarChart

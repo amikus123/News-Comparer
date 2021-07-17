@@ -25,6 +25,7 @@ import {
   splitDataByRows,
   checkIfShouldRequest,
   cretaeImagesSources,
+  passOnlyChosenData,
 } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
 import Emotions from "./components/Emotions/Emotions";
@@ -105,8 +106,9 @@ function App() {
           );
           setChosenScreenshots(newData.chosenScreenshotsFromData);
           setScreenshotsByDate(newData.newData);
-        } 
+        }
       }
+      console.log(111);
     };
     a();
   }, [namesOfWebiteesToDisplay, chosenDates, screenshotsByDate]);
@@ -130,12 +132,17 @@ function App() {
       />
 
       <Switch>
-
         <Route path="/words">
-          <Words/>
+          {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+            <Words
+              names={namesOfWebiteesToDisplay}
+              chosenDates={chosenDates}
+              headingMap={headingMap}
+            />
+          ) : null}
         </Route>
         <Route path="/emotions">
-          <Emotions/>
+          <Emotions />
         </Route>
         <Route path="/" exact>
           <Screenshots

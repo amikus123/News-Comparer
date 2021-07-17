@@ -4,10 +4,15 @@ import {
   ScreenshotsByDate,
   TotalWordSiteData,
   WebsiteJointDataMap,
-  Headings
+  Headings,
+  FringeDates,
+  DailySiteData,
+  WordSiteData,
+  WordMap,
 } from "../interfaces";
 import merge from "deepmerge";
-import { formatedYearsFromDates } from "./dataCreation";
+import { formatedYearsFromDates, getAllDatesBetween } from "./dataCreation";
+import { combineWordMaps } from "./mapFunctions";
 
 // TODO TESTS
 export const getChosenScreenshotsFromData = (
@@ -88,27 +93,62 @@ export const cretaeImagesSources = async (
 
 export const passOnlyChosenData = (
   names: string[],
-  dates: Date[],
+  fringeDates: FringeDates,
   fullHeadings: Headings
 ) => {
   const res: TotalWordSiteData = {};
-  for (let name in names) {
+  const dates = getAllDatesBetween(fringeDates);
+  // webistes and "total"
+  names.forEach(name=>{
     res[name] = {
       frequencyOfWords: {},
       totalWordCount: 0,
     };
-  }
-  const formatedDates = formatedYearsFromDates(dates);
-  formatedDates.forEach(date=>{
-    // it should exists
-    const data = fullHeadings[date]
-    for (let name in names) {
-      res[name] = {
-        frequencyOfWords: {},
-        totalWordCount: 0,
-      };
-    }
   })
+  res.total = {
+    frequencyOfWords: {},
+    totalWordCount: 0,
+  };
+  const formatedDates = formatedYearsFromDates(dates);
+  formatedDates.forEach((date) => {
+    // it should exists
+    const data = fullHeadings[date].siteData;
+    names.forEach(name=>{
+      const found = findMAtch(name,data)
+      const newMao = combineWordMaps([
+        found.frequencyOfWords,
+        res[name].frequencyOfWords,
+      ]);
+      const newCount = found.wordCount + res[name].totalWordCount;
+      res[name] = {
+        frequencyOfWords: newMao,
+        totalWordCount: newCount,
+      };
+    })
+
+  });
+  let totalCount = 0;
+  let totalMaps :WordMap[]= [];
+  names.forEach(name=>{
+    totalCount += res[name].totalWordCount;
+    totalMaps.push(res[name].frequencyOfWords);
+  })
+  res.total = {
+    frequencyOfWords: combineWordMaps(totalMaps),
+    totalWordCount: totalCount,
+  };
+  return res;
 
   // keys : names of webistes
 };
+
+const findMAtch = (name:string,arr:DailySiteData[]) =>{
+  let index = 0
+for(let i=0;i<arr.length;i++){
+  if(arr[i].imageName === name){
+    index = i
+    break
+  }
+}
+  return arr[index]
+}

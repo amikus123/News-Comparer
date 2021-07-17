@@ -90,22 +90,35 @@ export const returnMaxAndMinDateFromKeys = (
   };
 };
 
-export const getAllDatesBetween = (d1: Date, d2: Date): Date[] => {
+export const getAllDatesBetween = (
+  d1: Date | FringeDates,
+  d2: Date = new Date()
+): Date[] => {
+  console.log(d1);
   // d1 is smaller
-  let d1Time = d1.getTime()
-  let d2Time = d2.getTime()
-  if(d1Time>d2Time) {
-    d2 = new Date(d1Time)
-    d1 = new Date(d2Time)
+  if (d1 instanceof Date) {
+    console.log("date");
+
+    let d1Time = d1.getTime();
+    let d2Time = d2.getTime();
+    if (d1Time > d2Time) {
+      d2 = new Date(d1Time);
+      d1 = new Date(d2Time);
+    }
+  } else {
+    console.log("fringe");
+    d2 = d1.max;
+    d1 = d1.min;
+    console.log(d2, d1);
   }
 
   const res: Date[] = [];
   let temp = new Date(d1);
   while (!checkIfSameDay(temp, d2)) {
     res.push(temp);
-    temp = getNextDay(temp)
+    temp = getNextDay(temp);
   }
-  res.push(temp)
+  res.push(temp);
   return res;
 };
 
