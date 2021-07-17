@@ -11,13 +11,11 @@ export const getChosenScreenshotsFromData = (
   const res: string[][] = [[], [], []];
   const keys = Object.keys(data);
   const values = names;
-  console.log(keys, values, "pary");
   for (let key in data) {
     res[0].push(data[key][values[0]]);
     res[1].push(data[key][values[1]]);
     res[2].push(data[key][values[2]]);
   }
-  console.log(res,"RES")
   return res;
 };
 
@@ -40,29 +38,23 @@ export const checkIfShouldRequest = (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   if (names[0] === "") {
-    console.log("name error")
     return false;
   }
 
   const keys = Object.keys(screenshotsByDate);
-  console.log(keys);
   if (dates.length > keys.length) {
     return true;
   }
   for(let key of keys){
     const dateKeys = Object.keys(screenshotsByDate[key]);
-    console.log(key, "HALO",dateKeys);
     if (checkIfNamesAreMissing(dateKeys,names)) {
-      console.log("XDDD");
       return true;
     }
   }
   return false;
 };
 export const checkIfNamesAreMissing = (keys:string[],names:string[]) =>{
-  console.log(keys,names,"CHECK")
   for(let name of names){
-    console.log(keys.indexOf(name))
     if(keys.indexOf(name) === -1){
       return true
     }

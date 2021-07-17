@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
+import { Switch, Route, Link } from "react-router-dom";
 import {
   WebsiteJointDataMap,
   FringeDates,
@@ -8,7 +7,6 @@ import {
   ScreenshotsByDate,
 } from "./interfaces";
 import {
-
   createWebisteDataObject,
   fetchWebisteStaticData,
   getHeadingDailyData,
@@ -26,8 +24,10 @@ import {
 import {
   splitDataByRows,
   checkIfShouldRequest,
-  cretaeImagesSources
+  cretaeImagesSources,
 } from "./helpers/stateHelpers";
+import Words from "./components/Words/Words";
+import Emotions from "./components/Emotions/Emotions";
 
 function App() {
   // STATES
@@ -86,20 +86,30 @@ function App() {
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
   }, [webisteJointData]);
 
-  // reacts to change of selected dates 
+  // reacts to change of selected dates
   useEffect(() => {
     const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
-        console.log("PRZESZLO DO A")
-        if (checkIfShouldRequest(namesOfWebiteesToDisplay, dates, screenshotsByDate)) {
-          console.log("111")
-          const newData = await  cretaeImagesSources(namesOfWebiteesToDisplay,dates,screenshotsByDate)
-          console.log(newData,"XDD")
+        console.log("PRZESZLO DO A");
+        if (
+          checkIfShouldRequest(
+            namesOfWebiteesToDisplay,
+            dates,
+            screenshotsByDate
+          )
+        ) {
+          console.log("111");
+          const newData = await cretaeImagesSources(
+            namesOfWebiteesToDisplay,
+            dates,
+            screenshotsByDate
+          );
+          console.log(newData, "XDD");
           setChosenScreenshots(newData.chosenScreenshotsFromData);
           setScreenshotsByDate(newData.newData);
-        }else{
-          console.log(false)
+        } else {
+          console.log(false);
         }
       }
     };
@@ -124,10 +134,21 @@ function App() {
         updateChosenDates={setChosenDates}
         chosenDates={chosenDates}
       />
-      <Screenshots
-        setFullScreenImage={setFellScreenAndResetPosition}
-        chosenScreenshots={chosenScreenshots}
-      />
+
+      <Switch>
+        <Route path="/words">
+          <Words/>
+        </Route>
+        <Route path="/emotions">
+          <Emotions/>
+        </Route>
+        <Route path="/" exact>
+          <Screenshots
+            setFullScreenImage={setFellScreenAndResetPosition}
+            chosenScreenshots={chosenScreenshots}
+          />
+        </Route>
+      </Switch>
     </>
   );
 }

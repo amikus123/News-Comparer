@@ -1,6 +1,7 @@
 import React from 'react';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import {Link } from "react-router-dom";
 
 
 const CustomTabs = () => {
@@ -18,9 +19,9 @@ const CustomTabs = () => {
     <div className="appbarr--left-container">
 
         <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
-          <Tab label="Screenshots" {...a11yProps(0)} />
-          <Tab label="Word analysis" {...a11yProps(1)} />
-          <Tab label="Emotions" {...a11yProps(2)} />
+          <Tab label="Screenshots" {...a11yProps(0)}  component={Link} to="/"/>
+          <Tab label="Word analysis" {...a11yProps(1)} component={Link} to="/words"/>
+          <Tab label="Emotions" {...a11yProps(2)} component={Link} to="/emotions" />
         </Tabs>
     </div>
   );

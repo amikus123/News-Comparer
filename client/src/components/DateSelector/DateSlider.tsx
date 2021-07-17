@@ -37,7 +37,7 @@ export default function DateSlider({
 
   const getSevenPreviousDays = (): pog => {
     console.log("WTRF");
-    const res = getNPreviousDates(7);
+    const res = getNPreviousDates(7); 
     if (fringeDates?.max.getDay() === new Date().getDay()) {
       res.pop();
     } else {

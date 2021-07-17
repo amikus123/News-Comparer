@@ -1,12 +1,14 @@
 import "date-fns";
-import React, { useEffect, useState } from "react";
+import  { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import MomentUtils from "@date-io/moment";
 import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from "@material-ui/pickers";
+import Typography from "@material-ui/core/Typography";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+
 import { FringeDates } from "../../interfaces";
 
 export default function DateSelector({
@@ -37,7 +39,7 @@ export default function DateSelector({
         }
 
         if (res.min.getTime() > res.max.getTime()) {
-          setError("The date on right should be before the one on the right");
+          setError("The date on right should be before the one on the left");
         } else {
           updateChosenDates(res);
           setError("");
@@ -53,15 +55,15 @@ export default function DateSelector({
   };
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <p>epxlatiation</p>
-      <Grid container justify="space-around">
-
+     <Typography  gutterBottom>
+      Choose start date on the left, and the end date on the right
+          </Typography>    
+            <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
           format="DD/MM/yyyy"
           margin="normal"
-          id="date-picker-inline"
           label="Date picker inline"
           value={chosenDates ? chosenDates.max : new Date()}
           onChange={handleGenerator(1)}
@@ -78,7 +80,6 @@ export default function DateSelector({
           variant="inline"
           format="DD/MM/yyyy"
           margin="normal"
-          id="date-picker-inline"
           label="Date picker inline"
           value={chosenDates.min}
           onChange={handleGenerator(0)}
@@ -90,7 +91,7 @@ export default function DateSelector({
           onClose={handleClose}
         />
       </Grid>
-      <p> {error} </p>
+      <Typography  gutterBottom> {error}    </Typography>    
     </MuiPickersUtilsProvider>
   );
 }
