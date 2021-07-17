@@ -8,12 +8,11 @@ import {
   ScreenshotsByDate,
 } from "./interfaces";
 import {
-  createRowObjects,
+
   createWebisteDataObject,
   fetchWebisteStaticData,
   getHeadingDailyData,
 } from "./firebase/firestore";
-import { getMissingScreenshots } from "./firebase/storage";
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
@@ -24,12 +23,13 @@ import {
   getPreviousDay,
   getAllDatesBetween,
 } from "./helpers/dataCreation";
-import { checkIfShouldRequest } from "./helpers/general";
 import {
-  chosenScreenshotsFromData,
+  getChosenScreenshotsFromData,
   splitDataByRows,
+  checkIfShouldRequest,
+  cretaeImagesSources
 } from "./helpers/stateHelpers";
-const merge = require("deepmerge");
+import merge from "deepmerge"
 
 function App() {
   // STATES
@@ -84,33 +84,21 @@ function App() {
     x();
   }, []);
 
-  // splits based on rows
   useEffect(() => {
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
   }, [webisteJointData]);
 
+  // reacts to change of selected dates 
   useEffect(() => {
-    const cretaeImagesSources = async () => {
-      if (namesOfWebiteesToDisplay[0] !== "" && chosenDates && checkIfShouldRequest(namesOfWebiteesToDisplay,getAllDatesBetween(chosenDates.min, chosenDates.max),screenshotsByDate)) {
-        const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
-        const names = namesOfWebiteesToDisplay;
-
-        const missing = await getMissingScreenshots(
-          names,
-          dates,
-          screenshotsByDate
-        );
-        setChosenScreenshots(
-          chosenScreenshotsFromData(missing, namesOfWebiteesToDisplay)
-        );
-        const newData = merge(screenshotsByDate, missing);
-        setScreenshotsByDate(newData);
-      }
-    };
-
     const a = async () => {
-      cretaeImagesSources();
-      debugger;
+      if (chosenDates) {
+        const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
+        if (checkIfShouldRequest(namesOfWebiteesToDisplay, dates, screenshotsByDate)) {
+          const newData = await  cretaeImagesSources(namesOfWebiteesToDisplay,dates,screenshotsByDate)
+          setChosenScreenshots(newData.chosenScreenshotsFromData);
+          setScreenshotsByDate(newData.newData);
+        }
+      }
     };
     a();
   }, [namesOfWebiteesToDisplay, chosenDates, screenshotsByDate]);
