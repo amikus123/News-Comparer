@@ -24,12 +24,10 @@ import {
   getAllDatesBetween,
 } from "./helpers/dataCreation";
 import {
-  getChosenScreenshotsFromData,
   splitDataByRows,
   checkIfShouldRequest,
   cretaeImagesSources
 } from "./helpers/stateHelpers";
-import merge from "deepmerge"
 
 function App() {
   // STATES
@@ -93,10 +91,15 @@ function App() {
     const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
+        console.log("PRZESZLO DO A")
         if (checkIfShouldRequest(namesOfWebiteesToDisplay, dates, screenshotsByDate)) {
+          console.log("111")
           const newData = await  cretaeImagesSources(namesOfWebiteesToDisplay,dates,screenshotsByDate)
+          console.log(newData,"XDD")
           setChosenScreenshots(newData.chosenScreenshotsFromData);
           setScreenshotsByDate(newData.newData);
+        }else{
+          console.log(false)
         }
       }
     };

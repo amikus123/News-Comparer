@@ -1,8 +1,9 @@
 import { createRowObjects } from "../firebase/firestore";
 import { getMissingScreenshots } from "../firebase/storage";
 import { ScreenshotsByDate, WebsiteJointDataMap } from "../interfaces";
-const merge = require("deepmerge");
+import merge from "deepmerge"
 
+// TODO TESTS
 export const getChosenScreenshotsFromData = (
   data: ScreenshotsByDate,
   names: string[]
@@ -16,6 +17,7 @@ export const getChosenScreenshotsFromData = (
     res[1].push(data[key][values[1]]);
     res[2].push(data[key][values[2]]);
   }
+  console.log(res,"RES")
   return res;
 };
 
@@ -38,6 +40,7 @@ export const checkIfShouldRequest = (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   if (names[0] === "") {
+    console.log("name error")
     return false;
   }
 
@@ -46,16 +49,26 @@ export const checkIfShouldRequest = (
   if (dates.length > keys.length) {
     return true;
   }
-  keys.forEach((key) => {
+  for(let key of keys){
     const dateKeys = Object.keys(screenshotsByDate[key]);
-    console.log(key, "HALO");
-    if (dateKeys.length !== names.length) {
+    console.log(key, "HALO",dateKeys);
+    if (checkIfNamesAreMissing(dateKeys,names)) {
       console.log("XDDD");
       return true;
     }
-  });
+  }
   return false;
 };
+export const checkIfNamesAreMissing = (keys:string[],names:string[]) =>{
+  console.log(keys,names,"CHECK")
+  for(let name of names){
+    console.log(keys.indexOf(name))
+    if(keys.indexOf(name) === -1){
+      return true
+    }
+  }
+  return false
+}
 
 export const cretaeImagesSources = async (
   names: string[],
