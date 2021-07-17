@@ -1,10 +1,8 @@
 import {
-  createFileNames,
   formatedYearsFromDates,
 } from "../helpers/dataCreation";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ScreenshotsByDate } from "../interfaces";
-import { format } from "path/posix";
 
 const storage = getStorage();
 

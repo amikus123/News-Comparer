@@ -1,6 +1,4 @@
 import { Grid } from "@material-ui/core";
-import React, { useState } from "react";
-import { ScreenshotsByDate } from "../../interfaces";
 import ScreenshotColumn from "./ScreenshotColumn";
 // this component is responsible for rendering screenshots, and allows to "fullscreen" them
 // TODO do something for mobile

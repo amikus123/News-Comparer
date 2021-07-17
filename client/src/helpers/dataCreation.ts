@@ -13,16 +13,19 @@ export const getNPreviousDates = (
   }
   return res;
 };
+
 export const getPreviousDay = (d: Date) => {
   const copy = new Date(d);
   copy.setDate(copy.getDate() - 1);
   return new Date(copy);
 };
+
 const getNextDay = (d: Date) => {
   const copy = new Date(d);
   copy.setDate(copy.getDate() + 1);
   return new Date(copy);
 };
+
 export const createFileNames = (
   name: string,
   n: number,
@@ -36,6 +39,7 @@ export const createFileNames = (
   });
   return res;
 };
+
 export const formatedYearFromDate = (d: Date) => {
   return `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
 };
@@ -47,10 +51,12 @@ export const formatedYearsFromDates = (dates: Date[]) => {
   });
   return arr;
 };
+
 // human readable
 export const dateToFormatedMonth = (d: Date) => {
   return `${d.getDate()}-${d.getMonth() + 1}`;
 };
+
 export const datesToFormatedMonths = (dates: Date[]) => {
   const arr: string[] = [];
   dates.forEach((date) => {
@@ -83,6 +89,7 @@ export const returnMaxAndMinDateFromKeys = (
     min: min,
   };
 };
+
 export const getAllDatesBetween = (d1: Date, d2: Date): Date[] => {
   // d1 is smaller
   let d1Time = d1.getTime()
@@ -101,6 +108,7 @@ export const getAllDatesBetween = (d1: Date, d2: Date): Date[] => {
   res.push(temp)
   return res;
 };
+
 export const checkIfSameDay = (d1: Date, d2: Date) => {
   const a1 = d1.getDate();
   const b1 = d1.getMonth();

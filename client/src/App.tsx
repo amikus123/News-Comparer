@@ -25,12 +25,15 @@ import {
   getAllDatesBetween,
 } from "./helpers/dataCreation";
 import { checkIfShouldRequest } from "./helpers/general";
+import {
+  chosenScreenshotsFromData,
+  splitDataByRows,
+} from "./helpers/stateHelpers";
 const merge = require("deepmerge");
 
 function App() {
   // STATES
   const [fullScreenImage, setFullScreenImage] = useState("");
-  // array with 3 variables, which indicate which iamges to show
   const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
     string[]
   >(["", "", ""]);
@@ -38,7 +41,6 @@ function App() {
     {}
   );
   const [chosenScreenshots, setChosenScreenshots] = useState<string[][]>([]);
-  // data of all websites
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
@@ -48,30 +50,6 @@ function App() {
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
 
   // FUNCTIONS
-  const updateChosenScreenshots = (data: ScreenshotsByDate) => {
-    console.log(data,"SSS")
-    const res: string[][] = [[], [], []];
-    const keys = Object.keys(data);
-    const values = namesOfWebiteesToDisplay;
-    console.log(keys,values,"pary")
-    for(let key in data){
-      const inception = Object.keys(data[key])
-      console.log(inception,"CO TO")
-      res[0].push(data[key]["Onet"]);
-      res[1].push(data[key][values[1]]);
-      res[2].push(data[key][values[2]]);
-    }
-    setChosenScreenshots(res)
-    console.log(res, "koniec");
-  };
-  const updateFringesBasedOnHeadigs = (headings: Headings) => {
-    const maxAndMin = returnMaxAndMinDateFromKeys(headings);
-    setFringeDates(maxAndMin);
-    setChosenDates({
-      max: maxAndMin.max,
-      min: getPreviousDay(maxAndMin.max),
-    });
-  };
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
@@ -79,15 +57,22 @@ function App() {
   };
 
   const setFellScreenAndResetPosition = (src: string) => {
-    // by toggling the height of the fullscreen image scroll position is reseted
     const fullScreenImage = document.getElementById("fullScreenImage");
     fullScreenImage?.classList.toggle("fullScreen--image-off");
     setFullScreenImage(src);
   };
 
   // EFFECTS //
-  // fetches static data
+  // fetches static data and inital date constraints
   useEffect(() => {
+    const updateFringesBasedOnHeadigs = (headings: Headings) => {
+      const maxAndMin = returnMaxAndMinDateFromKeys(headings);
+      setFringeDates(maxAndMin);
+      setChosenDates({
+        max: maxAndMin.max,
+        min: getPreviousDay(maxAndMin.max),
+      });
+    };
     const x = async () => {
       const headings = await getHeadingDailyData();
       const websiteStaticData = await fetchWebisteStaticData();
@@ -98,26 +83,15 @@ function App() {
     };
     x();
   }, []);
+
   // splits based on rows
   useEffect(() => {
-    const y = async () => {
-      const politicsBasedOnRows = createRowObjects(webisteJointData);
-      if (politicsBasedOnRows.leftRow.length !== 0) {
-        const temp = [
-          politicsBasedOnRows.leftRow[0].imageName,
-          politicsBasedOnRows.centerRow[0].imageName,
-          politicsBasedOnRows.rightRow[0].imageName,
-        ];
-        setNamesOfWebiteesToDisplay(temp);
-        // await cretaeImagesSources(temp);
-      }
-    };
-    y();
+    setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
   }, [webisteJointData]);
 
   useEffect(() => {
     const cretaeImagesSources = async () => {
-      if (namesOfWebiteesToDisplay[0] !== "" && chosenDates) {
+      if (namesOfWebiteesToDisplay[0] !== "" && chosenDates && checkIfShouldRequest(namesOfWebiteesToDisplay,getAllDatesBetween(chosenDates.min, chosenDates.max),screenshotsByDate)) {
         const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
         const names = namesOfWebiteesToDisplay;
 
@@ -126,18 +100,20 @@ function App() {
           dates,
           screenshotsByDate
         );
-        updateChosenScreenshots(missing)
+        setChosenScreenshots(
+          chosenScreenshotsFromData(missing, namesOfWebiteesToDisplay)
+        );
         const newData = merge(screenshotsByDate, missing);
         setScreenshotsByDate(newData);
-        console.log(newData, "wynik");
       }
     };
 
     const a = async () => {
       cretaeImagesSources();
+      debugger;
     };
     a();
-  }, [namesOfWebiteesToDisplay, chosenDates]);
+  }, [namesOfWebiteesToDisplay, chosenDates, screenshotsByDate]);
   return (
     // TODO
     // merge all selects in one if screen is small enough
