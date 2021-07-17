@@ -10,7 +10,6 @@ const storage = getStorage();
 export const getImgSrcFromName = async (fileName: string): Promise<string> => {
   const x = getDownloadURL(ref(storage, fileName))
     .then((url) => {
-      console.log(url, "success");
       return url;
     })
     .catch((error) => {
@@ -50,13 +49,13 @@ export const getMissingScreenshots = async (
   const formatedDates: string[] = formatedYearsFromDates(dates);
     for(let formatedDate of formatedDates){
     toReturn[formatedDate] = {};
-    console.log(toReturn, "poczatek");
     for(let name of names){
       if (
-        currentData.formatedDate &&
-        currentData.formatedDate.name
+        currentData[formatedDate] &&
+        currentData[formatedDate][name]
       ) {
         // already present so we dont do anything
+        console.log(currentData[formatedDate][name],"PRZED")
       } else {
         toReturn[formatedDate][name] = await getScreenshotURL(
           name,

@@ -25,7 +25,6 @@ import {
   splitDataByRows,
   checkIfShouldRequest,
   cretaeImagesSources,
-  passOnlyChosenData,
 } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
 import Emotions from "./components/Emotions/Emotions";
@@ -89,29 +88,54 @@ function App() {
 
   // reacts to change of selected dates
   useEffect(() => {
-    const a = async () => {
+    // const a = async () => {
+    //   if (chosenDates) {
+    //     const dates = getAllDatesBetween(chosenDates);
+    //     if (
+    //       checkIfShouldRequest(
+    //         namesOfWebiteesToDisplay,
+    //         dates,
+    //         screenshotsByDate
+    //       )
+    //       ) {
+    //       const newData = await cretaeImagesSources(
+    //         namesOfWebiteesToDisplay,
+    //         dates,
+    //         screenshotsByDate
+    //       );
+    // debugger
+
+    //       console.log(newData,"nowe")
+    //       setChosenScreenshots(newData.chosenScreenshotsFromData);
+    //       setScreenshotsByDate(newData.newData);
+    //     }
+    //     console.log(  checkIfShouldRequest(
+    //       namesOfWebiteesToDisplay,
+    //       dates,
+    //       screenshotsByDate
+    //     ))
+    //   }else{
+        
+    //   }
+    // };
+
+        const a = async () => {
       if (chosenDates) {
-        const dates = getAllDatesBetween(chosenDates.min, chosenDates.max);
-        if (
-          checkIfShouldRequest(
-            namesOfWebiteesToDisplay,
-            dates,
-            screenshotsByDate
-          )
-        ) {
+        const dates = getAllDatesBetween(chosenDates);
           const newData = await cretaeImagesSources(
             namesOfWebiteesToDisplay,
             dates,
             screenshotsByDate
-          );
-          setChosenScreenshots(newData.chosenScreenshotsFromData);
-          setScreenshotsByDate(newData.newData);
-        }
-      }
-      console.log(111);
-    };
+          )
+          console.log(newData,"nowe")
+          setChosenScreenshots(newData.chosenScreenshotsFromData)
+          setScreenshotsByDate(newData.newData)
+    }
+    }
+
     a();
-  }, [namesOfWebiteesToDisplay, chosenDates, screenshotsByDate]);
+    debugger;
+  }, [namesOfWebiteesToDisplay, chosenDates])
   return (
     // TODO
     // merge all selects in one if screen is small enough

@@ -17,15 +17,17 @@ import { combineWordMaps } from "./mapFunctions";
 // TODO TESTS
 export const getChosenScreenshotsFromData = (
   data: ScreenshotsByDate,
-  names: string[]
+  names: string[],
+  dates:Date[]
 ) => {
   const res: string[][] = [[], [], []];
-  const keys = Object.keys(data);
+  const formatedDates = formatedYearsFromDates(dates)
   const values = names;
-  for (let key in data) {
-    res[0].push(data[key][values[0]]);
-    res[1].push(data[key][values[1]]);
-    res[2].push(data[key][values[2]]);
+  for (let date of formatedDates) {
+    console.log(data,date,"CRASH")
+    res[0].push(data[date][values[0]]);
+    res[1].push(data[date][values[1]]);
+    res[2].push(data[date][values[2]]);
   }
   return res;
 };
@@ -49,16 +51,26 @@ export const checkIfShouldRequest = (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   if (names[0] === "") {
+    console.log("name error")
     return false;
   }
 
   const keys = Object.keys(screenshotsByDate);
-  if (dates.length > keys.length) {
-    return true;
-  }
-  for (let key of keys) {
-    const dateKeys = Object.keys(screenshotsByDate[key]);
+  const formatedDates = formatedYearsFromDates(dates)
+  debugger
+  // jesli nie ma tych ktorych suzkam to feczuje 
+    for(let i =0;i<formatedDates.length;i++ ){
+      if(keys.indexOf(formatedDates[i]) === -1){
+        console.log("BRAKUJE CZEGOS")
+        return true
+      }
+    }
+  
+  console.log("the same",keys,formatedDates)
+  for (let date of formatedDates) {
+    const dateKeys = Object.keys(screenshotsByDate[date]);
     if (checkIfNamesAreMissing(dateKeys, names)) {
+      console.log("STOP, missing name")
       return true;
     }
   }
@@ -67,8 +79,13 @@ export const checkIfShouldRequest = (
 export const checkIfNamesAreMissing = (keys: string[], names: string[]) => {
   for (let name of names) {
     if (keys.indexOf(name) === -1) {
+      // console.log(" founc")
+
       return true;
+    }else{
+      // console.log("not founc")
     }
+    console.log(keys.indexOf(name),name)
   }
   return false;
 };
@@ -79,11 +96,13 @@ export const cretaeImagesSources = async (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   const missing = await getMissingScreenshots(names, dates, screenshotsByDate);
-  const chosenScreenshotsFromData = getChosenScreenshotsFromData(
-    missing,
-    names
-  );
+  // what if object should be smaller?
   const newData = merge(screenshotsByDate, missing);
+  const chosenScreenshotsFromData = getChosenScreenshotsFromData(
+    newData,
+    names,
+    dates
+  );
 
   return {
     chosenScreenshotsFromData: chosenScreenshotsFromData,

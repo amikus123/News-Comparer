@@ -20,16 +20,12 @@ function isDailyHEadings(object: any): object is DailyHeadings {
 export const getHeadingDailyData = async () :Promise<Headings> => {
   const res :Headings  = {}
   const querySnapshot = await getDocs(collection(db, "Headings"));
-  console.log("click");
-  console.log(querySnapshot);
   querySnapshot.forEach((doc) => {
-    console.log(`${doc.id} => ${doc.data()}`);
     const d = doc.data()
     if(isDailyHEadings(d)){
       res[doc.id] = d
     }
   });
-  console.log(res,"end")
   return res
 };
 // fetches static wbesite data in form of an array
@@ -50,7 +46,6 @@ export const createWebisteDataObject = (
   arr: WebsiteStaticData[]
 ): WebsiteJointDataMap => {
   const mapOfWebisteData: WebsiteJointDataMap = {};
-  console.log(arr);
   if (arr !== undefined) {
     for (let entry of arr) {
       let temp: any = entry;
@@ -58,7 +53,6 @@ export const createWebisteDataObject = (
       mapOfWebisteData[entry.imageName] = temp;
     }
   }
-  console.log("returnes ", mapOfWebisteData);
   return mapOfWebisteData;
 };
 //categorizes website data based on political orientation
@@ -70,7 +64,6 @@ export const createRowObjects = (
     centerRow: [],
     rightRow: [],
   };
-  console.log(arr)
   if (arr !== undefined) {
     for (let entry in arr) {
       const item = arr[entry]
