@@ -3,7 +3,6 @@ import { HeadingData } from "../../interfaces";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-
 import { VariableSizeList , ListChildComponentProps } from "react-window";
 
 const useStyles = makeStyles((theme: Theme) =>
