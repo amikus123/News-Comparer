@@ -142,7 +142,7 @@ function App() {
         <Route path="/emotions">
           <Emotions />
         </Route>
-        <Route path="/" exact>
+        <Route path="/screenshots">
           <Screenshots
             setFullScreenImage={setFellScreenAndResetPosition}
             chosenScreenshots={chosenScreenshots}
