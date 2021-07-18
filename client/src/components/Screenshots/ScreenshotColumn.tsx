@@ -14,7 +14,7 @@ const ScreenshotGroup = ({
   }, [screenshots]);
   return (
     // prevents from crashing
-    <Grid item sm container direction="column" justify="flex-start">
+    <Grid item sm container direction="column-reverse" justify="flex-start" >
       {screenshots
         ? screenshots.map((screenshot, index) => {
             return (

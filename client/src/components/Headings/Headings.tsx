@@ -18,7 +18,7 @@ const Headings = ({
     setColumnHeadingData(res)
   }, [names, chosenDates, headingMap]);
 
-  return <div>
+  return <div className="reverse">
     {columnHeadingData.map((row,index)=>{
       return <HeadingsRow headingsRow={row} key={index}  names={names}/>
     })}

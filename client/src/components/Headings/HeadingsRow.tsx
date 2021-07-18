@@ -14,11 +14,11 @@ const HeadingsRow = ({
   const useStyles = makeStyles((theme: Theme) =>
     createStyles({
       root: {
-        marginBottom: "4rem",
+        marginBottom: "2rem",
       },
       date:{
         fontSize:"2rem",
-        margin:"1rem"
+        margin:"1.2rem"
       }
     })
   );
@@ -27,7 +27,7 @@ const HeadingsRow = ({
   return (
     <Grid container justify="center" className={classes.root}>
       <Typography className={classes.date}>{headingsRow.date}</Typography>
-      <Grid justify="center" container item spacing={6}>
+      <Grid justify="center" container item spacing={2}>
         {names.map((name, index) => {
           const pog = headingsRow[name];
           return typeof pog === "string" ? null : (

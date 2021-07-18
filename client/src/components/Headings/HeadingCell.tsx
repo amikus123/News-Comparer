@@ -32,7 +32,6 @@ const HeadingCell = ({ headings }: { headings: HeadingData[] }) => {
       </ListItem>
     );
   }
-
   return (
       <VariableSizeList  
         className={classes.root}
