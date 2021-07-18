@@ -1,5 +1,5 @@
 import "date-fns";
-import  { useState } from "react";
+import { useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import MomentUtils from "@date-io/moment";
 import {
@@ -21,6 +21,7 @@ export default function DateSelector({
   updateChosenDates: (obj: FringeDates) => void;
 }) {
   const [error, setError] = useState<string>("");
+
   const handleGenerator = (num: number) => {
     const handleDateChange = (date: MaterialUiPickersDate | null) => {
       if (date !== null) {
@@ -39,6 +40,7 @@ export default function DateSelector({
         }
 
         if (res.min.getTime() > res.max.getTime()) {
+          // change classes
           setError("The date on right should be before the one on the left");
         } else {
           updateChosenDates(res);
@@ -54,11 +56,12 @@ export default function DateSelector({
     setError("");
   };
   return (
+    // TODO ERROR CLASS
     <MuiPickersUtilsProvider utils={MomentUtils}>
-     <Typography  gutterBottom>
-      Choose start date on the left, and the end date on the right
-          </Typography>    
-            <Grid container justify="space-around">
+      <Typography gutterBottom>
+        Choose start date on the left, and the end date on the right
+      </Typography>
+      <Grid container justify="space-around">
         <KeyboardDatePicker
           disableToolbar
           variant="inline"
@@ -73,9 +76,10 @@ export default function DateSelector({
           maxDate={fringeDates.max}
           minDate={fringeDates.min}
           onClose={handleClose}
+          className={error !== "" ? "date-group--date-selector--error" : ""}
         />
 
-                <KeyboardDatePicker
+        <KeyboardDatePicker
           disableToolbar
           variant="inline"
           format="DD/MM/yyyy"
@@ -89,9 +93,11 @@ export default function DateSelector({
           maxDate={fringeDates.max}
           minDate={fringeDates.min}
           onClose={handleClose}
+          className={error !== "" ? "date-group--date-selector--error" : ""}
+
         />
       </Grid>
-      <Typography  gutterBottom> {error}    </Typography>    
+      <Typography gutterBottom> {error} </Typography>
     </MuiPickersUtilsProvider>
   );
 }

@@ -48,13 +48,26 @@ img{
   align-items: center;
   justify-content: center;
 }
+.date-group--date-selector--error{
+  background-color: red!important;
+}
+
+/* heading */
+.headings{
+max-height: 100px;
+overflow:scroll ;
+}
+.headings--heading{
+  
+}
+
 /* full screenclases */
 .fullScreen{
   position:fixed;
   width:100vw;
   background-color:rgba(48, 48, 48, 0.5);
   height:100vh;
-  /* above defualt values of material ui header   */
+  /* defualt material ui header z-index is 1000 */
   z-index:1200;
   overflow: scroll;
   display:flex;
@@ -74,6 +87,7 @@ padding-top: 1rem;
 .fullScreen--image-off{
   height: 0rem;
   }
+
 /* helpers*/
 .hide{
   display: none;
@@ -81,3 +95,5 @@ padding-top: 1rem;
 .hide2{
 visibility: hidden;
 }
+
+

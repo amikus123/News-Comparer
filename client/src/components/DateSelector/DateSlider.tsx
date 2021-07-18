@@ -36,14 +36,12 @@ export default function DateSlider({
   const [value, setValue] = React.useState<number[]>([0, 10]);
 
   const getSevenPreviousDays = (): pog => {
-    console.log("WTRF");
     const res = getNPreviousDates(7); 
     if (fringeDates?.max.getDay() === new Date().getDay()) {
       res.pop();
     } else {
       res.shift();
     }
-
     const marks: mark[] = [];
     for (let i = 0; i < 7; i++) {
       marks.push({
@@ -51,7 +49,6 @@ export default function DateSlider({
         value: i * 10,
       });
     }
-
     return {
       dates: res,
       marks: marks,
@@ -88,13 +85,11 @@ export default function DateSlider({
       } else {
         num2 = secondIndex * 10;
       }
-      // console.log(arr, chosenDates);
-      // console.log(first, second);
+
       setValue([num1, num2]);
     }
   }, [chosenDates,dates]);
 
-  // 0 min
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
@@ -111,10 +106,6 @@ export default function DateSlider({
   return (
     <div className={classes.root}>
       {dates ? (
-        <>
-          <Typography id="range-slider" gutterBottom>
-            Temperature range
-          </Typography>
           <Slider
             value={value}
             onChange={handleChange}
@@ -123,7 +114,6 @@ export default function DateSlider({
             max={60}
             step={10}
           />
-        </>
       ) : null}
     </div>
   );

@@ -1,8 +1,3 @@
-export interface DatabaseStaticDataInRows {
-  leftRow: WebsiteStaticData[];
-  centerRow: WebsiteStaticData[];
-  rightRow: WebsiteStaticData[];
-}
 
 export interface WebsiteStaticData {
   analizeEmotions: boolean;
@@ -12,6 +7,17 @@ export interface WebsiteStaticData {
   popupSelector: string;
   url: string;
 }
+
+export interface DatabaseStaticDataInRows {
+  leftRow: WebsiteStaticData[];
+  centerRow: WebsiteStaticData[];
+  rightRow: WebsiteStaticData[];
+}
+
+export interface WebsiteJointData extends WebsiteStaticData {
+  websiteFetchedImagesURLS?: string[];
+}
+
 export interface WebsiteJointDataInRows {
   leftRow: WebsiteJointData[];
   centerRow: WebsiteJointData[];
@@ -20,9 +26,7 @@ export interface WebsiteJointDataInRows {
 export interface WebsiteJointDataMap {
   [key: string]: WebsiteJointData;
 }
-export interface WebsiteJointData extends WebsiteStaticData {
-  websiteFetchedImagesURLS?: string[];
-}
+
 export interface ScreenshotsByDate {
   [date:string] : ScreenshotDayData
 }
@@ -42,20 +46,14 @@ export interface FringeDates {
 
 // firestore
 export interface HeadingsByDate{
-  [key:string] : DailyHeadings
+  [date:string] : DailyHeadings
 } 
 export interface DailyHeadings {
   frequencyOfWords: WordMap;
   totalWordCount: number;
   siteData: DailySiteData[];
 }
-export interface TotalWordSiteData{
-  [name:string] : WordSiteData
-}
-export interface WordSiteData {
-  frequencyOfWords: WordMap;
-  totalWordCount: number;
-}
+
 export interface DailySiteData {
   frequencyOfWords: WordMap;
   wordCount: number;
@@ -63,6 +61,15 @@ export interface DailySiteData {
   imageName: string;
   websiteName: string;
 }
+
+export interface TotalWordSiteData{
+  [name:string] : WordSiteData
+}
+export interface WordSiteData {
+  frequencyOfWords: WordMap;
+  totalWordCount: number;
+}
+
 
 export interface HeadingData {
   emotions?: Emotions;

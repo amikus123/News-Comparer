@@ -8,7 +8,7 @@ import {
   Legend,
 } from "recharts";
 import { useEffect, useState } from "react";
-import { getFormatedDataToGraph } from "./WordsMethods";
+import { getFormatedDataToGraph } from "./WordsFunctions";
 import {
   HeadingsByDate,
   FringeDates,

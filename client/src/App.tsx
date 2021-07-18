@@ -21,10 +21,7 @@ import {
   getPreviousDay,
   getAllDatesBetween,
 } from "./helpers/dataCreation";
-import {
-  splitDataByRows,
-  cretaeImagesSources,
-} from "./helpers/stateHelpers";
+import { splitDataByRows, cretaeImagesSources } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
 import Emotions from "./components/Emotions/Emotions";
 import Headings from "./components/Headings/Headings";
@@ -88,21 +85,21 @@ function App() {
 
   // reacts to change of selected dates
   useEffect(() => {
-      const a = async () => {
+    const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates);
-          const newData = await cretaeImagesSources(
-            namesOfWebiteesToDisplay,
-            dates,
-            screenshotsByDate
-          )
-          setChosenScreenshots(newData.chosenScreenshotsFromData)
-          setScreenshotsByDate(newData.newData)
-    }
-    }
+        const newData = await cretaeImagesSources(
+          namesOfWebiteesToDisplay,
+          dates,
+          screenshotsByDate
+        );
+        setChosenScreenshots(newData.chosenScreenshotsFromData);
+        setScreenshotsByDate(newData.newData);
+      }
+    };
 
     a();
-  }, [namesOfWebiteesToDisplay, chosenDates])
+  }, [namesOfWebiteesToDisplay, chosenDates]);
   return (
     // TODO
     // add single page view, both for small screens and for on toggle
@@ -133,7 +130,13 @@ function App() {
           ) : null}
         </Route>
         <Route path="/headings">
-          <Headings />
+          {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+            <Headings
+              names={namesOfWebiteesToDisplay}
+              chosenDates={chosenDates}
+              headingMap={headingMap}
+            />
+          ) : null}
         </Route>
 
         <Route path="/emotions">
