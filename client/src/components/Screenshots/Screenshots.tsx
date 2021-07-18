@@ -1,28 +1,39 @@
+import {useState,useEffect} from "react"
 import { Grid } from "@material-ui/core";
-import ScreenshotColumn from "./ScreenshotColumn";
-// this component is responsible for rendering screenshots, and allows to "fullscreen" them
-// TODO do something for mobile
+import ScreenshotRow from "./ScreenshotRow"
+import {DateTypo} from "../Typography/CustomTypo"
+import { FringeDates } from "../../interfaces";
+import {getAllDatesBetween,formatedYearsFromDates} from "../../helpers/dataCreation"
 const Screenshots = ({
   setFullScreenImage,
-  chosenScreenshots
+  chosenScreenshots,
+  chosenDates
 }: {
   setFullScreenImage: (src: string) => void;
   chosenScreenshots: string[][];
+  chosenDates:FringeDates
 }) => {
-
+  const [formatedDates,setFormatedDates] = useState<string[]>([])
+  useEffect(()=>{
+    setFormatedDates(formatedYearsFromDates(getAllDatesBetween(chosenDates)));
+  },[chosenDates])
   return (  
-    <Grid container direction="row" justify="center">
-      {chosenScreenshots.length !== 0?
-        chosenScreenshots.map((arr, index) => {
+    <Grid container direction="column-reverse" justify="center">
+       { chosenScreenshots[0].map((arr, index) => {
           return (
-            <ScreenshotColumn
+            <Grid item container justify="center" alignItems="center" direction="column"  key={index} >  
+            <DateTypo margin={true} >{formatedDates[index]}</DateTypo>
+            <ScreenshotRow key={index}
               setFullScreenImage={setFullScreenImage}
-              screenshots={arr}
-              key={index}
+              screenshots={[
+                chosenScreenshots[0][index],
+                chosenScreenshots[1][index],
+                chosenScreenshots[2][index]
+              ]}
             />
+            </Grid>
           );
-        })
-      :null}
+        })}
     
     </Grid>
   );

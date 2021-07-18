@@ -142,11 +142,15 @@ function App() {
         <Route path="/emotions">
           <Emotions />
         </Route>
+
         <Route path="/screenshots">
-          <Screenshots
-            setFullScreenImage={setFellScreenAndResetPosition}
-            chosenScreenshots={chosenScreenshots}
-          />
+          {chosenDates !== null && chosenScreenshots.length > 0 ? (
+            <Screenshots
+              setFullScreenImage={setFellScreenAndResetPosition}
+              chosenScreenshots={chosenScreenshots}
+              chosenDates={chosenDates}
+            />
+          ) : null}
         </Route>
       </Switch>
     </>
