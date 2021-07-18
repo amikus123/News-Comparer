@@ -1,78 +1,71 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { Headings, TotalWordSiteData ,FringeDates} from '../../interfaces';
-import{useEffect,useState} from "react"
-import { passOnlyChosenData } from '../../helpers/stateHelpers';
-const data = [
-  {
-    name: 'Page A',
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
+import {
+  BarChart,
+  Bar,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { useEffect, useState } from "react";
+import { getFormatedDataToGraph } from "./WordsMethods";
+import {
+  Headings,
+  TotalWordSiteData,
+  FringeDates,
+  AnyMap,
+} from "../../interfaces";
+import { passOnlyChosenData } from "../../helpers/stateHelpers";
+import { getMaxNValuesFromMap } from "../../helpers/mapFunctions";
+const Words = ({
+  names,
+  chosenDates,
+  headingMap,
+}: {
+  names: string[];
+  chosenDates: FringeDates;
+  headingMap: Headings;
+}) => {
+  
+  const [data, setData] = useState<AnyMap[]>([]);
 
-const Words = ({names,chosenDates,headingMap}:{names:string[],chosenDates:FringeDates ,headingMap:Headings})  => {
-  const [pog,setData] = useState<TotalWordSiteData>({})
-  useEffect(()=>{
-    setData(passOnlyChosenData(names,chosenDates,headingMap))
-  },[])
+  useEffect(() => {
+    const data = passOnlyChosenData(names, chosenDates, headingMap);
+    const selected = getMaxNValuesFromMap(data.total.frequencyOfWords, 6);
+    console.log(selected);
+    console.log(getFormatedDataToGraph(data, selected), "HALO GALO");
+    setData(getFormatedDataToGraph(data, selected));
+  }, [chosenDates, names, headingMap]);
+
   return (
     <>
       <BarChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="pv" fill="#8884d8" />
-          <Bar dataKey="uv" fill="#82ca9d" />
-        </BarChart>
+        width={500}
+        height={300}
+        data={data}
+        margin={{
+          top: 5,
+          right: 30,
+          left: 20,
+          bottom: 5,
+        }}
+      >
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="word" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        {data.length > 0 ? (
+          names.map((name, index) => {
+            return <Bar dataKey={name} fill="#8884d8" key={index} />;
+          })
+        ) : (
+          <></>
+        )}
+        <Bar dataKey="total" fill="#82ca9d" />
+
+      </BarChart>
     </>
   );
 };

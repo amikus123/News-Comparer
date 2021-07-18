@@ -88,38 +88,7 @@ function App() {
 
   // reacts to change of selected dates
   useEffect(() => {
-    // const a = async () => {
-    //   if (chosenDates) {
-    //     const dates = getAllDatesBetween(chosenDates);
-    //     if (
-    //       checkIfShouldRequest(
-    //         namesOfWebiteesToDisplay,
-    //         dates,
-    //         screenshotsByDate
-    //       )
-    //       ) {
-    //       const newData = await cretaeImagesSources(
-    //         namesOfWebiteesToDisplay,
-    //         dates,
-    //         screenshotsByDate
-    //       );
-    // debugger
-
-    //       console.log(newData,"nowe")
-    //       setChosenScreenshots(newData.chosenScreenshotsFromData);
-    //       setScreenshotsByDate(newData.newData);
-    //     }
-    //     console.log(  checkIfShouldRequest(
-    //       namesOfWebiteesToDisplay,
-    //       dates,
-    //       screenshotsByDate
-    //     ))
-    //   }else{
-        
-    //   }
-    // };
-
-        const a = async () => {
+      const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates);
           const newData = await cretaeImagesSources(
@@ -127,14 +96,12 @@ function App() {
             dates,
             screenshotsByDate
           )
-          console.log(newData,"nowe")
           setChosenScreenshots(newData.chosenScreenshotsFromData)
           setScreenshotsByDate(newData.newData)
     }
     }
 
     a();
-    debugger;
   }, [namesOfWebiteesToDisplay, chosenDates])
   return (
     // TODO

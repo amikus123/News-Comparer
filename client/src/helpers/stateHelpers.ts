@@ -57,7 +57,6 @@ export const checkIfShouldRequest = (
 
   const keys = Object.keys(screenshotsByDate);
   const formatedDates = formatedYearsFromDates(dates)
-  debugger
   // jesli nie ma tych ktorych suzkam to feczuje 
     for(let i =0;i<formatedDates.length;i++ ){
       if(keys.indexOf(formatedDates[i]) === -1){
