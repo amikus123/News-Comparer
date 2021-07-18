@@ -1,7 +1,6 @@
 import {
   BarChart,
   Bar,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -11,8 +10,7 @@ import {
 import { useEffect, useState } from "react";
 import { getFormatedDataToGraph } from "./WordsMethods";
 import {
-  Headings,
-  TotalWordSiteData,
+  HeadingsByDate,
   FringeDates,
   AnyMap,
 } from "../../interfaces";
@@ -25,7 +23,7 @@ const Words = ({
 }: {
   names: string[];
   chosenDates: FringeDates;
-  headingMap: Headings;
+  headingMap: HeadingsByDate;
 }) => {
   
   const [data, setData] = useState<AnyMap[]>([]);
@@ -60,9 +58,8 @@ const Words = ({
           names.map((name, index) => {
             return <Bar dataKey={name} fill="#8884d8" key={index} />;
           })
-        ) : (
-          <></>
-        )}
+        ) : null
+       }
         <Bar dataKey="total" fill="#82ca9d" />
 
       </BarChart>

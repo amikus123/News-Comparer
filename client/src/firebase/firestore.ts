@@ -1,7 +1,7 @@
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import {
   DailyHeadings,
-  Headings,
+  HeadingsByDate,
   WebsiteJointDataInRows,
   WebsiteJointDataMap,
   WebsiteStaticData,
@@ -17,8 +17,8 @@ function isDailyHEadings(object: any): object is DailyHeadings {
 }
 
 
-export const getHeadingDailyData = async () :Promise<Headings> => {
-  const res :Headings  = {}
+export const getHeadingDailyData = async () :Promise<HeadingsByDate> => {
+  const res :HeadingsByDate  = {}
   const querySnapshot = await getDocs(collection(db, "Headings"));
   querySnapshot.forEach((doc) => {
     const d = doc.data()

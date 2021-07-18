@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Switch, Route } from "react-router-dom";
 import {
   WebsiteJointDataMap,
   FringeDates,
-  Headings,
+  HeadingsByDate,
   ScreenshotsByDate,
 } from "./interfaces";
 import {
@@ -23,11 +23,11 @@ import {
 } from "./helpers/dataCreation";
 import {
   splitDataByRows,
-  checkIfShouldRequest,
   cretaeImagesSources,
 } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
 import Emotions from "./components/Emotions/Emotions";
+import Headings from "./components/Headings/Headings";
 
 function App() {
   // STATES
@@ -42,7 +42,7 @@ function App() {
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
-  const [headingMap, setHeadingMap] = useState<Headings>({});
+  const [headingMap, setHeadingMap] = useState<HeadingsByDate>({});
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
@@ -63,7 +63,7 @@ function App() {
   // EFFECTS //
   // fetches static data and inital date constraints
   useEffect(() => {
-    const updateFringesBasedOnHeadigs = (headings: Headings) => {
+    const updateFringesBasedOnHeadigs = (headings: HeadingsByDate) => {
       const maxAndMin = returnMaxAndMinDateFromKeys(headings);
       setFringeDates(maxAndMin);
       setChosenDates({
@@ -105,7 +105,7 @@ function App() {
   }, [namesOfWebiteesToDisplay, chosenDates])
   return (
     // TODO
-    // merge all selects in one if screen is small enough
+    // add single page view, both for small screens and for on toggle
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}
@@ -132,6 +132,10 @@ function App() {
             />
           ) : null}
         </Route>
+        <Route path="/headings">
+          <Headings />
+        </Route>
+
         <Route path="/emotions">
           <Emotions />
         </Route>

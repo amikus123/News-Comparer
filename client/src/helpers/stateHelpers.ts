@@ -4,7 +4,7 @@ import {
   ScreenshotsByDate,
   TotalWordSiteData,
   WebsiteJointDataMap,
-  Headings,
+  HeadingsByDate,
   FringeDates,
   DailySiteData,
   WordSiteData,
@@ -112,7 +112,7 @@ export const cretaeImagesSources = async (
 export const passOnlyChosenData = (
   names: string[],
   fringeDates: FringeDates,
-  fullHeadings: Headings
+  fullHeadings: HeadingsByDate
 ) => {
   const res: TotalWordSiteData = {};
   const dates = getAllDatesBetween(fringeDates);

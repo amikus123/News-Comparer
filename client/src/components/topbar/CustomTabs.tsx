@@ -12,7 +12,8 @@ const CustomTabs = () => {
   const locationMap  : WordMap= {
     "/" : 0,
     "/words":1,
-    "/emotions":2,
+    "/headings":2,
+    "/emotions":3,
   }
   const getValue = (locationString:string) =>{
     const value = locationMap[locationString]
@@ -45,8 +46,15 @@ const CustomTabs = () => {
 
         />
         <Tab
-          label="Emotions"
+          label="Headings"
           {...a11yProps(2)}
+          component={NavLink}
+          activeClassName="selected"
+          to="/headings"
+        />
+            <Tab
+          label="Emotions"
+          {...a11yProps(3)}
           component={NavLink}
           activeClassName="selected"
           to="/emotions"

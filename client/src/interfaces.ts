@@ -41,7 +41,7 @@ export interface FringeDates {
 }
 
 // firestore
-export interface Headings{
+export interface HeadingsByDate{
   [key:string] : DailyHeadings
 } 
 export interface DailyHeadings {
