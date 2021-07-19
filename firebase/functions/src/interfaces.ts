@@ -8,6 +8,8 @@
 //   tentative?: number;
 // }
 
+import { SignerGetSignedUrlConfig } from "@google-cloud/storage/build/src/signer";
+
 // export interface DailySiteData {
 //   frequencyOfWords: WordMap;
 //   wordCount: number;
@@ -92,11 +94,13 @@ export interface WebisteStaticData {
 // update selectors
 export interface ContentSelector {
   // heading text
-  h: string;
+  t: string;
   // image
   i: string;
   // link to article
   l: string;
+  // exluded classes
+  e?:string;
 }
 export interface AnyMap{
   [word :string]: any;
@@ -188,9 +192,9 @@ export interface TotalPuppeteerData {
   [WebsiteName: string]: PuppeteerData;
 }
 export interface PuppeteerData {
-  headingsData: Heading[];
-  screenshots: Screenshot;
-  images: Screenshot[];
+  headingsData?: Heading[];
+  screenshots?: Screenshot;
+  images?: Screenshot[];
 }
 export interface Screenshot {
   imageName: string;

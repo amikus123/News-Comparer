@@ -7,7 +7,7 @@ import firebase from "firebase";
 import "firebase/storage";
 import * as functions from "firebase-functions";
 
-import { getPageData } from "./puppeteer/puppeteer";
+import { getDataFromPages } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
   getTotalWebsiteStaticData,
@@ -31,11 +31,9 @@ const firebaseConfig = {
   storageBucket,
 };
 
-// GET LINKS
 
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
-// add testes, clean up code, add assertions,clean up "frequency of words"
 
 export const test = functions
   .runWith({
@@ -44,12 +42,11 @@ export const test = functions
   })
   .https.onRequest(async (req, res) => {
     const websiteInfo = await getTotalWebsiteStaticData(db);
-    const x = await getTotalWebisteWordData(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
-      // checking if we can access data from dbnpm
-      // const { allSiteData, screenshots } = await getPageData(websiteInfo!);
-   
+      console.log(1)
+      const x = await getDataFromPages(websiteInfo!);
+      console.log(x,"END")
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,
       //   excludedWords
@@ -57,6 +54,7 @@ export const test = functions
       // await addImagesToStorage(screenshots, storageRef);
       // await addDailyEntryFirebase(db, dailyArray);
       // await updateSingleWebsiteInfo(db, dailyArray);
+      return
     } else {
       console.log("Unsuccessful fetching of webiste const info");
     }

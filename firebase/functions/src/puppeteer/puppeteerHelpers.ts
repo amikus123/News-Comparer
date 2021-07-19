@@ -2,7 +2,7 @@ import { promises } from "fs";
 import puppeteer from "puppeteer";
 import os from "os";
 import fs from "fs";
-import {ContentSelector ,Heading} from "../interfaces"
+import { ContentSelector, Heading } from "../interfaces";
 
 export const getScreenshotData = async (
   page: puppeteer.Page,
@@ -50,27 +50,45 @@ export const getScreenshotData = async (
 export const getHeadings = async (
   page: puppeteer.Page,
   contentSelectors: ContentSelector[]
-) => {
+) => {  
+  console.log("11111")
+  const x =  await page.evaluate(async (selectors) => {
+    const goodSelectors: ContentSelector[] = JSON.parse(selectors);
+    const res: Heading[] = [];
+    for (const selector in goodSelectors) {
+      const linkElements: any[] = [];
+      const textElements: any[] = [];
+      const imageElements: any[] = [];
+      // getting elemenst by selector defined in database
+      linkElements.push(
+        ...Array.from(document.querySelectorAll(goodSelectors[selector].l))
+      );
+      textElements.push(
+        ...Array.from(document.querySelectorAll(goodSelectors[selector].t))
+      );
+      imageElements.push(
+        ...Array.from(document.querySelectorAll(goodSelectors[selector].i))
+      );
 
-  return await page.evaluate(async (selectors) => {
-    const goodSelectors :ContentSelector[] = JSON.parse(selectors)
-    const res :Heading[] = []
-    let headingsText: string[] = [];
-    let chosenElements: any [] = [];
-    for (let i = 0; i < goodSelectors.length; i++) {
-      chosenElements.push(...Array.from(document.querySelectorAll(goodSelectors[i].h)))
-    }
+      // filtering
 
-    for (const el of chosenElements) {
-      const elementText = el.innerText.trim();
-      if (elementText !== "") {
-        headingsText.push(elementText);
+      for (let i = 0; i < linkElements.length; i++) {
+        let text = textElements[i].title
+          ? textElements[i].title.trim()
+          : textElements[i].innerText.trim();
+        res.push({
+          text: text,
+          image: imageElements[i].src,
+          link: linkElements[i].href,
+        });
       }
     }
-    // removing duplictae headings
-
-    return headingsText;
+    console.log(res,"internal end")
+    return res;
   }, JSON.stringify(contentSelectors));
+
+  console.log(x,"KL)ODSADASASD")
+  return x
 };
 
 export const clickPopup = async (
@@ -88,17 +106,38 @@ export const clickPopup = async (
   }
 };
 
+// TEMPORARY FIX FOR LAZY LOADING
 
-  // TEMPORARY FIX FOR LAZY LOADING
-    
-    // const distance = 100;
-    // const delay = 100;
-    // while (
-    //   document.scrollingElement!.scrollTop + window.innerHeight <
-    //   document.scrollingElement!.scrollHeight
-    // ) {
-    //   document.scrollingElement!.scrollBy(0, distance);
-    //   await new Promise((resolve) => {
-    //     setTimeout(resolve, delay);
-    //   });
-    // }
+// const distance = 100;
+// const delay = 100;
+// while (
+//   document.scrollingElement!.scrollTop + window.innerHeight <
+//   document.scrollingElement!.scrollHeight
+// ) {
+//   document.scrollingElement!.scrollBy(0, distance);
+//   await new Promise((resolve) => {
+//     setTimeout(resolve, delay);
+//   });
+// }
+
+
+
+  /*
+  h i l 
+  if last letter of l is the, 
+  NOT WG2
+
+  // gets all the divs 
+  // small
+  body > app-root > div > div > app-homepage > div > div > a
+  // h >a.href
+  // i >a > img.src
+  // l >a.title
+  if classList containes w2g ignore 
+  // big
+  body > app-root > div > div > app-homepage > div > div >div > a
+   // h >a.href
+  // i >a > img.src
+  // l >a.title
+w2g rectangle
+  */
