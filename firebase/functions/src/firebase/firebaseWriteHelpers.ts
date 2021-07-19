@@ -1,11 +1,11 @@
-import { DailySiteData, Screenshot, SingleWebsiteInfo } from "../interfaces";
+import { DailySiteData, Screenshot, WebisteWordData } from "../interfaces";
 import firebase from "firebase";
 // import {
 //   createDailyEntry,
 //   updateSiteData,
 // } from "../helpers/firestoreFormating";
 import { createFormatedDate } from "../helpers/generalHelpers";
-import { getPageMetaData } from "./firestoreAccessHelpers";
+import { getTotalWebisteWordData } from "./firestoreAccessHelpers";
 
 export const addImagesToStorage = async (
   screenshots: Screenshot[],

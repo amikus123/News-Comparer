@@ -1,11 +1,11 @@
-import { WebisteInfo } from "../interfaces";
-import {TotalWebsiteStaticDataMap} from "../interfaces"
-export const getStaticWebisteData = async (db: FirebaseFirestore.Firestore) :Promise<TotalWebsiteStaticDataMap> | null =>  {
+import {TotalWebsiteStaticDataMap ,TotalWebisteWordData} from "../interfaces"
+export const getTotalWebsiteStaticData = async (db: FirebaseFirestore.Firestore) :Promise<TotalWebsiteStaticDataMap> | null =>  {
   const docRef = db.collection("Websites").doc("StaticWebisteData");
   const data = await docRef
     .get()
     .then((doc) => {
       if (doc.exists) {
+        console.log(doc.data(),"HAALO")
         const constData: TotalWebsiteStaticDataMap = doc.data();
         return constData;
       }
@@ -38,15 +38,16 @@ export const getExcludedWords = async (
   return data || [];
 };
 
-export const getPageMetaData = async (
+export const getTotalWebisteWordData = async (
   db: FirebaseFirestore.Firestore
-): Promise<WebisteInfo> => {
-  const docRef = db.collection("MetaData").doc("WebsiteInfo");
+): Promise<TotalWebisteWordData> | null => {
+  const docRef = db.collection("Websites").doc("WebsiteWordData");
   const data = await docRef
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const x: WebisteInfo = doc.data();
+        console.log(doc.data(),"ASDads")
+        const x= doc.data()!;
         return x;
       }
       console.log("No such document!");

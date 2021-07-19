@@ -10,7 +10,8 @@ import * as functions from "firebase-functions";
 import { getPageData } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
-  getStaticWebisteData,
+  getTotalWebsiteStaticData,
+  getTotalWebisteWordData
 } from "./firebase/firestoreAccessHelpers";
 import {
   addDailyEntryFirebase,
@@ -42,11 +43,12 @@ export const test = functions
     memory: "1GB",
   })
   .https.onRequest(async (req, res) => {
-    const websiteInfo = await getStaticWebisteData(db);
+    const websiteInfo = await getTotalWebsiteStaticData(db);
+    const x = await getTotalWebisteWordData(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
       // checking if we can access data from dbnpm
-      const { allSiteData, screenshots } = await getPageData(websiteInfo!);
+      // const { allSiteData, screenshots } = await getPageData(websiteInfo!);
    
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,
