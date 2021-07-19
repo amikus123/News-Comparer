@@ -98,7 +98,10 @@ export interface ContentSelector {
   // link to article
   l: string;
 }
+export interface AnyMap{
+  [word :string]: any;
 
+}
 // => WebsiteWordData
 export interface TotalWebisteWordData {
   [WebsiteName: string]: WebisteWordData;
@@ -140,9 +143,6 @@ export interface Heading {
 }
 
 // Word to not count in word maps
-export interface ExcludedWords {
-  Words: string[];
-}
 // GENERAL
 
 export interface WordMap {
