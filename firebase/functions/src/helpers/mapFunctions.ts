@@ -29,20 +29,18 @@ export const createWordMap = (
   return wordMap;
 };
 
-export const combineWordMaps = (listOfMaps: WordMap[]) => {
-  const mapToReturn: WordMap = {};
-  if (listOfMaps)
-    for (let i = 0; i < listOfMaps.length; i++) {
-      const keys = Object.keys(listOfMaps[i]);
-      for (let x in keys) {
-        if (mapToReturn.hasOwnProperty(keys[x])) {
-          mapToReturn[keys[x]] += listOfMaps[i][keys[x]];
-        } else {
-          mapToReturn[keys[x]] = listOfMaps[i][keys[x]];
-        }
+export const combineWordMaps = (data: WordMap[]) => {
+  const result: WordMap = {}; 
+  data.forEach((basket) => {
+    for (let [key, value] of Object.entries(basket)) {
+      if (result[key]) {
+        result[key] += value; 
+      } else {
+        result[key] = value;
       }
     }
-  return mapToReturn;
+  });
+  return result;
 };
 export const sumOfMapValues = (maps: WordMap[]) => {
   let number = 0;

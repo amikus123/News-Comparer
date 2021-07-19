@@ -5,49 +5,46 @@ import {
   getHeadings,
   getScreenshotData,
 } from "./puppeteerHelpers.js";
-import { PuppeteerData, SingleWebisteConstData } from "../interfaces";
+import {TotalWebsiteStaticDataMap,TotalPuppeteerData,Screenshot,Heading} from "../interfaces"
+
+// REMOVE AUTO SCROLL TO BOTTOM                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 export const getPageData = async (
-  accessDataOfPages: SingleWebisteConstData[]
+  totalWebsiteStaticDataMap: TotalWebsiteStaticDataMap
 ) => {
+  const dataToReturn: TotalPuppeteerData = {};
   const browser = await puppeteer.launch({});
   const page = await browser.newPage();
   await page.setViewport({ width: 1024, height: 2048 });
-
-  const dataToReturn: PuppeteerData = {
-    allSiteData: [],
-    screenshots: [],
-  };
-  if (accessDataOfPages) {
-    for (let index in accessDataOfPages) {
+  for(const websiteStaticData  in totalWebsiteStaticDataMap ){
+    const headingsData :Heading[] =[]
+    const images :Screenshot[]= []
       const {
         url,
         popupSelector,
         contentSelectors,
-        nameToDisplay,
-        imageName,
-        analizeEmotions,
-      } = accessDataOfPages[index];
+        name,
+      } = totalWebsiteStaticDataMap[websiteStaticData];
       try {
-        const screenshotFileName = `${createFormatedDate()}-${imageName}`;
+        const screenshotFileName = `${createFormatedDate()}-${name}`;
         // waits 500ms after last network request
         await page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
         await clickPopup(page, popupSelector);
         const headingsData = await getHeadings(page, contentSelectors);
         await clickPopup(page, popupSelector);
-        dataToReturn.allSiteData.push({
-          headings: headingsData,
-          imageName,
-          analizeEmotions,
-          nameToDisplay,
-        });
-        const imgData = await getScreenshotData(page, screenshotFileName);
-        dataToReturn.screenshots.push(imgData);
+        // dataToReturn.allSiteData.push({
+        //   headings: headingsData,
+        //   imageName,
+        //   nameToDisplay,
+        // });
+        // const imgData = await getScreenshotData(page, screenshotFileName);
+        // dataToReturn.screenshots.push(imgData);
       } catch (e) {
         console.error(`Failed to open the page: ${url} with the error: ${e}`);
       }
-    }
+    
   }
+  
 
   // console.log("end of puppeteer", dataToReturn);
   return dataToReturn;

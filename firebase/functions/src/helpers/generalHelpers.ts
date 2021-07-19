@@ -1,4 +1,4 @@
-import { Emotions, headingData } from "../interfaces";
+import { Emotions, Heading } from "../interfaces";
 
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
@@ -43,7 +43,7 @@ export const createEmotions = (): Emotions => {
     tentative: 0,
   };
 };
-export const getEmotionsFromHeading = (headings: headingData[]) => {
+export const getEmotionsFromHeading = (headings: Heading[]) => {
   const newEmotions = createEmotions();
   for (let heading of headings) {
     if (heading.emotions) {

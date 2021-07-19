@@ -1,23 +1,24 @@
-import { SingleWebisteConstData, WebisteInfo } from "../interfaces";
-
-export const getWebsitesInfo = async (db: FirebaseFirestore.Firestore) => {
-  const docRef = db.collection("Websites").doc("WebsiteData");
+import { WebisteInfo } from "../interfaces";
+import {TotalWebsiteStaticDataMap} from "../interfaces"
+export const getStaticWebisteData = async (db: FirebaseFirestore.Firestore) :Promise<TotalWebsiteStaticDataMap> | null =>  {
+  const docRef = db.collection("Websites").doc("StaticWebisteData");
   const data = await docRef
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const list: SingleWebisteConstData[] = doc.data()!.listOfWebsites;
-        return list;
+        const constData: TotalWebsiteStaticDataMap = doc.data();
+        return constData;
       }
       console.log("No such document!");
       return null;
     })
     .catch((e) => {
-      console.error("Error getting website info ", e);
+      console.error("Error getting while StaticWebisteData ", e);
       return null;
     });
   return data;
 };
+
 export const getExcludedWords = async (
   db: FirebaseFirestore.Firestore
 ): Promise<string[]> => {
@@ -36,6 +37,7 @@ export const getExcludedWords = async (
     });
   return data || [];
 };
+
 export const getPageMetaData = async (
   db: FirebaseFirestore.Firestore
 ): Promise<WebisteInfo> => {

@@ -11,5 +11,6 @@
     "outDir": "lib",
     "esModuleInterop": true
   },
-  "include": ["src", "src/tests"]
+  "include": ["src", "src/tests"],
+  "exclude": ["../../../interfaces"]
 }

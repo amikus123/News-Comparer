@@ -2,6 +2,8 @@ import { promises } from "fs";
 import puppeteer from "puppeteer";
 import os from "os";
 import fs from "fs";
+import {ContentSelector ,Heading} from "../interfaces"
+
 export const getScreenshotData = async (
   page: puppeteer.Page,
   imageName: string
@@ -47,30 +49,18 @@ export const getScreenshotData = async (
 
 export const getHeadings = async (
   page: puppeteer.Page,
-  contentSelectors: string[]
+  contentSelectors: ContentSelector[]
 ) => {
+
   return await page.evaluate(async (selectors) => {
-    // TEMPORARY FIX FOR LAZY LOADING
-    const distance = 100;
-    const delay = 100;
-    while (
-      document.scrollingElement!.scrollTop + window.innerHeight <
-      document.scrollingElement!.scrollHeight
-    ) {
-      document.scrollingElement!.scrollBy(0, distance);
-      await new Promise((resolve) => {
-        setTimeout(resolve, delay);
-      });
+    const goodSelectors :ContentSelector[] = JSON.parse(selectors)
+    const res :Heading[] = []
+    let headingsText: string[] = [];
+    let chosenElements: any [] = [];
+    for (let i = 0; i < goodSelectors.length; i++) {
+      chosenElements.push(...Array.from(document.querySelectorAll(goodSelectors[i].h)))
     }
 
-    let headingsText: string[] = [];
-    let chosenElements: any[] = [];
-    for (let i = 0; i < selectors.length; i++) {
-      chosenElements = [
-        ...chosenElements,
-        ...Array.from(document.querySelectorAll(selectors[i])),
-      ];
-    }
     for (const el of chosenElements) {
       const elementText = el.innerText.trim();
       if (elementText !== "") {
@@ -78,8 +68,9 @@ export const getHeadings = async (
       }
     }
     // removing duplictae headings
-    return [...new Set(headingsText)];
-  }, contentSelectors);
+
+    return headingsText;
+  }, JSON.stringify(contentSelectors));
 };
 
 export const clickPopup = async (
@@ -96,3 +87,18 @@ export const clickPopup = async (
     }
   }
 };
+
+
+  // TEMPORARY FIX FOR LAZY LOADING
+    
+    // const distance = 100;
+    // const delay = 100;
+    // while (
+    //   document.scrollingElement!.scrollTop + window.innerHeight <
+    //   document.scrollingElement!.scrollHeight
+    // ) {
+    //   document.scrollingElement!.scrollBy(0, distance);
+    //   await new Promise((resolve) => {
+    //     setTimeout(resolve, delay);
+    //   });
+    // }
