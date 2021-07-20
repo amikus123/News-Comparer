@@ -19,8 +19,8 @@ export const getDataFromPages = async (
   const dataToReturn: TotalPuppeteerData = {};
   const browser = await puppeteer.launch({
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    args: ["--no-sandbox", "--disable-setuid-sandbox", "'--start-maximized"],
+  });
   const page = await browser.newPage();
 
   page.on("console", (msg) => {
@@ -33,41 +33,25 @@ export const getDataFromPages = async (
   });
   await page.setViewport({ width: 1024, height: 2048 });
   for (const key in totalWebsiteStaticDataMap) {
-    if (key !== "Krytyka_Polityczna") {
-      console.log(key);
-    } else {
-
       const headingsData: Heading[] = [];
       const images: Screenshot[] = [];
-      const { url, popupSelector, contentSelectors, name } =
+      const { url, popupSelector, contentSelectors, } =
         totalWebsiteStaticDataMap[key];
-      console.log(totalWebsiteStaticDataMap[key]);
-
       try {
-        const screenshotFileName = `${createFormatedDate()}-${name}`;
         // waits 500ms after last network request
         page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
-        await clickPopup(page, popupSelector);
-        const headingsData = await getHeadings(page, contentSelectors,name);
-        await clickPopup(page, popupSelector);
-        console.log(headingsData, "ASDSADASD");
-        // dataToReturn[name] = {
-        //   headingsData: headingsData,
-        // };
+          const headingsData = await getHeadings(page, contentSelectors, key);
+          dataToReturn[key] = {
+            headingsData: headingsData,
+          };
+        
       } catch (e) {
         console.error(`Failed to open the page: ${url} with the error: ${e}`);
       }
-    }
+    
   }
-
+  console.log(dataToReturn)
   return dataToReturn;
 };
 
-// dataToReturn.allSiteData.push({
-//   headings: headingsData,
-//   imageName,
-//   nameToDisplay,
-// });y getScreenshotData(page, screenshotFileName);
-// dataToReturn.screenshots.push(imgData);
-// temp break

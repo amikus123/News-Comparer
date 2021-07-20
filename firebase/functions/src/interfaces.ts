@@ -82,7 +82,7 @@ export interface TotalWebsiteStaticDataMap {
 export interface WebisteStaticData {
   // should we analize emotions of this webiste
   analizeEmotions: boolean;
-  popupSelector: string;
+  popupSelector: string[];
   contentSelectors: ContentSelector[];
   url: string;
   name:string;

@@ -52,16 +52,17 @@ export const getHeadings = async (
   contentSelectors: ContentSelector[],
   name: string
 ) => {
-  console.log("11111");
   const x = await page.evaluate(
     async (selectors, name) => {
-      const goodSelectors: ContentSelector[] = JSON.parse(selectors);
       const res: Heading[] = [];
-      const linkElements: any[] = [];
-      const textElements: any[] = [];
-      const imageElements: any[] = [];
+      const goodSelectors: ContentSelector[] = JSON.parse(selectors);
+      let linkElements: any[] = [];
+      let textElements: any[] = [];
+      let imageElements: any[] = [];
+      window.scrollBy(0, document.body.scrollHeight);
+
       for (const selector in goodSelectors) {
-             // getting elemenst by selector defined in database
+        // getting elemenst by selector defined in database
         if (goodSelectors[selector].l !== "") {
           linkElements.push(
             ...Array.from(document.querySelectorAll(goodSelectors[selector].l))
@@ -78,42 +79,46 @@ export const getHeadings = async (
           );
         }
       }
-        // filtering with e
-        
-        if (name === "Krytyka_Polityczna") {
-          const imageMap = {};
-          //getting images
-          imageElements.forEach((item) => {
-            let src :string
-            if (item.className === "mp-bg-url") {
-               src = item.parentElement.style["background-image"];
-              // removes "url:( ... )"" from string
-              src = src.slice(5,src.length-2)
-              imageMap[item.href] = src;
-            } else {
-                   src = item.firstChild.firstChild.src;
-                 imageMap[item.href] = src;
-                }
 
-          });
-          linkElements.forEach(item=>{
-            let image = ""
-            if(imageMap[item.href]){
-              image = imageMap[item.href]
-              delete imageMap[item.href]
-            }
-            
-            const heading = {
-              text: item.innerText,
-              link: item.href,
-              image
-            }
-            res.push(heading)
-          })
+      
+      const q = linkElements.length
+      const w = textElements.length
+      const e = imageElements.length
+      // return [q,w,e]
+   
+      // return [linkElements.length,textElements.length,imageElements.length,q,w,e]
+      if (name === "Krytyka_Polityczna") {
+        const imageMap = {};
+        //getting images
+        imageElements.forEach((item) => {
+          let src: string;
+          if (item.className === "mp-bg-url") {
+            src = item.parentElement.style["background-image"];
+            // removes "url:( ... )"" from string
+            src = src.slice(5, src.length - 2);
+            imageMap[item.href] = src;
+          } else {
+            src = item.firstChild.firstChild.src;
+            imageMap[item.href] = src;
+          }
+        });
+        linkElements.forEach((item) => {
+          let image = "";
+          if (imageMap[item.href]) {
+            image = imageMap[item.href];
+            delete imageMap[item.href];
+          }
 
-          return res
-        } else { 
-          for (let i = 0; i < linkElements.length; i++) {
+          const heading = {
+            text: item.innerText,
+            link: item.href,
+            image,
+          };
+          res.push(heading);
+        });
+      }
+      else {
+        for (let i = 0; i < linkElements.length; i++) {
             let text = "";
             if (textElements[i].innerText) {
               text = textElements[i].innerText.trim();
@@ -128,17 +133,17 @@ export const getHeadings = async (
                 link: linkElements[i].href,
               });
             }
-          }
+          
         }
-      
+      }
       console.log(res, "internal end");
-      return res;
+      return res
     },
     JSON.stringify(contentSelectors),
     name
   );
 
-  return x;
+  return {...x};
 };
 
 export const clickPopup = async (
@@ -156,53 +161,32 @@ export const clickPopup = async (
   }
 };
 
-// TEMPORARY FIX FOR LAZY LOADING
-
-// const distance = 100;
-// const delay = 100;
-// while (
-//   document.scrollingElement!.scrollTop + window.innerHeight <
-//   document.scrollingElement!.scrollHeight
-// ) {
-//   document.scrollingElement!.scrollBy(0, distance);
-//   await new Promise((resolve) => {
-//     setTimeout(resolve, delay);
-//   });
-// }
-
 /*
-  h i l 
-  if last letter of l is the, 
-  NOT WG2
-
-  // gets all the divs 
-  // small
-  body > app-root > div > div > app-homepage > div > div > a
-  // h >a.href
-  // i >a > img.src
-  // l >a.title
-  if classList containes w2g ignore 
-  // big
-  body > app-root > div > div > app-homepage > div > div >div > a
-   // h >a.href
-  // i >a > img.src
-  // l >a.title
-w2g rectangle
-
-krytykka
+onet 
 
 
-*[itemprop="mainEntityOfPage"] text and link
+.mediumNewsBox 
 
- separeate search for images?
+link : href
+image:  .imageContainer > imageWrapper > img.src
+text  >h3 > span . innerText
 
-*[itemtype="http://schema.org/Article"] > div > h2  >a
+.itembox
+  link : href
+  img : > img original || src
+  text: div > h3 > span innerText
 
-*[itemprop="headline"] > a
 
-.mp-image
 
-mp-bg-url
+.news__box
 
-then match them by link url
+i  >a>img
+l  > div > a > h3
+
+popular__box  news__mr > .popular__image > img
+popular__box  
+popular__box > .popular__description
+i > 
+l  . 
+t > .popular__description
 */
