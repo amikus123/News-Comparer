@@ -46,7 +46,6 @@ export const test = functions
     if (websiteInfo && excludedWords) {
       console.log(1)
       const x = await getDataFromPages(websiteInfo!);
-      console.log(x,"END")
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,
       //   excludedWords

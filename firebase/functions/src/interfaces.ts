@@ -8,7 +8,6 @@
 //   tentative?: number;
 // }
 
-import { SignerGetSignedUrlConfig } from "@google-cloud/storage/build/src/signer";
 
 // export interface DailySiteData {
 //   frequencyOfWords: WordMap;

@@ -49,46 +49,96 @@ export const getScreenshotData = async (
 
 export const getHeadings = async (
   page: puppeteer.Page,
-  contentSelectors: ContentSelector[]
-) => {  
-  console.log("11111")
-  const x =  await page.evaluate(async (selectors) => {
-    const goodSelectors: ContentSelector[] = JSON.parse(selectors);
-    const res: Heading[] = [];
-    for (const selector in goodSelectors) {
+  contentSelectors: ContentSelector[],
+  name: string
+) => {
+  console.log("11111");
+  const x = await page.evaluate(
+    async (selectors, name) => {
+      const goodSelectors: ContentSelector[] = JSON.parse(selectors);
+      const res: Heading[] = [];
       const linkElements: any[] = [];
       const textElements: any[] = [];
       const imageElements: any[] = [];
-      // getting elemenst by selector defined in database
-      linkElements.push(
-        ...Array.from(document.querySelectorAll(goodSelectors[selector].l))
-      );
-      textElements.push(
-        ...Array.from(document.querySelectorAll(goodSelectors[selector].t))
-      );
-      imageElements.push(
-        ...Array.from(document.querySelectorAll(goodSelectors[selector].i))
-      );
-
-      // filtering
-
-      for (let i = 0; i < linkElements.length; i++) {
-        let text = textElements[i].title
-          ? textElements[i].title.trim()
-          : textElements[i].innerText.trim();
-        res.push({
-          text: text,
-          image: imageElements[i].src,
-          link: linkElements[i].href,
-        });
+      for (const selector in goodSelectors) {
+             // getting elemenst by selector defined in database
+        if (goodSelectors[selector].l !== "") {
+          linkElements.push(
+            ...Array.from(document.querySelectorAll(goodSelectors[selector].l))
+          );
+        }
+        if (goodSelectors[selector].t !== "") {
+          textElements.push(
+            ...Array.from(document.querySelectorAll(goodSelectors[selector].t))
+          );
+        }
+        if (goodSelectors[selector].i !== "") {
+          imageElements.push(
+            ...Array.from(document.querySelectorAll(goodSelectors[selector].i))
+          );
+        }
       }
-    }
-    console.log(res,"internal end")
-    return res;
-  }, JSON.stringify(contentSelectors));
+        // filtering with e
+        
+        if (name === "Krytyka_Polityczna") {
+          const imageMap = {};
+          //getting images
+          imageElements.forEach((item) => {
+            let src :string
+            if (item.className === "mp-bg-url") {
+               src = item.parentElement.style["background-image"];
+              // removes "url:( ... )"" from string
+              src = src.slice(5,src.length-2)
+              imageMap[item.href] = src;
+            } else {
+                   src = item.firstChild.firstChild.src;
+                 imageMap[item.href] = src;
+                }
 
-  console.log(x,"KL)ODSADASASD")
-  return x
+          });
+          linkElements.forEach(item=>{
+            let image = ""
+            if(imageMap[item.href]){
+              image = imageMap[item.href]
+              delete imageMap[item.href]
+            }
+            
+            const heading = {
+              text: item.innerText,
+              link: item.href,
+              image
+            }
+            res.push(heading)
+          })
+
+          return res
+        } else { 
+          for (let i = 0; i < linkElements.length; i++) {
+            let text = "";
+            if (textElements[i].innerText) {
+              text = textElements[i].innerText.trim();
+            } else if (textElements[i].title) {
+              text = textElements[i].title.trim();
+            }
+            // when text is empty, it may be an advert
+            if (text !== "") {
+              res.push({
+                text: text,
+                image: imageElements[i].src,
+                link: linkElements[i].href,
+              });
+            }
+          }
+        }
+      
+      console.log(res, "internal end");
+      return res;
+    },
+    JSON.stringify(contentSelectors),
+    name
+  );
+
+  return x;
 };
 
 export const clickPopup = async (
@@ -120,9 +170,7 @@ export const clickPopup = async (
 //   });
 // }
 
-
-
-  /*
+/*
   h i l 
   if last letter of l is the, 
   NOT WG2
@@ -140,4 +188,21 @@ export const clickPopup = async (
   // i >a > img.src
   // l >a.title
 w2g rectangle
-  */
+
+krytykka
+
+
+*[itemprop="mainEntityOfPage"] text and link
+
+ separeate search for images?
+
+*[itemtype="http://schema.org/Article"] > div > h2  >a
+
+*[itemprop="headline"] > a
+
+.mp-image
+
+mp-bg-url
+
+then match them by link url
+*/

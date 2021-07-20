@@ -18,7 +18,7 @@ export const getDataFromPages = async (
 ) => {
   const dataToReturn: TotalPuppeteerData = {};
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox']
     });
   const page = await browser.newPage();
@@ -33,7 +33,7 @@ export const getDataFromPages = async (
   });
   await page.setViewport({ width: 1024, height: 2048 });
   for (const key in totalWebsiteStaticDataMap) {
-    if (key !== "Fronda") {
+    if (key !== "Krytyka_Polityczna") {
       console.log(key);
     } else {
 
@@ -49,13 +49,12 @@ export const getDataFromPages = async (
         page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
         await clickPopup(page, popupSelector);
-        const headingsData = await getHeadings(page, contentSelectors);
+        const headingsData = await getHeadings(page, contentSelectors,name);
         await clickPopup(page, popupSelector);
-
         console.log(headingsData, "ASDSADASD");
-        dataToReturn[name] = {
-          headingsData: headingsData,
-        };
+        // dataToReturn[name] = {
+        //   headingsData: headingsData,
+        // };
       } catch (e) {
         console.error(`Failed to open the page: ${url} with the error: ${e}`);
       }
