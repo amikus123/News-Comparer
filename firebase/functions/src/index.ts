@@ -11,14 +11,10 @@ import { getDataFromPages } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
   getTotalWebsiteStaticData,
-  getTotalWebisteWordData
 } from "./firebase/firestoreAccessHelpers";
-import {
-  addDailyEntryFirebase,
-  addImagesToStorage,
-  updateSingleWebsiteInfo,
-} from "./firebase/firebaseWriteHelpers";
-// import { createArrayOfDailySiteData } from "./helpers/firestoreFormating";
+
+import { uploadImagesFromPuppeteer } from "./firebase/firebaseWrite";
+
 
 // INITIAL SETUP
 admin.initializeApp();
@@ -38,13 +34,16 @@ const storageRef = firebase.storage().ref();
 export const test = functions
   .runWith({
     timeoutSeconds: 500,
-    memory: "1GB",
+    memory: "2GB",
   })
   .https.onRequest(async (req, res) => {
     const websiteInfo = await getTotalWebsiteStaticData(db);
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
-      const x = await getDataFromPages(websiteInfo!);
+      const totalPuppeteerData = await getDataFromPages(websiteInfo!);
+      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+        // chnages links in articles to link to storage, and puts images in storage
+
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,
       //   excludedWords

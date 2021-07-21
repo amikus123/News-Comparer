@@ -1,18 +1,13 @@
 import puppeteer from "puppeteer";
-import { createFormatedDate } from "../helpers/generalHelpers";
 import {
-  clickPopup,
   getHeadings,
-  getScreenshotData,
 } from "./puppeteerHelpers.js";
 import {
   TotalWebsiteStaticDataMap,
   TotalPuppeteerData,
-  Screenshot,
   Heading,
 } from "../interfaces";
 
-// REMOVE AUTO SCROLL TO BOTTOM
 export const getDataFromPages = async (
   totalWebsiteStaticDataMap: TotalWebsiteStaticDataMap
 ) => {
@@ -33,19 +28,21 @@ export const getDataFromPages = async (
   });
   await page.setViewport({ width: 1024, height: 2048 });
   for (const key in totalWebsiteStaticDataMap) {
-      const headingsData: Heading[] = [];
-      const images: Screenshot[] = [];
-      const { url, popupSelector, contentSelectors, } =
+      const { url, popupSelector, contentSelectors } =
         totalWebsiteStaticDataMap[key];
       try {
         // waits 500ms after last network request
         page.setDefaultNavigationTimeout(0);
         await page.goto(url, { waitUntil: "networkidle2" });
           const headingsData = await getHeadings(page, contentSelectors, key);
+          
           dataToReturn[key] = {
             headingsData: headingsData,
+            name:key
           };
-        
+          
+        // upload article images to stoarge
+        // get screenshots
       } catch (e) {
         console.error(`Failed to open the page: ${url} with the error: ${e}`);
       }

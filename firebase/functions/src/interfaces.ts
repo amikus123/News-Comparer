@@ -188,14 +188,15 @@ export interface ScreenshostForColumns {
 ///// SERVER
 // PUPPETEER
 export interface TotalPuppeteerData {
-  [WebsiteName: string]: PuppeteerData;
+  [WebsiteName: string]: PuppeteerPageData;
 }
-export interface PuppeteerData {
+
+export interface PuppeteerPageData {
   headingsData?: Heading[];
-  screenshots?: Screenshot;
-  images?: Screenshot[];
+  images?: ScreenshotToUpload[];
+  name:string
 }
-export interface Screenshot {
+export interface ScreenshotToUpload {
   imageName: string;
   imageUintData: Uint8Array;
 }
