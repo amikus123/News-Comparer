@@ -60,8 +60,8 @@ export const updateSingleWebsiteInfo = async (
 };
 
 export const createDirs = async () => {
-  const tempDirPath1 = `${os.tmpdir()}/uncompressed`;
-  const tempDirPath2 = `${os.tmpdir()}/compressed`;
+  const tempDirPath1 = `${os.tmpdir()}\\uncompressed`;
+  const tempDirPath2 = `${os.tmpdir()}\\compressed`;
   // make it
 
   const checkIfExists = async (path: string) => {
@@ -88,8 +88,8 @@ export const dowloadFileAndStoreIt = async (
   // add error hansling and compression
   const response = await fetch(foreignUrl);
   const buffer = await response.buffer();
-  const tempDirPath = `${os.tmpdir()}/uncompressed`;
-  const uncompressedPath = `${tempDirPath}/${storageFileLoaction}`;
+  const tempDirPath = `${os.tmpdir()}\\uncompressed`;
+  const uncompressedPath = `${tempDirPath}\\${storageFileLoaction}`;
   await fsPromises.writeFile(uncompressedPath, buffer, () =>
     console.log("finished dowloading and uploading !")
   );
@@ -97,25 +97,20 @@ export const dowloadFileAndStoreIt = async (
 };
 
 export const getUnit8OFCompressed = async (fileNames: string[]) => {
-  const dirPath = `${os.tmpdir()}/uncompressed`;
+  const dirPath = `${os.tmpdir()}\\uncompressed`;
   const dataToUpload: ScreenshotToUpload[] = [];
   for (const index in fileNames) {
     try {
       const imageName = fileNames[index];
-      const mypath = `${dirPath}/${imageName}`;
-      const imageUintData = await promises
+      const mypath = imageName;
+      const imageUintData = await fsPromises
         .readFile(mypath)
         .then((result) => {
           console.log("CZYTANIE");
-          if (fs.existsSync(mypath)) {
-            console.log("exists:", mypath);
-          } else {
-            console.log("DOES NOT exist:", mypath);
-          }
           return new Uint8Array(result);
         })
         .catch((error) => {
-          console.log(error);
+          console.log("zjebalo sie w unit8",error);
           return new Uint8Array();
         });
       dataToUpload.push({

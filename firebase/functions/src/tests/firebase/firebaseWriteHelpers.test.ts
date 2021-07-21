@@ -14,10 +14,13 @@ describe("aasa", () => {
     await createDirs();
     const x = await dowloadFileAndStoreIt(URLFromInternet[0], "halo.jpg");
     expect(x).toBe(
-      "C:\\Users\\Amadeusz\\AppData\\Local\\Temp/uncompressed/halo.jpg"
+      "C:\\Users\\Amadeusz\\AppData\\Local\\Temp\\uncompressed\\halo.jpg"
     );
+    if (x) {
+      const c = await getUnit8OFCompressed([x]);
+      expect(c).toBe({});
+    }
 
-    const c = await getUnit8OFCompressed([x]);
-    expect(c).toBe({});
+    // add removal of tmp dirs
   });
 });
