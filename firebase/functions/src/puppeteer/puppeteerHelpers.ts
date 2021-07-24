@@ -1,6 +1,5 @@
 import puppeteer from "puppeteer";
 
-
 import { ContentSelector, Heading } from "../interfaces";
 
 // export const getScreenshotData = async (
@@ -78,8 +77,11 @@ export const getHeadings = async (
           );
         }
       }
-      // certain pages may have some unique way to gather data
       // return [imageElements.length,linkElements.length,textElements.length]
+
+      // certain pages may have some unique way to gather data
+      const maxLen = Math.min(linkElements.length, 20);
+
       if (name === "Krytyka_Polityczna") {
         const imageMap = {};
         //getting images
@@ -95,22 +97,22 @@ export const getHeadings = async (
             imageMap[item.href] = src;
           }
         });
-        linkElements.forEach((item) => {
-          let image = "";
-          if (imageMap[item.href]) {
-            image = imageMap[item.href];
-            delete imageMap[item.href];
-          }
 
+        for (let i = 0; i < maxLen; i++) {
+          let image = "";
+          if (imageMap[linkElements[i].href]) {
+            image = imageMap[linkElements[i].href];
+            delete imageMap[linkElements[i].href];
+          }
           const heading = {
-            text: item.innerText,
-            link: item.href,
+            text: linkElements[i].innerText,
+            link: linkElements[i].href,
             image,
           };
           res.push(heading);
-        });
+        }
       } else {
-        for (let i = 0; i < linkElements.length; i++) {
+        for (let i = 0; i < maxLen; i++) {
           let text = "";
           if (textElements[i].innerText) {
             text = textElements[i].innerText.trim();
