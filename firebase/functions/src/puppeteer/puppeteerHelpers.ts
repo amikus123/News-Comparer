@@ -79,6 +79,7 @@ export const getHeadings = async (
         }
       }
       // certain pages may have some unique way to gather data
+      // return [imageElements.length,linkElements.length,textElements.length]
       if (name === "Krytyka_Polityczna") {
         const imageMap = {};
         //getting images

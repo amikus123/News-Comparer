@@ -17,8 +17,8 @@ export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,
   const headings = pupeteerData.headingsData;
 
   if (headings) {
-    const uncompressedFilePaths = [];
-    const fileNames = [];
+    const uncompressedFilePaths:string[] = [];
+    const fileNames:string[] = [];
     await createDirs()
     for (let i in headings) {
       if (headings[i].image !== "") {
@@ -33,12 +33,11 @@ export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,
         headings[i].image = storageFileLoaction;
       }
     }
-    // compreession
-    // await compressImage(uncompressedFilePaths);
+    // compreession TODO
     // getting unit8array data 
-    const x = await getUnit8OFCompressed(uncompressedFilePaths)
+    const x = await getUnit8OFCompressed(uncompressedFilePaths,fileNames)
     console.log("end",x)
-    // await uploadToStoarge(x,storageRef)
+    await uploadToStoarge(x,storageRef)
   } else {
     console.error("PageData should include headings");
   }

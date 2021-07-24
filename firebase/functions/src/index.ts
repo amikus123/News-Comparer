@@ -33,7 +33,7 @@ const storageRef = firebase.storage().ref();
 
 export const test = functions
   .runWith({
-    timeoutSeconds: 500,
+    timeoutSeconds: 540,
     memory: "2GB",
   })
   .https.onRequest(async (req, res) => {
@@ -41,8 +41,8 @@ export const test = functions
     const excludedWords = await getExcludedWords(db);
     if (websiteInfo && excludedWords) {
       const totalPuppeteerData = await getDataFromPages(websiteInfo!);
+      // chnages links in articles to link to storage, and puts images in storage
       await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
-        // chnages links in articles to link to storage, and puts images in storage
 
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,
