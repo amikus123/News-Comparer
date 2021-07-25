@@ -42,7 +42,8 @@ export const test = functions
     if (websiteInfo && excludedWords) {
       const totalPuppeteerData = await getDataFromPages(websiteInfo!);
       // chnages links in articles to link to storage, and puts images in storage
-      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      console.log(totalPuppeteerData)
+      // await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
 
       // const dailyArray = await createArrayOfDailySiteData(
       //   allSiteData,

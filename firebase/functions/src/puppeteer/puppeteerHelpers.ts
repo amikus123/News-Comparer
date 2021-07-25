@@ -61,25 +61,51 @@ export const getHeadings = async (
 
       for (const selector in goodSelectors) {
         // getting elemenst by selector defined in database
-        if (goodSelectors[selector].l !== "") {
-          linkElements.push(
-            ...Array.from(document.querySelectorAll(goodSelectors[selector].l))
-          );
-        }
-        if (goodSelectors[selector].t !== "") {
-          textElements.push(
-            ...Array.from(document.querySelectorAll(goodSelectors[selector].t))
-          );
-        }
-        if (goodSelectors[selector].i !== "") {
-          imageElements.push(
-            ...Array.from(document.querySelectorAll(goodSelectors[selector].i))
-          );
+        if (name === "OKO.press") {
+          if (goodSelectors[selector].i !== "") {
+            imageElements.push(
+              ...Array.from(
+                document.querySelectorAll(goodSelectors[selector].i)
+              )
+            );
+          }
+        } else {
+          if (goodSelectors[selector].l !== "") {
+            linkElements.push(
+              ...Array.from(
+                document.querySelectorAll(goodSelectors[selector].l)
+              )
+            );
+          }
+          if (goodSelectors[selector].t !== "") {
+            textElements.push(
+              ...Array.from(
+                document.querySelectorAll(goodSelectors[selector].t)
+              )
+            );
+          }
+          if (goodSelectors[selector].i !== "") {
+            imageElements.push(
+              ...Array.from(
+                document.querySelectorAll(goodSelectors[selector].i)
+              )
+            );
+          }
         }
       }
+      // EXTRA FILLTERING
+      if (name === "OKO.press") {
+        linkElements = imageElements.map((img) => img.parentElement);
+        textElements = imageElements.map(
+          (img) =>
+            img.parentElement.nextElementSibling.nextElementSibling.children[0]
+        );
+      }
+
       // return [imageElements.length,linkElements.length,textElements.length]
 
       // certain pages may have some unique way to gather data
+
       const maxLen = Math.min(linkElements.length, 20);
 
       if (name === "Krytyka_Polityczna") {
