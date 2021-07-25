@@ -192,8 +192,8 @@ export interface TotalPuppeteerData {
 }
 
 export interface PuppeteerPageData {
-  headingsData?: Heading[];
-  images?: ScreenshotToUpload[];
+  headings: Heading[];
+  fullScreenshot: ScreenshotToUpload;
   name:string
 }
 export interface ScreenshotToUpload {

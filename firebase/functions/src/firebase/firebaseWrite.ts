@@ -14,7 +14,7 @@ export const uploadImagesFromPuppeteer = async (
 
 export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,storageRef:firebase.storage.Reference) => {
   const baseFileLocation = `${pupeteerData.name}-${createFormatedDate()}-`;
-  const headings = pupeteerData.headingsData;
+  const headings = pupeteerData.headings;
 
   if (headings) {
     const uncompressedFilePaths:string[] = [];

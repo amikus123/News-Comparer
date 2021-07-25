@@ -1,4 +1,7 @@
 import { Emotions, Heading } from "../interfaces";
+import os from "os"
+import fs, { promises } from "fs";
+const fsPromises = require("fs").promises;
 
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
@@ -63,3 +66,9 @@ export const createEmotionsFromIBM = (tones: any) => {
   // console.log(obj, "CREATED");
   return obj;
 };
+
+
+export const saveInTmp = async (name:string,unit:Uint8Array)=>{
+
+
+}

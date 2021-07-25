@@ -1,49 +1,49 @@
 import puppeteer from "puppeteer";
-
+import os from "os"
+import fs, { promises } from "fs";
 import { ContentSelector, Heading } from "../interfaces";
 
-// export const getScreenshotData = async (
-//   page: puppeteer.Page,
-//   imageName: string
-// ) => {
-//   try {
-//     const downloadPath = `${os.tmpdir()}` + "/";
-//     const mypath = `${downloadPath}${imageName}.jpg`;
-//     await page.screenshot({
-//       path: mypath,
-//       fullPage: true,
-//       quality: 50,
-//       type: "jpeg",
-//     });
-//     console.log("ZDJECIE");
+export const takeAndSaveScreenshot = async (
+  page: puppeteer.Page,
+  name: string
+) => {
+  try {
+  const path = `${os.tmpdir}//{1//${name}.jpg`
 
-//     const imageUintData = await promises
-//       .readFile(mypath)
-//       .then((result) => {
-//         console.log("CZYTANIE");
-//         if (fs.existsSync(mypath)) {
-//           console.log("exists:", mypath);
-//         } else {
-//           console.log("DOES NOT exist:", mypath);
-//         }
-//         return new Uint8Array(result);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//         return new Uint8Array();
-//       });
-//     return {
-//       imageName,
-//       imageUintData,
-//     };
-//   } catch (e) {
-//     console.error(e, "BLAD");
-//   }
-//   return {
-//     imageName: "e",
-//     imageUintData: new Uint8Array(),
-//   };
-// };
+    await page.screenshot({
+      path: path,
+      // fullPage: true,
+      quality: 50,
+      omitBackground :true,
+      type: "jpeg",
+    });
+    const imageUintData = await promises
+      .readFile(path)
+      .then((result) => {
+        console.log("CZYTANIE");
+        if (fs.existsSync(path)) {
+          console.log("exists:", path);
+        } else {
+          console.log("DOES NOT exist:", path);
+        }
+        return new Uint8Array(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        return new Uint8Array();
+      });
+    return {
+      imageName: name,
+      imageUintData,
+    };
+  } catch (e) {
+    console.error(e, "BLAD");
+  }
+  return {
+    imageName: "",
+    imageUintData: new Uint8Array(),
+  };
+};
 
 export const getHeadings = async (
   page: puppeteer.Page,
@@ -145,11 +145,18 @@ export const getHeadings = async (
           } else if (textElements[i].title) {
             text = textElements[i].title.trim();
           }
+          let img = ""
+         // fiexd for lazy loading in WP
+          if (textElements[i]["data-src"]) {
+            img = textElements[i]["data-src"];
+          } else{
+            img = textElements[i].src;
+          }
           // when text is empty, it may be an advert
           if (text !== "") {
             res.push({
               text: text,
-              image: imageElements[i].src,
+              image: img,
               link: linkElements[i].href,
             });
           }
