@@ -106,7 +106,7 @@ export const getHeadings = async (
 
       // certain pages may have some unique way to gather data
 
-      const maxLen = Math.min(linkElements.length, 20);
+      const maxLen = Math.min(linkElements.length, 10);
 
       if (name === "Krytyka_Polityczna") {
         const imageMap = {};

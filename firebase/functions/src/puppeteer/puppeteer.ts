@@ -29,11 +29,7 @@ export const getDataFromPages = async (
   await page.setViewport({ width: 1024, height: 2048 });
 
   for (const key in totalWebsiteStaticDataMap) {
-    if(key !== "OKO.press"){
-      continue
-    }
- 
-      const { url, popupSelector, contentSelectors } =
+       const { url, popupSelector, contentSelectors } =
         totalWebsiteStaticDataMap[key];
       try {
         // waits 500ms after last network request
@@ -41,7 +37,7 @@ export const getDataFromPages = async (
         await page.goto(url, { waitUntil: "networkidle2" });
           const headingsData = await getHeadings(page, contentSelectors, key);
           console.log(headingsData)
-          
+
           dataToReturn[key] = {
             headingsData: headingsData,
             name:key
