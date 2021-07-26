@@ -82,7 +82,7 @@ export interface TotalWebsiteStaticDataMap {
 export interface WebisteStaticData {
   // should we analize emotions of this webiste
   analizeEmotions: boolean;
-  popupSelector: string[];
+  popupSelector: PopupSelector[];
   contentSelectors: ContentSelector[];
   url: string;
   name:string;
@@ -91,6 +91,13 @@ export interface WebisteStaticData {
   color: string;
 }
 // update selectors
+export interface PopupSelector{
+  property:string,
+  selector:string,
+  important?:boolean,
+  value : string,
+
+}
 export interface ContentSelector {
   // heading text
   t: string;

@@ -1,20 +1,20 @@
 import puppeteer from "puppeteer";
-import os from "os"
+import os from "os";
 import fs, { promises } from "fs";
-import { ContentSelector, Heading } from "../interfaces";
+import { ContentSelector, Heading, PopupSelector } from "../interfaces";
 
 export const takeAndSaveScreenshot = async (
   page: puppeteer.Page,
   name: string
 ) => {
   try {
-  const path = `${os.tmpdir}//{1//${name}.jpg`
+    const path = `${os.tmpdir}//{1//${name}.jpg`;
 
     await page.screenshot({
       path: path,
       // fullPage: true,
       quality: 50,
-      omitBackground :true,
+      omitBackground: true,
       type: "jpeg",
     });
     const imageUintData = await promises
@@ -48,12 +48,14 @@ export const takeAndSaveScreenshot = async (
 export const getHeadings = async (
   page: puppeteer.Page,
   contentSelectors: ContentSelector[],
+  popupSelectors: PopupSelector[],
   name: string
 ): Promise<Heading[]> => {
   const headings = await page.evaluate(
-    async (selectors, name) => {
+    async (selectors, popupSelectors, name) => {
       const res: Heading[] = [];
       const goodSelectors: ContentSelector[] = JSON.parse(selectors);
+      const goodPopupSelectors: PopupSelector[] = JSON.parse(popupSelectors);
       // i use any for elements chosen by selectors
       let linkElements: any[] = [];
       let textElements: any[] = [];
@@ -93,6 +95,18 @@ export const getHeadings = async (
           }
         }
       }
+      for (const popupSelector of goodPopupSelectors) {
+        const element: HTMLElement = document.querySelector(
+          popupSelector.selector
+        );
+        if (element) {
+          element.style[popupSelector.property] = popupSelector.value;
+          if (popupSelector.important) {
+            element.style.setProperty(popupSelector.property, "important");
+          }
+        }
+      }
+
       // EXTRA FILLTERING
       if (name === "OKO.press") {
         linkElements = imageElements.map((img) => img.parentElement);
@@ -145,11 +159,11 @@ export const getHeadings = async (
           } else if (textElements[i].title) {
             text = textElements[i].title.trim();
           }
-          let img = ""
-         // fiexd for lazy loading in WP
+          let img = "";
+          // fiexd for lazy loading in WP
           if (textElements[i]["data-src"]) {
             img = textElements[i]["data-src"];
-          } else{
+          } else {
             img = textElements[i].src;
           }
           // when text is empty, it may be an advert
@@ -166,6 +180,7 @@ export const getHeadings = async (
       return res;
     },
     JSON.stringify(contentSelectors),
+    JSON.stringify(popupSelectors),
     name
   );
 

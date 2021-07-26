@@ -21,29 +21,20 @@ export const getDataFromPages = async (
     console.error(err);
   });
 
-  await page.setViewport({ width: 1024, height: 2048 });
+  await page.setViewport({ width: 800, height: 2400 });
 
   for (const name in totalWebsiteStaticDataMap) {
+    // popupSelector shhould be named popupSelectors
     const { url, popupSelector, contentSelectors } =
       totalWebsiteStaticDataMap[name];
-    // if (name !== "Fakt") {
+    // if (name !== "Wirtualna_Polska") {
     //   continue;
     // }
     try {
       // waits 500ms after last network request
       page.setDefaultNavigationTimeout(0);
       await page.goto(url, { waitUntil: "networkidle2" });
-      const headingsData = await getHeadings(page, contentSelectors, name);
-      for (const i in popupSelector) {
-        if (popupSelector[i] !== "") {
-          try{
-            
-            await page.click(popupSelector[i]);
-          }catch(e){
-            console.error(e,"while trying to click popup")
-          }
-        }
-      }
+      const headingsData = await getHeadings(page, contentSelectors ,popupSelector, name);
       const fullScreenshot = await takeAndSaveScreenshot(page, name);
       console.log(headingsData);
       console.log(fullScreenshot);

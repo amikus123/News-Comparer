@@ -43,10 +43,7 @@ export const test = functions
       const totalPuppeteerData = await getDataFromPages(websiteInfo!);
       // chnages links in articles to link to storage, and puts images in storage
       console.log(totalPuppeteerData)
-      for(let key in totalPuppeteerData){
-        console.log(key,totalPuppeteerData[key].fullScreenshot)
-        await saveInTmp(key,saveInTmp[key].fullScreenshot.imageUintData)
-      }
+   
       // await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
 
       // const dailyArray = await createArrayOfDa lySiteData(
