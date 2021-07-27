@@ -2,14 +2,14 @@ import puppeteer from "puppeteer";
 import os from "os";
 import fs, { promises } from "fs";
 import { ContentSelector, Heading, PopupSelector } from "../interfaces";
-
+import {createFormatedDate} from "../helpers/generalHelpers"
 export const takeAndSaveScreenshot = async (
   page: puppeteer.Page,
   name: string
 ) => {
+  const imageName = `${name}-${createFormatedDate()}.jpg`
+  const path = `${os.tmpdir}//{1//${imageName}`;
   try {
-    const path = `${os.tmpdir}//{1//${name}.jpg`;
-
     await page.screenshot({
       path: path,
       // fullPage: true,
@@ -20,12 +20,6 @@ export const takeAndSaveScreenshot = async (
     const imageUintData = await promises
       .readFile(path)
       .then((result) => {
-        console.log("CZYTANIE");
-        if (fs.existsSync(path)) {
-          console.log("exists:", path);
-        } else {
-          console.log("DOES NOT exist:", path);
-        }
         return new Uint8Array(result);
       })
       .catch((error) => {
@@ -33,16 +27,17 @@ export const takeAndSaveScreenshot = async (
         return new Uint8Array();
       });
     return {
-      imageName: name,
+      imageName,
       imageUintData,
     };
   } catch (e) {
     console.error(e, "BLAD");
+    return {
+      imageName,
+      imageUintData :new Uint8Array(),
+    };
   }
-  return {
-    imageName: "",
-    imageUintData: new Uint8Array(),
-  };
+
 };
 
 export const getHeadings = async (
@@ -159,18 +154,18 @@ export const getHeadings = async (
           } else if (textElements[i].title) {
             text = textElements[i].title.trim();
           }
-          let img = "";
+          let image = "";
           // fiexd for lazy loading in WP
-          if (textElements[i]["data-src"]) {
-            img = textElements[i]["data-src"];
+          if (imageElements[i].getAttribute("data-src")) {
+            image = imageElements[i].getAttribute("data-src");
           } else {
-            img = textElements[i].src;
+            image = imageElements[i].src;
           }
           // when text is empty, it may be an advert
           if (text !== "") {
             res.push({
-              text: text,
-              image: img,
+              text,
+              image,
               link: linkElements[i].href,
             });
           }

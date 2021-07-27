@@ -44,7 +44,7 @@ export const test = functions
       // chnages links in articles to link to storage, and puts images in storage
       console.log(totalPuppeteerData)
    
-      // await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
 
       // const dailyArray = await createArrayOfDa lySiteData(
       //   allSiteData,

@@ -6,7 +6,6 @@ import {
 } from "../interfaces";
 import firebase from "firebase";
 // may cause some bugs
-// const fetch = require("node-fetch");
 import fetch from "node-fetch";
 import os from "os";
 import fs, { promises } from "fs";
@@ -43,6 +42,7 @@ export const dowloadFileAndStoreIt = async (
   storageFileLoaction: string
 ) => {
   // add error hansling and compression
+  console.log(foreignUrl,"CO JA POBIERAM")
   const response = await fetch(foreignUrl);
   const buffer = await response.buffer();
   const tempDirPath = `${os.tmpdir()}\\uncompressed`;
@@ -97,25 +97,40 @@ export const removeFile = async (path: string) => {
 
 
 export const uploadToStoarge = async (
-  screenshots: ScreenshotToUpload[],
+  screenshots: ScreenshotToUpload[] |ScreenshotToUpload,
   storageRef: firebase.storage.Reference
 ) => {
   const metadata = {
     contentType: 'image/jpeg',
   };
-  
-  for (let i in screenshots) {
+  if(Array.isArray(screenshots)){
+    for (let i in screenshots) {
+      console.log(`${screenshots[i].imageName}`)
+      const screenshotRef = storageRef
+        .child(`${screenshots[i].imageName}`)
+        .put(screenshots[i].imageUintData,metadata)
+        .then((snapshot) => {
+          console.log(" file uploaded");
+        })
+        .catch((e) => {
+          console.log(e, "error while uploading");
+        });
+    }
+  }else{
+    console.log(`${screenshots.imageName}`)
+
     const screenshotRef = storageRef
-      .child(`${screenshots[i].imageName}`)
-      .put(screenshots[i].imageUintData,metadata)
-      .then((snapshot) => {
-        console.log(" file uploaded");
-      })
-      .catch((e) => {
-        console.log(e, "error while uploading");
-      });
+    .child(`${screenshots.imageName}`)
+    .put(screenshots.imageUintData,metadata)
+    .then((snapshot) => {
+      console.log(" file uploaded");
+    })
+    .catch((e) => {
+      console.log(e, "error while uploading");
+    });
+}
   }
-};
+
 
 export const getScreenshotData = async (imageName: string) => {
   try {

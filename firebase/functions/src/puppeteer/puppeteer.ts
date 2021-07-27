@@ -24,23 +24,23 @@ export const getDataFromPages = async (
   await page.setViewport({ width: 800, height: 2400 });
 
   for (const name in totalWebsiteStaticDataMap) {
-    // popupSelector shhould be named popupSelectors
+    // popupSelector should be named popupSelectors
     const { url, popupSelector, contentSelectors } =
-      totalWebsiteStaticDataMap[name];
-    // if (name !== "Wirtualna_Polska") {
-    //   continue;
+    totalWebsiteStaticDataMap[name];
+    // if(name !== "Wirtualna_Polska"){
+    //   continue
     // }
     try {
       // waits 500ms after last network request
       page.setDefaultNavigationTimeout(0);
       await page.goto(url, { waitUntil: "networkidle2" });
       const headingsData = await getHeadings(page, contentSelectors ,popupSelector, name);
-      const fullScreenshot = await takeAndSaveScreenshot(page, name);
+      const screenshot = await takeAndSaveScreenshot(page, name);
       console.log(headingsData);
-      console.log(fullScreenshot);
+      console.log(screenshot);
       dataToReturn[name] = {
         headings: headingsData,
-        fullScreenshot: fullScreenshot,
+        screenshot: screenshot,
         name: name,
       };
 

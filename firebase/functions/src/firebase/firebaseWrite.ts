@@ -14,16 +14,18 @@ export const uploadImagesFromPuppeteer = async (
 
 export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,storageRef:firebase.storage.Reference) => {
   const baseFileLocation = `${pupeteerData.name}-${createFormatedDate()}-`;
-  const headings = pupeteerData.headings;
+  const {headings,screenshot} = pupeteerData;
 
   if (headings) {
     const uncompressedFilePaths:string[] = [];
     const fileNames:string[] = [];
     await createDirs()
     for (let i in headings) {
+      console.log("ASDDSAASD " ,pupeteerData.name)
       if (headings[i].image !== "") {
         // this is final storage url form compressed image
         const storageFileLoaction = baseFileLocation + `${i}.jpg`;
+
         const uncompressedFilePath = await dowloadFileAndStoreIt(
           headings[i].image,
           storageFileLoaction
@@ -32,6 +34,11 @@ export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,
         uncompressedFilePaths.push(uncompressedFilePath);
         headings[i].image = storageFileLoaction;
       }
+    }
+    console.log("ASDASDASDASD ss")
+    if(screenshot){
+      await uploadToStoarge(screenshot,storageRef)
+
     }
     // compreession TODO
     // getting unit8array data 

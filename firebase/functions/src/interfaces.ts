@@ -200,7 +200,7 @@ export interface TotalPuppeteerData {
 
 export interface PuppeteerPageData {
   headings: Heading[];
-  fullScreenshot: ScreenshotToUpload;
+  screenshot: ScreenshotToUpload;
   name:string
 }
 export interface ScreenshotToUpload {
