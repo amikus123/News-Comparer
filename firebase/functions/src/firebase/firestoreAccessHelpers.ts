@@ -1,4 +1,9 @@
-import { TotalWebsiteStaticDataMap, TotalWebisteWordData, AnyMap } from "../interfaces";
+import {
+  TotalWebsiteStaticDataMap,
+  WebisteDataOfAllTime,
+  AnyMap,
+} from "../interfaces";
+
 export const getTotalWebsiteStaticData = async (
   db: FirebaseFirestore.Firestore
 ): Promise<TotalWebsiteStaticDataMap | null> => {
@@ -33,19 +38,38 @@ export const getExcludedWords = async (
   }
 };
 
-export const getTotalWebisteWordData = async (
+// export const getTotalWebisteWordData = async (
+//   db: FirebaseFirestore.Firestore
+// ): Promise<TotalWebisteWordData> | null => {
+//   const docRef = db.collection("Websites");
+//   try {
+//     const doc = await docRef.get();
+//     if (doc) {
+//       console.log("successful fetching of WebsiteWordData");
+//       const data = doc;
+//       return data;
+//     }
+//   } catch (error: any) {
+//     console.error("Error while fetching WebsiteWordData");
+//     return null;
+//   }
+// };
+
+export const getWebisteDataOfAllTime = async (
   db: FirebaseFirestore.Firestore
-): Promise<TotalWebisteWordData> | null => {
-  const docRef = db.collection("Websites").doc("WebsiteWordData");
-  try {
-    const doc = await docRef.get();
-    if (doc.exists) {
-      console.log("successful fetching of WebsiteWordData");
-      const data: TotalWebisteWordData = doc.data();
-      return data;
-    }
-  } catch (error: any) {
-    console.error("Error while fetching WebsiteWordData");
-    return null;
-  }
+): Promise<WebisteDataOfAllTime> | null => {
+  let res = null;
+  await db.collection("Websites")
+    .get()
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        if (doc.id === "WebsiteWordData") {
+          res = doc.data();
+          console.log("przypisanioe")
+        }
+        console.log(doc.id,doc.id === "WebsiteWordData")
+      });
+    });
+  console.log(res,"co wydszlo")
+  return res;
 };

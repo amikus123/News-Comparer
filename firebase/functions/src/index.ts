@@ -11,10 +11,17 @@ import { getDataFromPages } from "./puppeteer/puppeteer";
 import {
   getExcludedWords,
   getTotalWebsiteStaticData,
+  getWebisteDataOfAllTime,
 } from "./firebase/firestoreAccessHelpers";
-import {saveInTmp} from "./helpers/generalHelpers"
-import { uploadImagesFromPuppeteer } from "./firebase/firebaseWrite";
-
+import {
+  uploadImagesFromPuppeteer,
+  writeDailyHeadings,
+  writeTotalDataOfAllTime,
+} from "./firebase/firebaseWrite";
+import {
+  createDailyHeadings,
+  updateWebisteDataOfAllTime,
+} from "./helpers/firestoreFormating";
 
 // INITIAL SETUP
 admin.initializeApp();
@@ -27,7 +34,6 @@ const firebaseConfig = {
   storageBucket,
 };
 
-
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
 
@@ -39,28 +45,34 @@ export const test = functions
   .https.onRequest(async (req, res) => {
     const websiteInfo = await getTotalWebsiteStaticData(db);
     const excludedWords = await getExcludedWords(db);
-    if (websiteInfo && excludedWords) {
+    const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
+    console.log(webisteDataOfAllTime, "Sstart")
+    if (websiteInfo && excludedWords && webisteDataOfAllTime) {
       const totalPuppeteerData = await getDataFromPages(websiteInfo!);
       // chnages links in articles to link to storage, and puts images in storage
-      console.log(totalPuppeteerData)
-   
-      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      // console.log(totalPuppeteerData);
 
-      // const dailyArray = await createArrayOfDa lySiteData(
-      //   allSiteData,
-      //   excludedWords
-      // );
-      // await addImagesToStorage(screenshots, storageRef);
-      // await addDailyEntryFirebase(db, dailyArray);
-      // await updateSingleWebsiteInfo(db, dailyArray);
-      return
+      const headingsData = createDailyHeadings(
+        totalPuppeteerData,
+        excludedWords
+      );
+      // console.log("headings", headingsData);
+
+      // update old data
+      const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
+        headingsData,
+        webisteDataOfAllTime
+      );
+      console.log("all time", updatedWebisteDataOfAllTime);
+
+      await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
+      await writeDailyHeadings(headingsData, db);
+      return;
     } else {
       console.log("Unsuccessful fetching of webiste const info");
     }
   });
 
-
-  
 // export const savePagesContent = functions
 //   .runWith({
 //     timeoutSeconds: 360,

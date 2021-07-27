@@ -35,11 +35,21 @@ export const getDataFromPages = async (
       page.setDefaultNavigationTimeout(0);
       await page.goto(url, { waitUntil: "networkidle2" });
       const headingsData = await getHeadings(page, contentSelectors ,popupSelector, name);
+      console.log(Array.isArray(headingsData),"CZY ARR",headingsData)
+      const x = []
+      Object.keys(headingsData).forEach(entry=>{
+        x.push(headingsData[entry])
+      })
+      console.log(Array.isArray(x),"CZY ARR",x)
+
+      // for(let )
+      
+
       const screenshot = await takeAndSaveScreenshot(page, name);
       console.log(headingsData);
       console.log(screenshot);
       dataToReturn[name] = {
-        headings: headingsData,
+        headings: x,
         screenshot: screenshot,
         name: name,
       };

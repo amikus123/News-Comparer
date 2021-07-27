@@ -115,7 +115,7 @@ export const getHeadings = async (
 
       // certain pages may have some unique way to gather data
 
-      const maxLen = Math.min(linkElements.length, 10);
+      const maxLen = Math.min(linkElements.length, 20);
 
       if (name === "Krytyka_Polityczna") {
         const imageMap = {};
@@ -155,7 +155,6 @@ export const getHeadings = async (
             text = textElements[i].title.trim();
           }
           let image = "";
-          // fiexd for lazy loading in WP
           if (imageElements[i].getAttribute("data-src")) {
             image = imageElements[i].getAttribute("data-src");
           } else {

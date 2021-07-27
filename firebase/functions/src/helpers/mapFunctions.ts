@@ -1,12 +1,14 @@
-import { WordMap } from "../interfaces";
+import { WordMap,ExcludedWords } from "../interfaces";
 
 export const createWordMap = (
   headings: string[],
-  excludedWords: string[] = []
+  excludedWords: ExcludedWords
 ) => {
   const wordMap: WordMap = {};
+  let wordCount = 0
   for (let i in headings) {
     const arrayOfWords = headings[i].split(" ");
+    wordCount+=arrayOfWords.length
     // removes special characters
     // arrayOfWords.map((word) => {
     //   return word.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
@@ -14,10 +16,11 @@ export const createWordMap = (
     for (let j in arrayOfWords) {
       arrayOfWords[j] = arrayOfWords[j]
         // i may consider adding more to this regex
+        // removes symbols such as / - etc
         .replace(/[^\p{L}\p{N}\-\+]/gu, "")
         .toLowerCase();
       let word = arrayOfWords[j];
-      if (excludedWords.indexOf(word) === -1 && word !== "") {
+      if (excludedWords[word] === undefined && word !== "") {
         if (wordMap.hasOwnProperty(word)) {
           wordMap[word] = wordMap[word] + 1;
         } else {
@@ -26,12 +29,18 @@ export const createWordMap = (
       }
     }
   }
-  return wordMap;
+  return {
+    wordMap,
+    wordCount
+  };
 };
 
 export const combineWordMaps = (data: WordMap[]) => {
   const result: WordMap = {}; 
+  console.log(data)
   data.forEach((basket) => {
+    if(basket){
+
     for (let [key, value] of Object.entries(basket)) {
       if (result[key]) {
         result[key] += value; 
@@ -39,6 +48,8 @@ export const combineWordMaps = (data: WordMap[]) => {
         result[key] = value;
       }
     }
+  }
+
   });
   return result;
 };

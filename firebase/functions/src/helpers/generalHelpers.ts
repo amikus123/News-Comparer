@@ -66,9 +66,3 @@ export const createEmotionsFromIBM = (tones: any) => {
   // console.log(obj, "CREATED");
   return obj;
 };
-
-
-export const saveInTmp = async (name:string,unit:Uint8Array)=>{
-
-
-}

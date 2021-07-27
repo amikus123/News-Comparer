@@ -8,7 +8,6 @@
 //   tentative?: number;
 // }
 
-
 // export interface DailySiteData {
 //   frequencyOfWords: WordMap;
 //   wordCount: number;
@@ -85,18 +84,17 @@ export interface WebisteStaticData {
   popupSelector: PopupSelector[];
   contentSelectors: ContentSelector[];
   url: string;
-  name:string;
+  name: string;
   politicalOrientation: string;
   // hex color useed in graphs
   color: string;
 }
 // update selectors
-export interface PopupSelector{
-  property:string,
-  selector:string,
-  important?:boolean,
-  value : string,
-
+export interface PopupSelector {
+  property: string;
+  selector: string;
+  important?: boolean;
+  value: string;
 }
 export interface ContentSelector {
   // heading text
@@ -106,41 +104,41 @@ export interface ContentSelector {
   // link to article
   l: string;
   // exluded classes
-  e?:string;
+  e?: string;
 }
-export interface AnyMap{
-  [word :string]: any;
-
+export interface AnyMap {
+  [word: string]: any;
 }
 // => WebsiteWordData
-export interface TotalWebisteWordData {
-  [WebsiteName: string]: WebisteWordData;
+
+// Headings => FormatedDateexport
+
+
+export interface WebisteDataOfAllTimeMap {
+  [WebsiteName: string]: WebisteDataOfAllTime;}
+export interface WebisteDataOfAllTime {
+  totalPageFrequencyOfWords: WordMap;
+  totalPageWordCount: number;
+  totalPageHeadingCount: number;
 }
 
-export interface WebisteWordData {
-  totalFrequencyOfWords: WordMap;
-  totalEmotionMap: Emotions;
-  totalHeadingCount: number;
-  totalWordCount: number;
-}
-// Headings => FormatedDate
 export interface HeadingsByDate {
   [FormatedDate: string]: DailyHeadingsEntry;
 }
-
 export interface DailyHeadingsEntry {
-  dailyFrequencyOfWords: WordMap;
-  dailyTotalWordCount: number;
-  siteData: DailySiteData[];
+  totalDailyFrequencyOfWords: WordMap;
+  totalDailyWordCount: number;
+  totalDailyHeadingCount: number;
+  totalDailySiteData: DailyWebsitesDataMap;
 }
-export interface DailyWebsitesEntry {
+export interface DailyWebsitesDataMap {
   [WebsiteName: string]: DailySiteData;
 }
 export interface DailySiteData {
-  frequencyOfWords: WordMap;
-  wordCount: number;
+  pageDailyFrequencyOfWords: WordMap;
+  pageDailyWordCount: number;
   headings: Heading[];
-  headingCoun: number;
+  pageDailyHeadingCount: number;
   emotions?: Emotions;
   averageEmotion?: Emotions;
 }
@@ -152,11 +150,11 @@ export interface Heading {
   emotions?: Emotions;
 }
 
-// Word to not count in word maps
-// GENERAL
-
 export interface WordMap {
   [key: string]: number;
+}
+export interface ExcludedWords {
+  [word: string]: string;
 }
 
 // emotion of selected heading
@@ -201,7 +199,7 @@ export interface TotalPuppeteerData {
 export interface PuppeteerPageData {
   headings: Heading[];
   screenshot: ScreenshotToUpload;
-  name:string
+  name: string;
 }
 export interface ScreenshotToUpload {
   imageName: string;
