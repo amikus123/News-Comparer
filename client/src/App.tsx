@@ -7,8 +7,7 @@ import {
   ScreenshotsByDate,
 } from "./interfaces";
 import {
-  createWebisteDataObject,
-  fetchWebisteStaticData,
+  fetchStaticWebsiteDataMap,
   getHeadingDailyData,
 } from "./firebase/firestore";
 import FullScreen from "./components/FullScreen/FullScreen";
@@ -65,16 +64,18 @@ function App() {
       setFringeDates(maxAndMin);
       setChosenDates({
         max: maxAndMin.max,
-        min: getPreviousDay(maxAndMin.max),
+        min: maxAndMin.max,
       });
     };
+
     const x = async () => {
       const headings = await getHeadingDailyData();
-      const websiteStaticData = await fetchWebisteStaticData();
-      const totalWebisteMap = createWebisteDataObject(websiteStaticData);
-      setWebisteJointData(totalWebisteMap);
-      updateFringesBasedOnHeadigs(headings);
-      setHeadingMap(headings);
+      const totalWebisteMap = await fetchStaticWebsiteDataMap();
+      if (headings !== null && totalWebisteMap !== null) {
+        setWebisteJointData(totalWebisteMap);
+        updateFringesBasedOnHeadigs(headings);
+        setHeadingMap(headings);
+      }
     };
     x();
   }, []);
@@ -84,6 +85,7 @@ function App() {
   }, [webisteJointData]);
 
   // reacts to change of selected dates
+
   useEffect(() => {
     const a = async () => {
       if (chosenDates) {
@@ -138,11 +140,6 @@ function App() {
             />
           ) : null}
         </Route>
-
-        <Route path="/emotions">
-          <Emotions />
-        </Route>
-
         <Route path="/screenshots">
           {chosenDates !== null && chosenScreenshots.length > 0 ? (
             <Screenshots

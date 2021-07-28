@@ -41,7 +41,7 @@ export const createFileNames = (
 };
 
 export const formatedYearFromDate = (d: Date) => {
-  return `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+  return `${d.getDate()}-${d.getMonth() +1}-${d.getFullYear()}`;
 };
 
 export const formatedYearsFromDates = (dates: Date[]) => {

@@ -1,8 +1,7 @@
 import React from "react";
 import { HeadingData } from "../../interfaces";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {ListItem,Link,ListItemText} from "@material-ui/core/";
 import { VariableSizeList , ListChildComponentProps } from "react-window";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,9 +25,13 @@ const HeadingCell = ({ headings }: { headings: HeadingData[] }) => {
   function renderRow(props: ListChildComponentProps) {
     const { index, style } = props;
     return (
-      <ListItem style={style} key={index}>
-        <ListItemText primary={headings[index].text} />
+      <ListItem style={style} key={index} button >
+        {/* <ListItemText primary={}  /> */}
+        <Link href="#">
+      {headings[index].text}
+      </Link>
       </ListItem>
+    
     );
   }
   return (

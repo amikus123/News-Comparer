@@ -26,6 +26,7 @@ export const fetchAllScreenshotsURLFromName = async (
 ): Promise<string[]> => {
   const ret: string[] = [];
   // change to dynamic
+  console.log("should not fire")
   for (let name of names) {
     const url = await getImgSrcFromName(`10-6-2021-${name}.jpg`);
     ret.push(url);
@@ -35,8 +36,7 @@ export const fetchAllScreenshotsURLFromName = async (
 };
 
 const getScreenshotURL = async (name: string, formatedDate: string) => {
-  const url = await getImgSrcFromName(`${formatedDate}-${name}.jpg`);
-  // const url = "A"
+  const url = await getImgSrcFromName(`${name}-${formatedDate}.jpg`);
   return url;
 };
 export const getMissingScreenshots = async (

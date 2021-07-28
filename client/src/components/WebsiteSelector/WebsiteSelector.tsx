@@ -37,7 +37,7 @@ export default function WebsiteSelect({
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as number);
-    const name = websiteSelectData[event.target.value as number].imageName;
+    const name = websiteSelectData[event.target.value as number].name;
     updateWebisteSSSelection(name, index);
   };
 
@@ -64,7 +64,7 @@ export default function WebsiteSelect({
           {websiteSelectData.map((item, index) => {
             return (
               <MenuItem value={index} key={index}>
-                <img src={`${item.imageName}_Logo.png`} alt={item.imageName} />
+                <img src={`${item.name}_Logo.png`} alt={item.name} />
               </MenuItem>
             );
           })}
