@@ -2,10 +2,7 @@ import { getFirestore, collection, getDocs } from "firebase/firestore";
 import {
     WebsiteJointDataInRows,
   WebsiteJointDataMap,
-  WebsiteStaticData,
-  DailyWebsitesDataMap,
-  TotalWebsiteStaticDataMap,
-  DailySiteData,
+  TotalWebsiteStaticDataMap,  
   DailyHeadingsEntry,
   HeadingsByDate,
 } from "../interfaces";
@@ -37,11 +34,8 @@ export const fetchStaticWebsiteDataMap =
     const docRef = doc(db, "Websites", "StaticWebisteData");
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
       return docSnap.data();
     } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
       return null;
     }
   };

@@ -97,7 +97,6 @@ export const getAllDatesBetween = (
   console.log(d1);
   // d1 is smaller
   if (d1 instanceof Date) {
-    console.log("date");
 
     let d1Time = d1.getTime();
     let d2Time = d2.getTime();
@@ -106,10 +105,8 @@ export const getAllDatesBetween = (
       d1 = new Date(d2Time);
     }
   } else {
-    console.log("fringe");
     d2 = d1.max;
     d1 = d1.min;
-    console.log(d2, d1);
   }
 
   const res: Date[] = [];

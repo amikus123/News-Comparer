@@ -1,7 +1,7 @@
-import { TotalWordSiteData, AnyMap } from "../../interfaces"
+import { TotalGraphData, AnyMap } from "../../interfaces"
 
 
-export const getFormatedDataToGraph = (totalData:TotalWordSiteData,selected:[string, number][]) =>{
+export const getFormatedDataToGraph = (totalData:TotalGraphData,selected:[string, number][]) =>{
   const keys = Object.keys(totalData)
   // removes total from keys. which only leaves website names
   // keys.splice(keys.indexOf("total",1))
@@ -13,7 +13,6 @@ export const getFormatedDataToGraph = (totalData:TotalWordSiteData,selected:[str
     }
     keys.forEach(key=>{
       let count
-      // handles the situtaion if the word is not present
       console.log(totalData[key], "BUM")
       if(totalData[key].frequencyOfWords[word]=== undefined){
         count = 0
@@ -26,5 +25,6 @@ export const getFormatedDataToGraph = (totalData:TotalWordSiteData,selected:[str
       ...tempObj
     })
   })
+  console.log(res,"RES")
   return res
 }

@@ -1,12 +1,10 @@
 import { createRowObjects } from "../firebase/firestore";
 import { getMissingScreenshots } from "../firebase/storage";
 import {
-  TotalWordSiteData,
+  TotalGraphData,
   WebsiteJointDataMap,
   HeadingsByDate,
   FringeDates,
-  DailySiteData,
-  WordSiteData,
   WordMap,
   ScreenshotsByDate,
   DailyWebsitesDataMap,
@@ -25,7 +23,6 @@ export const getChosenScreenshotsFromData = (
   const formatedDates = formatedYearsFromDates(dates);
   const values = names;
   for (let date of formatedDates) {
-    console.log(data, date, "CRASH");
     res[0].push(data[date][values[0]]);
     res[1].push(data[date][values[1]]);
     res[2].push(data[date][values[2]]);
@@ -52,7 +49,6 @@ export const checkIfShouldRequest = (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   if (names[0] === "") {
-    console.log("name error");
     return false;
   }
 
@@ -61,16 +57,13 @@ export const checkIfShouldRequest = (
   // jesli nie ma tych ktorych suzkam to feczuje
   for (let i = 0; i < formatedDates.length; i++) {
     if (keys.indexOf(formatedDates[i]) === -1) {
-      console.log("BRAKUJE CZEGOS");
       return true;
     }
   }
 
-  console.log("the same", keys, formatedDates);
   for (let date of formatedDates) {
     const dateKeys = Object.keys(screenshotsByDate[date]);
     if (checkIfNamesAreMissing(dateKeys, names)) {
-      console.log("STOP, missing name");
       return true;
     }
   }
@@ -79,13 +72,8 @@ export const checkIfShouldRequest = (
 export const checkIfNamesAreMissing = (keys: string[], names: string[]) => {
   for (let name of names) {
     if (keys.indexOf(name) === -1) {
-      // console.log(" founc")
-
       return true;
-    } else {
-      // console.log("not founc")
     }
-    console.log(keys.indexOf(name), name);
   }
   return false;
 };
@@ -115,7 +103,7 @@ export const passOnlyChosenData = (
   fringeDates: FringeDates,
   fullHeadings: HeadingsByDate
 ) => {
-  const res: TotalWordSiteData = {};
+  const res: TotalGraphData = {};
   const dates = getAllDatesBetween(fringeDates);
   // webistes and "total"
   names.forEach((name) => {
@@ -128,12 +116,15 @@ export const passOnlyChosenData = (
     frequencyOfWords: {},
     totalWordCount: 0,
   };
+
   const formatedDates = formatedYearsFromDates(dates);
+  // we get  word data only for dates in range
   formatedDates.forEach((date) => {
     // it should exists
     const data = fullHeadings[date].totalDailySiteData;
     names.forEach((name) => {
-      const found = findMatch(name, data);
+      const found = data[name];
+      console.log(found);
       const newMao = combineWordMaps([
         found.pageDailyFrequencyOfWords,
         res[name].frequencyOfWords,
@@ -156,13 +147,4 @@ export const passOnlyChosenData = (
     totalWordCount: totalCount,
   };
   return res;
-};
-
-const findMatch = (name: string, map: DailyWebsitesDataMap) => {
-  for (let key in map) {
-    if (map[key].imageName === name) {
-      return map[key]
-    }
-  }
-  return map["Onet"]
 };

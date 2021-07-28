@@ -17,7 +17,6 @@ const CustomTabs = () => {
   };
   const getValue = (locationString: string) => {
     const value = locationMap[locationString];
-    console.log(value, "WEA");
     return value  ;
   };
   function a11yProps(index: any) {

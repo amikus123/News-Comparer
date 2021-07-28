@@ -44,7 +44,6 @@ export const getMissingScreenshots = async (
   dates: Date[],
   currentData: ScreenshotsByDate
 ) => {
-  console.log("input", names, dates, currentData);
   const toReturn: ScreenshotsByDate = {};
   const formatedDates: string[] = formatedYearsFromDates(dates);
     for(let formatedDate of formatedDates){
@@ -55,7 +54,6 @@ export const getMissingScreenshots = async (
         currentData[formatedDate][name]
       ) {
         // already present so we dont do anything
-        console.log(currentData[formatedDate][name],"PRZED")
       } else {
         toReturn[formatedDate][name] = await getScreenshotURL(
           name,
@@ -65,7 +63,6 @@ export const getMissingScreenshots = async (
     }
   }
 
-  console.log(toReturn, "KONIEC");
   return toReturn;
 };
 // probmelm with promises

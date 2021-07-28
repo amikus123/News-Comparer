@@ -61,10 +61,10 @@ export interface DailySiteData {
   averageEmotion?: Emotions;
 }
 
-export interface TotalWordSiteData {
-  [name: string]: WordSiteData;
+export interface TotalGraphData {
+  [name: string]: SingleGraphData;
 }
-export interface WordSiteData {
+export interface SingleGraphData {
   frequencyOfWords: WordMap;
   totalWordCount: number;
 }

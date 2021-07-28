@@ -17,12 +17,10 @@ import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGr
 import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
-  getPreviousDay,
   getAllDatesBetween,
 } from "./helpers/dataCreation";
 import { splitDataByRows, cretaeImagesSources } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
-import Emotions from "./components/Emotions/Emotions";
 import Headings from "./components/Headings/Headings";
 
 function App() {
@@ -47,6 +45,7 @@ function App() {
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
     temp[index] = name;
+
     setNamesOfWebiteesToDisplay(temp);
   };
 
@@ -82,6 +81,7 @@ function App() {
 
   useEffect(() => {
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
+
   }, [webisteJointData]);
 
   // reacts to change of selected dates
@@ -128,6 +128,7 @@ function App() {
               names={namesOfWebiteesToDisplay}
               chosenDates={chosenDates}
               headingMap={headingMap}
+              webisteJointData={webisteJointData}
             />
           ) : null}
         </Route>
