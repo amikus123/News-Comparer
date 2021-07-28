@@ -10,9 +10,9 @@ export const createWordMap = (
     const arrayOfWords = headings[i].split(" ");
     wordCount+=arrayOfWords.length
     // removes special characters
-    // arrayOfWords.map((word) => {
-    //   return word.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
-    // });
+    arrayOfWords.map((word) => {
+      return word.replace(/[^a-zA-Z0-9]/g, "").toLowerCase();
+    });
     for (let j in arrayOfWords) {
       arrayOfWords[j] = arrayOfWords[j]
         // i may consider adding more to this regex

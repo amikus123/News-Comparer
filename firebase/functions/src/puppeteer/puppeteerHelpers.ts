@@ -1,18 +1,17 @@
 import puppeteer from "puppeteer";
 import os from "os";
-import fs, { promises } from "fs";
+import { promises } from "fs";
 import { ContentSelector, Heading, PopupSelector } from "../interfaces";
-import {createFormatedDate} from "../helpers/generalHelpers"
+import { createFormatedDate } from "../helpers/generalHelpers";
 export const takeAndSaveScreenshot = async (
   page: puppeteer.Page,
   name: string
 ) => {
-  const imageName = `${name}-${createFormatedDate()}.jpg`
+  const imageName = `${name}-${createFormatedDate()}.jpg`;
   const path = `${os.tmpdir}//{1//${imageName}`;
   try {
     await page.screenshot({
       path: path,
-      // fullPage: true,
       quality: 50,
       omitBackground: true,
       type: "jpeg",
@@ -34,10 +33,9 @@ export const takeAndSaveScreenshot = async (
     console.error(e, "BLAD");
     return {
       imageName,
-      imageUintData :new Uint8Array(),
+      imageUintData: new Uint8Array(),
     };
   }
-
 };
 
 export const getHeadings = async (
@@ -49,42 +47,40 @@ export const getHeadings = async (
   const headings = await page.evaluate(
     async (selectors, popupSelectors, name) => {
       const res: Heading[] = [];
-      const goodSelectors: ContentSelector[] = JSON.parse(selectors);
+      const goodContentSelectors: ContentSelector[] = JSON.parse(selectors);
       const goodPopupSelectors: PopupSelector[] = JSON.parse(popupSelectors);
-      // i use any for elements chosen by selectors
       let linkElements: any[] = [];
       let textElements: any[] = [];
       let imageElements: any[] = [];
-
-      for (const selector in goodSelectors) {
+      for (const selector in goodContentSelectors) {
         // getting elemenst by selector defined in database
         if (name === "OKO.press") {
-          if (goodSelectors[selector].i !== "") {
+          if (goodContentSelectors[selector].i !== "") {
             imageElements.push(
               ...Array.from(
-                document.querySelectorAll(goodSelectors[selector].i)
+                document.querySelectorAll(goodContentSelectors[selector].i)
               )
             );
           }
         } else {
-          if (goodSelectors[selector].l !== "") {
+          if (goodContentSelectors[selector].l !== "") {
             linkElements.push(
               ...Array.from(
-                document.querySelectorAll(goodSelectors[selector].l)
+                document.querySelectorAll(goodContentSelectors[selector].l)
               )
             );
           }
-          if (goodSelectors[selector].t !== "") {
+          if (goodContentSelectors[selector].t !== "") {
             textElements.push(
               ...Array.from(
-                document.querySelectorAll(goodSelectors[selector].t)
+                document.querySelectorAll(goodContentSelectors[selector].t)
               )
             );
           }
-          if (goodSelectors[selector].i !== "") {
+          if (goodContentSelectors[selector].i !== "") {
             imageElements.push(
               ...Array.from(
-                document.querySelectorAll(goodSelectors[selector].i)
+                document.querySelectorAll(goodContentSelectors[selector].i)
               )
             );
           }
@@ -110,13 +106,9 @@ export const getHeadings = async (
             img.parentElement.nextElementSibling.nextElementSibling.children[0]
         );
       }
-
-      // return [imageElements.length,linkElements.length,textElements.length]
-
       // certain pages may have some unique way to gather data
-
+      // maxium prevents big differences in amount of headings between pages
       const maxLen = Math.min(linkElements.length, 20);
-
       if (name === "Krytyka_Polityczna") {
         const imageMap = {};
         //getting images
@@ -157,8 +149,16 @@ export const getHeadings = async (
           let image = "";
           if (imageElements[i].getAttribute("data-src")) {
             image = imageElements[i].getAttribute("data-src");
+          } else if (imageElements[i].getAttribute("data-original")) {
+            image = imageElements[i].getAttribute("data-original");
           } else {
             image = imageElements[i].src;
+          }
+          while(image[0] === "/"){
+            image = image.substr(1,image.length-1)
+          }
+          if(image[0]!== "h"){
+            image = "https://" + image;
           }
           // when text is empty, it may be an advert
           if (text !== "") {
@@ -170,7 +170,6 @@ export const getHeadings = async (
           }
         }
       }
-      console.log(res, "internal end");
       return res;
     },
     JSON.stringify(contentSelectors),

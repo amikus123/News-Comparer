@@ -37,21 +37,56 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
 
-export const test = functions
+// export const test = functions
+//   .runWith({
+//     timeoutSeconds: 540,
+//     memory: "1GB",
+//   })
+//   .https.onRequest(async (req, res) => {
+//     const websiteInfo = await getTotalWebsiteStaticData(db);
+//     const excludedWords = await getExcludedWords(db);
+//     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
+//     console.log(webisteDataOfAllTime, "Sstart")
+//     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
+//       const totalPuppeteerData = await getDataFromPages(websiteInfo);
+//       // chnages links in articles to link to storage, and puts images in storage
+//       await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+//       const headingsData = createDailyHeadings(
+//         totalPuppeteerData,
+//         excludedWords
+//       );
+//       // console.log("headings", headingsData);
+
+//       // update old data
+//       const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
+//         headingsData,
+//         webisteDataOfAllTime
+//       );
+//       console.log("all time", updatedWebisteDataOfAllTime);
+
+//       await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
+//       await writeDailyHeadings(headingsData, db);
+//       return;
+//     } else {
+//       console.log("Unsuccessful fetching from database");
+//     }
+//   });
+
+export const savePagesContent = functions
   .runWith({
-    timeoutSeconds: 540,
-    memory: "2GB",
+    timeoutSeconds: 360,
+    memory: "1GB",
   })
-  .https.onRequest(async (req, res) => {
+  .pubsub.schedule("every 24 hours")
+  .onRun(async (context) => {
     const websiteInfo = await getTotalWebsiteStaticData(db);
     const excludedWords = await getExcludedWords(db);
     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
     console.log(webisteDataOfAllTime, "Sstart")
     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
-      const totalPuppeteerData = await getDataFromPages(websiteInfo!);
+      const totalPuppeteerData = await getDataFromPages(websiteInfo);
       // chnages links in articles to link to storage, and puts images in storage
-      // console.log(totalPuppeteerData);
-
+      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
       const headingsData = createDailyHeadings(
         totalPuppeteerData,
         excludedWords
@@ -69,30 +104,6 @@ export const test = functions
       await writeDailyHeadings(headingsData, db);
       return;
     } else {
-      console.log("Unsuccessful fetching of webiste const info");
+      console.log("Unsuccessful fetching from database");
     }
   });
-
-// export const savePagesContent = functions
-//   .runWith({
-//     timeoutSeconds: 360,
-//     memory: "1GB",
-//   })
-//   .pubsub.schedule("every 24 hours")
-//   .onRun(async (context) => {
-//     const websiteInfo = await getWebsitesInfo(db);
-//     const excludedWords = await getExcludedWords(db);
-//     if (websiteInfo && excludedWords) {
-//       // checking if we can access data from db
-//       const { allSiteData, screenshots } = await getPageData(websiteInfo!);
-//       const dailyArray = await createArrayOfDailySiteData(
-//         allSiteData,
-//         excludedWords
-//       );
-//       await addImagesToStorage(screenshots, storageRef);
-//       await addDailyEntryFirebase(db, dailyArray);
-//       await updateSingleWebsiteInfo(db, dailyArray);
-//     } else {
-//       console.log("Unsuccessful fetching of webiste const info");
-//     }
-//   });

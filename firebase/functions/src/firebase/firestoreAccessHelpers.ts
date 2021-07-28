@@ -38,23 +38,6 @@ export const getExcludedWords = async (
   }
 };
 
-// export const getTotalWebisteWordData = async (
-//   db: FirebaseFirestore.Firestore
-// ): Promise<TotalWebisteWordData> | null => {
-//   const docRef = db.collection("Websites");
-//   try {
-//     const doc = await docRef.get();
-//     if (doc) {
-//       console.log("successful fetching of WebsiteWordData");
-//       const data = doc;
-//       return data;
-//     }
-//   } catch (error: any) {
-//     console.error("Error while fetching WebsiteWordData");
-//     return null;
-//   }
-// };
-
 export const getWebisteDataOfAllTime = async (
   db: FirebaseFirestore.Firestore
 ): Promise<WebisteDataOfAllTime> | null => {
@@ -63,11 +46,11 @@ export const getWebisteDataOfAllTime = async (
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        if (doc.id === "WebsiteWordData") {
+        if (doc.id === "DynamicWebsiteData") {
           res = doc.data();
           console.log("przypisanioe")
         }
-        console.log(doc.id,doc.id === "WebsiteWordData")
+        console.log(doc.id,doc.id === "DynamicWebsiteData")
       });
     });
   console.log(res,"co wydszlo")

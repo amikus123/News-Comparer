@@ -1,6 +1,6 @@
 import { createFormatedDate } from "../helpers/generalHelpers";
 import { DailyHeadingsEntry, PuppeteerPageData, TotalPuppeteerData, WebisteDataOfAllTime } from "../interfaces";
-import { createDirs, dowloadFileAndStoreIt, getUnit8OFCompressed, uploadToStoarge } from "./firebaseWriteHelpers";
+import {dowloadFileAndStoreIt, getUnit8OFCompressed, uploadToStoarge } from "./firebaseWriteHelpers";
 import firebase from "firebase";
 
 export const uploadImagesFromPuppeteer = async (
@@ -23,7 +23,6 @@ export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,
       if (headings[i].image !== "") {
         // this is final storage url form compressed image
         const storageFileLoaction = baseFileLocation + `${i}.jpg`;
-        headings[i].image = storageFileLoaction
         const uncompressedFilePath = await dowloadFileAndStoreIt(
           headings[i].image,
           storageFileLoaction
@@ -33,7 +32,6 @@ export const handleSinglePuppeteerData = async (pupeteerData: PuppeteerPageData,
         headings[i].image = storageFileLoaction;
       }
     }
-    console.log("ASDASDASDASD ss")
     if(screenshot){
       await uploadToStoarge(screenshot,storageRef)
 
@@ -61,7 +59,7 @@ export const writeDailyHeadings = async(headingsData :DailyHeadingsEntry,db:Fire
 }
 
 export const writeTotalDataOfAllTime = async(webisteDataOfAllTime :WebisteDataOfAllTime,db:FirebaseFirestore.Firestore) =>{
-  db.collection("Websites").doc("WebsiteWordData").set(
+  db.collection("Websites").doc("DynamicWebsiteData").set(
     {...webisteDataOfAllTime}
 )
 .then(() => {

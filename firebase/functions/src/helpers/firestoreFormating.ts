@@ -1,4 +1,4 @@
-import { combineWordMaps, createWordMap, sumOfMapValues } from "./mapFunctions";
+import { combineWordMaps, createWordMap } from "./mapFunctions";
 import {
   DailySiteData,
   ExcludedWords,
@@ -10,51 +10,6 @@ import {
   WebisteDataOfAllTime,
 } from "../interfaces";
 import "firebase/storage";
-import {
-  createEmotionsFromIBM,
-  getEmotionsFromHeading,
-  mergeEmotionCount,
-} from "./generalHelpers";
-import { translateText } from "../analizing/googleTranslate";
-import { getTextEmotions } from "../analizing/IBMEmotions";
-
-// export const createSiteDailyEntry = async (
-//   data: SiteData,
-//   excludedWords: string[] = []
-// ): Promise<DailySiteData> => {
-//   const { headings, analizeEmotions, nameToDisplay, imageName } = data;
-//   let headingsData: headingData[] = [];
-//   for (let i = 0; i < headings.length; i++) {
-//     headingsData.push({ text: headings[i] });
-//   }
-//   if (analizeEmotions && false) {
-//     const translatedHeadings = await translateText(headings);
-//     const emotionsData = await getTextEmotions(translatedHeadings);
-//     // if emotions fail we can still contiunue
-//     console.log(emotionsData);
-//     if (emotionsData !== undefined && Symbol.iterator in Object(emotionsData)) {
-//       for (let headingEmotions of emotionsData) {
-//         if (headingEmotions.tones.length !== 0) {
-//           // console.log(headingEmotions.tones);
-//           headingsData[headingEmotions["sentence_id"]].emotions =
-//             createEmotionsFromIBM(headingEmotions.tones);
-//         }
-//       }
-//     } else {
-//       console.log("fail");
-//     }
-//   }
-
-//   const frequencyOfWords = createWordMap(headings, excludedWords);
-//   const wordCount = sumOfMapValues([frequencyOfWords]);
-//   return {
-//     websiteName: nameToDisplay,
-//     imageName,
-//     frequencyOfWords,
-//     headingsData,
-//     wordCount,
-//   };
-// };
 
 export const createDailyHeadings = (
   totalData: TotalPuppeteerData,

@@ -1,24 +1,16 @@
 import {
-  DailySiteData,
-  TotalPuppeteerData,
-  PuppeteerPageData,
   ScreenshotToUpload,
 } from "../interfaces";
 import firebase from "firebase";
-// may cause some bugs
 import fetch from "node-fetch";
 import os from "os";
 import fs, { promises } from "fs";
-
 const fsPromises = require("fs").promises;
 
-// import imagemin from "imagemin";
-// import imageminMozjpeg from "imagemin-mozjpeg";
-
+// TO BE REMOVED , USED FOR TESTING ONLY
 export const createDirs = async () => {
   const tempDirPath1 = `${os.tmpdir()}\\uncompressed`;
   const tempDirPath2 = `${os.tmpdir()}\\compressed`;
-  // make it
 
   const checkIfExists = async (path: string) => {
     try {

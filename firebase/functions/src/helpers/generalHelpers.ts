@@ -1,12 +1,10 @@
 import { Emotions, Heading } from "../interfaces";
-import os from "os"
-import fs, { promises } from "fs";
 const fsPromises = require("fs").promises;
 
 export const createFormatedDate = () => {
   // creates string in format DD-MM-YYYY
   const time = new Date();
-  return `${time.getDate()}-${time.getMonth()}-${time.getFullYear()}`;
+  return `${time.getDate()}-${time.getMonth() +1}-${time.getFullYear()}`;
 };
 
 export const removeInternalStopSymbols = (text: string) => {
