@@ -10,12 +10,6 @@ const HeadingsRow = ({
   headingsRow: HeadingRow;
   names: string[];
 }) => {
-  const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-    
-    })
-  );
-  const classes = useStyles();
 
   return (
     <Grid container justify="center">

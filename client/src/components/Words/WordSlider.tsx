@@ -17,26 +17,26 @@ export default function DiscreteSlider({
   }) {
     const handleChange = (e:ChangeEvent<{}>,val:number|number[])=>{
       if(typeof val ==="number"){
-        setValue(val/10)
+        setValue(val)
       }else{
         console.error("it shouldnt print")
       }
     }
   return (
-    <div >
-      <Typography id="discrete-slider" gutterBottom>
-        Temperature
+    <div className="grid--slider">
+      <Typography id="discrete-slider" gutterBottom align="center">
+        Select amount of words to show
       </Typography>
       <Slider
-        defaultValue={10}
+        defaultValue={1}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
-        step={10}
+        step={1}
         onChange={handleChange}
         marks
-        min={10}
-        max={110}
+        min={1}
+        max={20}
       />
     </div>
   );

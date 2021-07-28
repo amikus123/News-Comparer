@@ -1,74 +1,47 @@
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
 import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
-import { getFormatedDataToGraph } from "./WordsFunctions";
+import { getFormatedDataToGraph, passOnlyChosenData } from "./WordsFunctions";
 import {
   HeadingsByDate,
   FringeDates,
   AnyMap,
   WebsiteJointDataMap,
 } from "../../interfaces";
-import { passOnlyChosenData } from "../../helpers/stateHelpers";
 import { getMaxNValuesFromMap } from "../../helpers/mapFunctions";
 import WordSlider from "./WordSlider";
+import Graph from "./Graph";
 const Words = ({
   names,
   chosenDates,
   headingMap,
-  webisteJointData,
+  webisteJointDataMap,
 }: {
   names: string[];
   chosenDates: FringeDates;
   headingMap: HeadingsByDate;
-  webisteJointData: WebsiteJointDataMap;
+  webisteJointDataMap: WebsiteJointDataMap;
 }) => {
-  const [data, setData] = useState<AnyMap[]>([]);
+  const [selectedGraphData, setSelectedGraphData] = useState<AnyMap[]>([]);
+  const [fullGrapghData, setFullGrapghData] = useState<AnyMap[]>([]);
+
   const [value, setValue] = useState<number>(1);
 
   useEffect(() => {
-    const data = passOnlyChosenData(names, chosenDates, headingMap);
-    console.log(data,"data",headingMap)
-    const selected = getMaxNValuesFromMap(data.total.frequencyOfWords, value);
-    console.log(selected,"selected")
-    setData(getFormatedDataToGraph(data, selected));
-  }, [chosenDates, names, headingMap, value]);
+    const allNames = Object.keys(webisteJointDataMap)
+    const selectedGraphDataRaw = passOnlyChosenData(names, chosenDates, headingMap);
+    const fullGraphDataRaw = passOnlyChosenData(allNames, chosenDates, headingMap);
+    const selected2 = getMaxNValuesFromMap(fullGraphDataRaw.total.frequencyOfWords, value);
+    const selected = getMaxNValuesFromMap(selectedGraphDataRaw.total.frequencyOfWords, value);
+    console.log(selected, "selected");
+    setSelectedGraphData(getFormatedDataToGraph(selectedGraphDataRaw, selected));
+    setFullGrapghData(getFormatedDataToGraph(fullGraphDataRaw, selected2))
+  }, [chosenDates, names, headingMap, value,webisteJointDataMap]);
 
   return (
-    <Grid>
-      <ResponsiveContainer width={700} height={500}>
-        <BarChart
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="word" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {data.length > 0
-            ? names.map((name, index) => {
-                return (
-                  <Bar
-                    dataKey={name}
-                    fill={`#${webisteJointData[name].color}`}
-                    key={index}
-                  />
-                );
-              })
-            : null}
-          <Bar dataKey="total" fill="#38AE1A" />
-        </BarChart>
-      </ResponsiveContainer>
+    <Grid className="grid--container">
       <WordSlider value={value} setValue={setValue} />
+      <Graph data={selectedGraphData} names={names} webisteJointDataMap={webisteJointDataMap} />
+      <Graph data={fullGrapghData} names={Object.keys(webisteJointDataMap)} webisteJointDataMap={webisteJointDataMap} />
     </Grid>
   );
 };

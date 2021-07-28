@@ -2,9 +2,9 @@ import {
   formatedYearsFromDates,
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
-import { FringeDates, HeadingsByDate,HeadingData } from "../../interfaces";
+import { FringeDates, HeadingsByDate, Heading } from "../../interfaces";
 export interface HeadingRow {
-  [name: string]: string | HeadingData[];
+  [name: string]:  string |Heading[];
   date: string;
 }
 
@@ -15,32 +15,24 @@ export const getSelectedHeadings = (
 ) => {
   const res: HeadingRow[] = [];
   const formatedDates = formatedYearsFromDates(getAllDatesBetween(dates));
+  console.log(formatedDates, "dates");
   formatedDates.forEach((date) => {
     let tempObj: HeadingRow = { date };
-    if(totalData[date]){
-    const siteData = totalData[date].totalDailySiteData;
-    // not optimal
-    console.log(siteData, "XD");
-    for(let key in siteData){
-      const data = siteData[key]
-      console.log(names.indexOf(data.imageName), data.imageName);
-      if (names.indexOf(data.imageName) !== -1) {
-        tempObj[data.imageName] = data.headings;
+    if (totalData[date]) {
+      const siteData = totalData[date].totalDailySiteData;
+
+      // not optimal
+      console.log(siteData, "XD");
+      for (let index in names) {
+        const name = names[index]
+        console.log(name,siteData,"PRZED")
+        const data = siteData[name];
+        tempObj[name] = data.headings;
       }
-    
+      
+      res.push({ ...tempObj });
     }
-    // siteData.forEach((data) => {
-    //   console.log(names.indexOf(data.imageName), data.imageName);
-    //   if (names.indexOf(data.imageName) !== -1) {
-    //     tempObj[data.imageName] = data.headingsData;
-    //   }
-    // });
-
-    res.push({ ...tempObj });
-  }
-
   });
-
-
+  console.log(res,"kkoniec")
   return res;
 };

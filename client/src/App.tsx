@@ -74,6 +74,7 @@ function App() {
         setWebisteJointData(totalWebisteMap);
         updateFringesBasedOnHeadigs(headings);
         setHeadingMap(headings);
+        console.log(1111,"update",headings)
       }
     };
     x();
@@ -128,7 +129,7 @@ function App() {
               names={namesOfWebiteesToDisplay}
               chosenDates={chosenDates}
               headingMap={headingMap}
-              webisteJointData={webisteJointData}
+              webisteJointDataMap={webisteJointData}
             />
           ) : null}
         </Route>

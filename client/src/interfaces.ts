@@ -69,10 +69,6 @@ export interface SingleGraphData {
   totalWordCount: number;
 }
 
-export interface HeadingData {
-  emotions?: Emotions;
-  text: string;
-}
 export interface Emotions {
   anger?: number;
   sadness?: number;
