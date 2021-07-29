@@ -15,10 +15,10 @@ const SingleHeading = ({
       <Link href={href}>
         {src === undefined ? (
           <Skeleton variant="rect" height={200} />
-        ) : src === "" ? null : (
+        ) : src === "none" ? null : (
           <img className="headings--image" src={src} alt="a" />
         )}
-        <Typography variant="subtitle1">{text}</Typography>
+        <Typography variant="h6" className="headings--text">{text}</Typography>
       </Link>
     </ListItem>
   );

@@ -10,7 +10,6 @@ require('dotenv').config()
 
 ReactDOM.render(
   <>
-    <CssBaseline />
     <Router>
     <App />
     </Router>

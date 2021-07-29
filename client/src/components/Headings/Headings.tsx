@@ -8,13 +8,13 @@ const Headings = ({
   chosenDates,
   headingMap,
   downloadedHeadingImages,
-  setDowloadedHeadingImages
+  setDowloadedHeadingImages,
 }: {
   names: string[];
   chosenDates: FringeDates;
   headingMap: HeadingsByDate;
   downloadedHeadingImages: WordToWordMap;
-  setDowloadedHeadingImages :Dispatch<SetStateAction<WordToWordMap>>;
+  setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
   useEffect(() => {
@@ -24,35 +24,45 @@ const Headings = ({
   }, [names, chosenDates, headingMap]);
 
   useEffect(() => {
+    const getURLPair = async (src: string) => {
+      // pair of true storgae url and url stored in headings
+      let trueUrl = "none";
+      if (src !== "") {
+        trueUrl = await getImgSrcFromName(src);
+      }
+      const res: WordToWordMap = {};
+      res[src] = trueUrl;
+      return res;
+    };
     const downloadAndCacheImages = async () => {
-            const tempMap: WordToWordMap = {};
-      for (let index in columnHeadingData) {
-        const headingsRow = columnHeadingData[columnHeadingData.length-Number(index) -1]
-        for (let i in names) {
-          const headings = headingsRow[names[i]];
+      const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
+      for (let headingsRow of columnHeadingData) {
+        for (let name of names) {
+          const headings = headingsRow[name];
           if (typeof headings === "string") {
             continue;
           }
-          for (let i in headings) {
-            let src = headings[i].image;
+          for (let heading of headings) {
+            let src = heading.image;
             if (downloadedHeadingImages[src] === undefined) {
-              if (src === "") {
-                // or placeholder, idk
-                tempMap[src] = "";
-              } else {
-                const trueUrl = await getImgSrcFromName(src);
-                tempMap[src] = trueUrl;
-                console.log("fetch");
-              }
+              const halo = getURLPair(src);
+              promisesOfTrueURLS.push(halo);
             }
           }
-          setDowloadedHeadingImages({ ...downloadedHeadingImages, ...tempMap });
         }
       }
+      Promise.all(promisesOfTrueURLS).then((trueURLS) => {
+        // merging all the urls adn updating the state
+        const megaMap: WordToWordMap = Object.assign({}, ...trueURLS);
+        setDowloadedHeadingImages({
+          ...downloadedHeadingImages,
+          ...megaMap,
+        });
+      });
     };
 
     downloadAndCacheImages();
-  }, [setDowloadedHeadingImages, names,columnHeadingData]);
+  }, [setDowloadedHeadingImages, names, columnHeadingData]);
 
   return (
     <div className="reverse">
