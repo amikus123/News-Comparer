@@ -17,7 +17,7 @@ const HeadingsRow = ({
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
 }) => {
   useEffect(() => {
-    const a = async () => {
+    const downloadAndCacheImages = async () => {
       const tempMap: WordToWordMap = {};
 
       for (let i in names) {
@@ -27,26 +27,33 @@ const HeadingsRow = ({
         }
         for (let i in headings) {
           let src = headings[i].image;
-          if (downloadedHeadingImages[src] === undefined) {
-            const trueUrl = await getImgSrcFromName(src);
-            tempMap[src] = trueUrl;
-            console.log("fetch");
+          if (downloadedHeadingImages[src] === undefined ) {
+            if(src === ""){
+              // or placeholder, idk
+              tempMap[src] = "";
+            }else{
+              const trueUrl = await getImgSrcFromName(src);
+              tempMap[src] = trueUrl;
+              console.log("fetch");
+            }
+           
+            
           }
         }
+        setDowloadedHeadingImages({ ...downloadedHeadingImages, ...tempMap });
       }
-      setDowloadedHeadingImages({ ...downloadedHeadingImages, ...tempMap });
     };
 
-    a();
-  }, [headingsRow, setDowloadedHeadingImages,names]);
-
+    downloadAndCacheImages();
+  }, [headingsRow, setDowloadedHeadingImages, names]);
+  // add placeholders
   return (
     <Grid container justify="center">
       <DateTypo margin={true}>{headingsRow.date}</DateTypo>
       <Grid justify="center" container item spacing={2}>
         {names.map((name, index) => {
           const pog = headingsRow[name];
-          return typeof pog === "string" ? null : (
+          return typeof pog !== "string" && typeof pog !== "undefined" ? (
             <Grid item xs={4} key={index} container justify="center">
               <HeadingCell
                 headings={pog}
@@ -54,7 +61,7 @@ const HeadingsRow = ({
                 downloadedHeadingImages={downloadedHeadingImages}
               />
             </Grid>
-          );
+          ) : null;
         })}
       </Grid>
     </Grid>

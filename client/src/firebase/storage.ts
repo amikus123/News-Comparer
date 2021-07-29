@@ -8,7 +8,9 @@ const storage = getStorage();
 
 // return src of image from firebase storage
 export const getImgSrcFromName = async (fileName: string): Promise<string> => {
-  const x = getDownloadURL(ref(storage, fileName))
+  console.log(fileName)
+  const childRef = ref(storage, fileName)
+  const trueURL = getDownloadURL(childRef)
     .then((url) => {
       return url;
     })
@@ -17,23 +19,9 @@ export const getImgSrcFromName = async (fileName: string): Promise<string> => {
       return "";
       // Handle any errors
     });
-  return x;
+  return trueURL;
 };
-export const fetchAllScreenshotsURLFromName = async (
-  names: string[],
-  dates: Date[],
-  currentData: ScreenshotsByDate
-): Promise<string[]> => {
-  const ret: string[] = [];
-  // change to dynamic
-  console.log("should not fire")
-  for (let name of names) {
-    const url = await getImgSrcFromName(`10-6-2021-${name}.jpg`);
-    ret.push(url);
-  }
-  return ret;
-  // check
-};
+
 
 const getScreenshotURL = async (name: string, formatedDate: string) => {
   const url = await getImgSrcFromName(`${name}-${formatedDate}.jpg`);
@@ -65,4 +53,3 @@ export const getMissingScreenshots = async (
 
   return toReturn;
 };
-// probmelm with promises

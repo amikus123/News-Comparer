@@ -82,7 +82,7 @@ export interface WordMap {
   [key: string]: number;
 }
 export interface WordToWordMap{
-  [key: string]: string;
+  [key: string]: string | undefined;
 
 }
 export interface AnyMap {

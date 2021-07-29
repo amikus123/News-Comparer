@@ -5,7 +5,6 @@ import {
   FringeDates,
   HeadingsByDate,
   ScreenshotsByDate,
-  WordMap,
   WordToWordMap,
 } from "./interfaces";
 import {
@@ -20,6 +19,7 @@ import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
   getAllDatesBetween,
+  getPreviousDay
 } from "./helpers/dataCreation";
 import { splitDataByRows, cretaeImagesSources } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
@@ -66,7 +66,7 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
       setFringeDates(maxAndMin);
       setChosenDates({
         max: maxAndMin.max,
-        min: maxAndMin.max,
+        min: getPreviousDay(maxAndMin.max,)
       });
     };
 

@@ -55,6 +55,21 @@ max-height: 100px;
 overflow:scroll ;
 }
 
+.headings--list{
+  max-height:40rem;
+  overflow-y: scroll;
+  padding:1rem
+}
+.headings--list-item{
+  padding:1rem 0 !important;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+}
+.headings--image{
+  width:100%;
+  /* height:200px; */
+}
 /* full screenclases */
 .fullScreen{
   position:fixed;
