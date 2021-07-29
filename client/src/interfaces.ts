@@ -81,6 +81,10 @@ export interface Emotions {
 export interface WordMap {
   [key: string]: number;
 }
+export interface WordToWordMap{
+  [key: string]: string;
+
+}
 export interface AnyMap {
   [key: string]: any;
 }

@@ -5,6 +5,8 @@ import {
   FringeDates,
   HeadingsByDate,
   ScreenshotsByDate,
+  WordMap,
+  WordToWordMap,
 } from "./interfaces";
 import {
   fetchStaticWebsiteDataMap,
@@ -40,7 +42,8 @@ function App() {
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-
+    // used to prevent needles fetching of iamges in Headings
+const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordMap>({})
   // FUNCTIONS
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
@@ -102,6 +105,7 @@ function App() {
     };
 
     a();
+    // inclusion of all of them creates infinite loop
   }, [namesOfWebiteesToDisplay, chosenDates]);
   return (
     // TODO
@@ -139,6 +143,8 @@ function App() {
               names={namesOfWebiteesToDisplay}
               chosenDates={chosenDates}
               headingMap={headingMap}
+              downloadedHeadingImages={downloadedHeadingImages}
+              setDowloadedHeadingImages={setDowloadedHeadingImages}
             />
           ) : null}
         </Route>
