@@ -87,8 +87,10 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
 
   }, [webisteJointData]);
-
   // reacts to change of selected dates
+
+
+
 
   useEffect(() => {
     const a = async () => {
