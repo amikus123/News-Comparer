@@ -19,7 +19,7 @@ import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
   getAllDatesBetween,
-  getPreviousDay
+  getPreviousDay,
 } from "./helpers/dataCreation";
 import { splitDataByRows, cretaeImagesSources } from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
@@ -34,7 +34,6 @@ function App() {
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
-  const [chosenScreenshots, setChosenScreenshots] = useState<string[][]>([]);
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
@@ -42,8 +41,9 @@ function App() {
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-    // used to prevent needles fetching of iamges in Headings
-const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordMap>({})
+  // used to prevent needles fetching of iamges in Headings
+  const [downloadedHeadingImages, setDowloadedHeadingImages] =
+    useState<WordToWordMap>({});
   // FUNCTIONS
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
@@ -66,7 +66,7 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
       setFringeDates(maxAndMin);
       setChosenDates({
         max: maxAndMin.max,
-        min: getPreviousDay(maxAndMin.max,)
+        min: getPreviousDay(maxAndMin.max),
       });
     };
 
@@ -77,7 +77,7 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
         setWebisteJointData(totalWebisteMap);
         updateFringesBasedOnHeadigs(headings);
         setHeadingMap(headings);
-        console.log(1111,"update",headings)
+        console.log(1111, "update", headings);
       }
     };
     x();
@@ -85,12 +85,8 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
 
   useEffect(() => {
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
-
   }, [webisteJointData]);
   // reacts to change of selected dates
-
-
-
 
   useEffect(() => {
     const a = async () => {
@@ -101,7 +97,6 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
           dates,
           screenshotsByDate
         );
-        setChosenScreenshots(newData.chosenScreenshotsFromData);
         setScreenshotsByDate(newData.newData);
       }
     };
@@ -127,7 +122,7 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
         updateChosenDates={setChosenDates}
         chosenDates={chosenDates}
       />
-  {/* // load more button  for images and screenshots*/}
+      {/* // load more button  for images and screenshots*/}
       <Switch>
         <Route path="/words">
           {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
@@ -151,11 +146,12 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
           ) : null}
         </Route>
         <Route path="/screenshots">
-          {chosenDates !== null && chosenScreenshots.length > 0 ? (
+          {chosenDates !== null ? (
             <Screenshots
               setFullScreenImage={setFellScreenAndResetPosition}
-              chosenScreenshots={chosenScreenshots}
+              screenshotsByDate={screenshotsByDate}
               chosenDates={chosenDates}
+              names={namesOfWebiteesToDisplay}
             />
           ) : null}
         </Route>
