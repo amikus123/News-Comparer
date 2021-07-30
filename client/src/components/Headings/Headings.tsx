@@ -3,6 +3,7 @@ import { HeadingsByDate, FringeDates, WordToWordMap } from "../../interfaces";
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
+import { DateTypo } from "../Typography/CustomTypo";
 const Headings = ({
   names,
   chosenDates,
@@ -35,7 +36,7 @@ const Headings = ({
       return res;
     };
 
-    const downloadAndCacheImages =  () => {
+    const downloadAndCacheImages = () => {
       const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
       for (let headingsRow of columnHeadingData) {
         for (let name of names) {
@@ -43,7 +44,7 @@ const Headings = ({
           if (typeof headings === "string") {
             continue;
           }
-          console.log(headings,"before crash")
+          console.log(headings, "before crash");
           for (let heading of headings) {
             let src = heading.image;
             if (downloadedHeadingImages[src] === undefined) {
@@ -66,7 +67,7 @@ const Headings = ({
   }, [setDowloadedHeadingImages, columnHeadingData]);
 
   return (
-    <div className="reverse">
+    <div className="headings reverse">
       {columnHeadingData.map((row, index) => {
         return (
           <HeadingsRow
@@ -77,6 +78,7 @@ const Headings = ({
           />
         );
       })}
+      <p className="headings--tip">Scroll on collumns to see more</p>
     </div>
   );
 };

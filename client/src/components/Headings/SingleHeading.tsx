@@ -12,8 +12,8 @@ const SingleHeading = ({
 }) => {
   return (
     <ListItem className="headings--list-item" button>
-      <Link href={href}>
-        {src === undefined ? (
+      <Link href={href} className="headings--link">
+        {src === undefined || src==="" ? (
           <Skeleton variant="rect" height={200} />
         ) : src === "none" ? null : (
           <img className="headings--image" src={src} alt="a" />

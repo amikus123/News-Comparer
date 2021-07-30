@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import { HeadingRow } from "./HeadingsFunctions";
 import HeadingCell from "./HeadingCell";
@@ -16,23 +15,21 @@ const HeadingsRow = ({
   
   // add placeholders
   return (
-    <Grid container justify="center">
-      <DateTypo margin={true}>{headingsRow.date}</DateTypo>
-      <Grid justify="center" container item spacing={2}>
+    <div className="headings-row-container">
+      <p className="headings--date">{headingsRow.date}</p>
+      <div className="headings--inner-container">
         {names.map((name, index) => {
           const pog = headingsRow[name];
           return typeof pog !== "string" && typeof pog !== "undefined" ? (
-            <Grid item xs={4} key={index} container justify="center">
               <HeadingCell
                 headings={pog}
                 key={index}
                 downloadedHeadingImages={downloadedHeadingImages}
               />
-            </Grid>
           ) : null;
         })}
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
