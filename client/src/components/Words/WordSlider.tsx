@@ -23,7 +23,7 @@ export default function DiscreteSlider({
       }
     }
   return (
-    <div className="grid--slider">
+    <div className="words--slider">
       <Typography id="discrete-slider" gutterBottom align="center">
         Select amount of words to show
       </Typography>

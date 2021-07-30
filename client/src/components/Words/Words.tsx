@@ -38,7 +38,8 @@ const Words = ({
   }, [chosenDates, names, headingMap, value,webisteJointDataMap]);
 
   return (
-    <Grid className="grid--container">
+    <Grid className="words--container">
+      {/* some kind of switch to chnage what is displayed */}
       <WordSlider value={value} setValue={setValue} />
       <Graph data={selectedGraphData} names={names} webisteJointDataMap={webisteJointDataMap} />
       <Graph data={fullGrapghData} names={Object.keys(webisteJointDataMap)} webisteJointDataMap={webisteJointDataMap} />

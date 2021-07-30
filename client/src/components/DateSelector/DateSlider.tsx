@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import { Button } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
 import {
   dateToFormatedMonth,
@@ -9,11 +9,7 @@ import {
 } from "../../helpers/dataCreation";
 import { FringeDates } from "../../interfaces";
 
-const useStyles = makeStyles({
-  root: {
-    width: 250,
-  },
-});
+
 
 interface mark {
   label: string;
@@ -32,11 +28,10 @@ export default function DateSlider({
   fringeDates: FringeDates;
   updateChosenDates: (obj: FringeDates) => void;
 }) {
-  const classes = useStyles();
   const [value, setValue] = React.useState<number[]>([0, 10]);
 
   const getSevenPreviousDays = (): pog => {
-    const res = getNPreviousDates(7); 
+    const res = getNPreviousDates(7);
     if (fringeDates?.max.getDay() === new Date().getDay()) {
       res.pop();
     } else {
@@ -88,7 +83,7 @@ export default function DateSlider({
 
       setValue([num1, num2]);
     }
-  }, [chosenDates,dates]);
+  }, [chosenDates, dates]);
 
   const handleChange = (event: any, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -103,18 +98,40 @@ export default function DateSlider({
     }
   };
 
+  const selectAllDates = () => {
+    if (fringeDates) {
+      updateChosenDates(fringeDates);
+    }
+  };
+  const selectToday = () => {
+    if (fringeDates) {
+      updateChosenDates({
+        max: fringeDates.max,
+        min: fringeDates.max,
+      });
+    }
+  };
+
   return (
-    <div className={classes.root}>
+    <div className="slider--wrapper">
       {dates ? (
-          <Slider
-            value={value}
-            onChange={handleChange}
-            onChangeCommitted={handleChangeEnd}
-            marks={dates.marks}
-            max={60}
-            step={10}
-          />
+        <Slider
+          value={value}
+          onChange={handleChange}
+          onChangeCommitted={handleChangeEnd}
+          marks={dates.marks}
+          max={60}
+          step={10}
+        />
       ) : null}
+      <div className="slider--button-wrapper">
+        <Button variant="contained" color="primary" onClick={selectAllDates} className="slider--button">
+          Select all dates
+        </Button>
+        <Button variant="contained" color="primary" onClick={selectToday} className="slider--button">
+          Select newest date
+        </Button>
+      </div>
     </div>
   );
 }

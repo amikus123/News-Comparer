@@ -127,7 +127,7 @@ const [downloadedHeadingImages,setDowloadedHeadingImages] = useState<WordToWordM
         updateChosenDates={setChosenDates}
         chosenDates={chosenDates}
       />
-
+  {/* // load more button  for images and screenshots*/}
       <Switch>
         <Route path="/words">
           {chosenDates !== null && Object.keys(headingMap).length > 0 ? (

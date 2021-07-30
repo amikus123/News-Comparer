@@ -34,7 +34,8 @@ const Headings = ({
       res[src] = trueUrl;
       return res;
     };
-    const downloadAndCacheImages = async () => {
+
+    const downloadAndCacheImages =  () => {
       const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
       for (let headingsRow of columnHeadingData) {
         for (let name of names) {
@@ -42,6 +43,7 @@ const Headings = ({
           if (typeof headings === "string") {
             continue;
           }
+          console.log(headings,"before crash")
           for (let heading of headings) {
             let src = heading.image;
             if (downloadedHeadingImages[src] === undefined) {
@@ -60,9 +62,8 @@ const Headings = ({
         });
       });
     };
-
     downloadAndCacheImages();
-  }, [setDowloadedHeadingImages, names, columnHeadingData]);
+  }, [setDowloadedHeadingImages, columnHeadingData]);
 
   return (
     <div className="reverse">
