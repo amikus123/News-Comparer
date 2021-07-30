@@ -29,7 +29,7 @@ const WebsiteSelecotGroping = ({
       direction="row"
       justify="center"
       alignItems="center"
-      spacing={3}
+      className="website-selector--wrapper"
     >
       <WebsiteSelect websiteSelectData={webisteDataInRows.leftRow} index={0} updateWebisteSSSelection={updateWebisteSSSelection}/>
       <WebsiteSelect websiteSelectData={webisteDataInRows.centerRow} index={1} updateWebisteSSSelection={updateWebisteSSSelection} />
