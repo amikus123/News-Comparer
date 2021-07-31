@@ -1,56 +1,39 @@
-import {
-  ScreenshotToUpload,
-} from "../interfaces";
+import { ScreenshotToUpload } from "../interfaces";
 import firebase from "firebase";
 import fetch from "node-fetch";
 import os from "os";
 import fs, { promises } from "fs";
 const fsPromises = require("fs").promises;
-
+import path from "path";
 // TO BE REMOVED , USED FOR TESTING ONLY
-export const createDirs = async () => {
-  const tempDirPath1 = `${os.tmpdir()}\\uncompressed`;
-  const tempDirPath2 = `${os.tmpdir()}\\compressed`;
-
-  const checkIfExists = async (path: string) => {
-    try {
-      await fsPromises.access(path);
-      console.log("can access");
-      return true;
-    } catch {
-      console.error("cannot access");
-      await fsPromises.mkdir(path);
-      return false;
-    }
-  };
-  let y = await checkIfExists(tempDirPath1);
-  let z = await checkIfExists(tempDirPath2);
-
-  return [y, z];
-};
 
 export const dowloadFileAndStoreIt = async (
   foreignUrl: string,
   storageFileLoaction: string
 ) => {
   // add error hansling and compression
-  console.log(foreignUrl,"CO JA POBIERAM")
-  const response = await fetch(foreignUrl);
-  const buffer = await response.buffer();
-  const tempDirPath = `${os.tmpdir()}\\uncompressed`;
-  const uncompressedPath = `${tempDirPath}\\${storageFileLoaction}`;
-  await fsPromises.writeFile(uncompressedPath, buffer, () =>
-    console.log("finished dowloading and uploading !")
-  );
-  return uncompressedPath;
+  const tempDirPath = `${os.tmpdir()}`;
+  let uncompressedPath = ``;
+  try {
+    console.log(foreignUrl, "CO JA POBIERAM");
+    const response = await fetch(foreignUrl);
+    const buffer = await response.buffer();
+    uncompressedPath = `${tempDirPath}${path.sep}${storageFileLoaction}`;
+    await fsPromises.writeFile(uncompressedPath, buffer, () =>
+      console.log("finished dowloading and uploading !")
+    );
+  } catch (e) {
+    console.log(e, "error while fethich outise");
+  } finally {
+    return uncompressedPath;
+  }
 };
 
 export const getUnit8OFCompressed = async (
   pathsToFiles: string[],
-  fileNames:string[]
-  
+  fileNames: string[]
 ): Promise<ScreenshotToUpload[]> => {
-  const dirPath = `${os.tmpdir()}\\uncompressed`;
+  const dirPath = `${os.tmpdir()}`;
   const dataToUpload: ScreenshotToUpload[] = [];
   for (const index in pathsToFiles) {
     try {
@@ -82,25 +65,24 @@ export const removeFile = async (path: string) => {
     await fsPromises.unlink(path);
     return true;
   } catch (error) {
-    console.error("removeFile " ,error);
+    console.error("removeFile ", error);
     return false;
   }
 };
 
-
 export const uploadToStoarge = async (
-  screenshots: ScreenshotToUpload[] |ScreenshotToUpload,
+  screenshots: ScreenshotToUpload[] | ScreenshotToUpload,
   storageRef: firebase.storage.Reference
 ) => {
   const metadata = {
-    contentType: 'image/jpeg',
+    contentType: "image/jpeg",
   };
-  if(Array.isArray(screenshots)){
+  if (Array.isArray(screenshots)) {
     for (let i in screenshots) {
-      console.log(`${screenshots[i].imageName}`)
+      console.log(`${screenshots[i].imageName}`);
       const screenshotRef = storageRef
         .child(`${screenshots[i].imageName}`)
-        .put(screenshots[i].imageUintData,metadata)
+        .put(screenshots[i].imageUintData, metadata)
         .then((snapshot) => {
           console.log(" file uploaded");
         })
@@ -108,25 +90,24 @@ export const uploadToStoarge = async (
           console.log(e, "error while uploading");
         });
     }
-  }else{
-    console.log(`${screenshots.imageName}`)
+  } else {
+    console.log(`${screenshots.imageName}`);
 
     const screenshotRef = storageRef
-    .child(`${screenshots.imageName}`)
-    .put(screenshots.imageUintData,metadata)
-    .then((snapshot) => {
-      console.log(" file uploaded");
-    })
-    .catch((e) => {
-      console.log(e, "error while uploading");
-    });
-}
+      .child(`${screenshots.imageName}`)
+      .put(screenshots.imageUintData, metadata)
+      .then((snapshot) => {
+        console.log(" file uploaded");
+      })
+      .catch((e) => {
+        console.log(e, "error while uploading");
+      });
   }
-
+};
 
 export const getScreenshotData = async (imageName: string) => {
   try {
-    const tempDirPath = `${os.tmpdir()}` + "/uncompressed/";
+    const tempDirPath = `${os.tmpdir()}${path.sep}`;
     const mypath = `${tempDirPath}${imageName}.jpg`;
     const imageUintData = await promises
       .readFile(mypath)

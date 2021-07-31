@@ -10,6 +10,7 @@ import {
   WebisteDataOfAllTime,
 } from "../interfaces";
 import "firebase/storage";
+import { createFormatedDate } from "./generalHelpers";
 
 export const createDailyHeadings = (
   totalData: TotalPuppeteerData,
@@ -65,6 +66,7 @@ export const getDailyEntry = (
     pageDailyWordCount: wordCount,
     headings: websiteEntries.headings,
     pageDailyHeadingCount: websiteEntries.headings.length,
+    imageName: `${websiteEntries.name}-${createFormatedDate()}.jpg`
   };
 };
 
@@ -87,7 +89,6 @@ export const updateWebisteDataOfAllTime = (
 ) => {
   for (let name in dailyHeadingsEntry.totalDailySiteData) {
     const headingData = dailyHeadingsEntry.totalDailySiteData[name];
-    console.log(dailyHeadingsEntry.totalDailySiteData[name],webisteDataOfAllTime[name])
     if (webisteDataOfAllTime[name]) {
       webisteDataOfAllTime[name] = {
         totalPageFrequencyOfWords: combineWordMaps([

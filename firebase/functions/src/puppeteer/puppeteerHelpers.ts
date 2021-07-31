@@ -3,21 +3,23 @@ import os from "os";
 import { promises } from "fs";
 import { ContentSelector, Heading, PopupSelector } from "../interfaces";
 import { createFormatedDate } from "../helpers/generalHelpers";
+import path from "path"
 export const takeAndSaveScreenshot = async (
   page: puppeteer.Page,
   name: string
 ) => {
   const imageName = `${name}-${createFormatedDate()}.jpg`;
-  const path = `${os.tmpdir}//{1//${imageName}`;
+  const pathToFile = `${os.tmpdir}${path.sep}${imageName}`;
   try {
     await page.screenshot({
-      path: path,
+      fullPage:true,
+      path: pathToFile,
       quality: 50,
       omitBackground: true,
       type: "jpeg",
     });
     const imageUintData = await promises
-      .readFile(path)
+      .readFile(pathToFile)
       .then((result) => {
         return new Uint8Array(result);
       })

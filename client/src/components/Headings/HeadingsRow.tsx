@@ -19,6 +19,7 @@ const HeadingsRow = ({
       <p className="headings--date">{headingsRow.date}</p>
       <div className="headings--inner-container">
         {names.map((name, index) => {
+          // REVERSE ORDER
           const pog = headingsRow[name];
           return typeof pog !== "string" && typeof pog !== "undefined" ? (
               <HeadingCell

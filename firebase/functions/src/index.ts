@@ -37,44 +37,43 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const storageRef = firebase.storage().ref();
 
-// export const test = functions
-//   .runWith({
-//     timeoutSeconds: 540,
-//     memory: "1GB",
-//   })
-//   .https.onRequest(async (req, res) => {
-//     const websiteInfo = await getTotalWebsiteStaticData(db);
-//     const excludedWords = await getExcludedWords(db);
-//     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
-//     console.log(webisteDataOfAllTime, "Sstart")
-//     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
-//       const totalPuppeteerData = await getDataFromPages(websiteInfo);
-//       // chnages links in articles to link to storage, and puts images in storage
-//       await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
-//       const headingsData = createDailyHeadings(
-//         totalPuppeteerData,
-//         excludedWords
-//       );
-//       // console.log("headings", headingsData);
+export const test = functions
+  .runWith({
+    timeoutSeconds: 360,
+    memory: "1GB",
+  })
+  .https.onRequest(async (req, res) => {
+    const websiteInfo = await getTotalWebsiteStaticData(db);
+    const excludedWords = await getExcludedWords(db);
+    const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
+    console.log(webisteDataOfAllTime, "Sstart")
+    if (websiteInfo && excludedWords && webisteDataOfAllTime) {
+      const totalPuppeteerData = await getDataFromPages(websiteInfo);
+      // chnages links in articles to link to storage, and puts images in storage
+      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      const headingsData = createDailyHeadings(
+        totalPuppeteerData,
+        excludedWords
+      );
+      // console.log("headings", headingsData);
 
-//       // update old data
-//       const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
-//         headingsData,
-//         webisteDataOfAllTime
-//       );
-//       console.log("all time", updatedWebisteDataOfAllTime);
-
-//       await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
-//       await writeDailyHeadings(headingsData, db);
-//       return;
-//     } else {
-//       console.log("Unsuccessful fetching from database");
-//     }
-//   });
+      // update old data
+      const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
+        headingsData,
+        webisteDataOfAllTime
+      );
+      console.log("all time", updatedWebisteDataOfAllTime);
+      await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
+      await writeDailyHeadings(headingsData, db);
+      return;
+    } else {
+      console.log("Unsuccessful fetching from database");
+    }
+  });
 
 export const savePagesContent = functions
   .runWith({
-    timeoutSeconds: 360,
+    timeoutSeconds: 240,
     memory: "1GB",
   })
   .pubsub.schedule("every 24 hours")
@@ -98,7 +97,7 @@ export const savePagesContent = functions
         headingsData,
         webisteDataOfAllTime
       );
-      console.log("all time", updatedWebisteDataOfAllTime);
+      console.log("all time");
 
       await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
       await writeDailyHeadings(headingsData, db);
@@ -107,3 +106,4 @@ export const savePagesContent = functions
       console.log("Unsuccessful fetching from database");
     }
   });
+

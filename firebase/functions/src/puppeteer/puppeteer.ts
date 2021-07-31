@@ -11,13 +11,13 @@ export const getDataFromPages = async (
     args: ["--no-sandbox", "--disable-setuid-sandbox", "'--start-maximized"],
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 800, height: 2400 });
+  await page.setViewport({ width: 1440, height: 3200 });
 
   for (const name in totalWebsiteStaticDataMap) {
     // popupSelector should be named popupSelectors
     const { url, popupSelector, contentSelectors } =
     totalWebsiteStaticDataMap[name];
- 
+
     try {
       // waits 500ms after last network request
       page.setDefaultNavigationTimeout(0);
