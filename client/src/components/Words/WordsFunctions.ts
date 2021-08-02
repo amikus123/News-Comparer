@@ -109,3 +109,7 @@ export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
     return  item !== "word";
   });
 };
+
+export const returnGraphData = () =>{
+  
+}

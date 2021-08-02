@@ -1,28 +1,22 @@
 import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
-import { getFormatedDataToGraph, passOnlyChosenData } from "./WordsFunctions";
 import {
   HeadingsByDate,
   FringeDates,
-  AnyMap,
   WebsiteJointDataMap,
   WordMap,
   DailyWebsitesDataMap,
   NameToWordMap,
   NameToWordMaps,
 } from "../../interfaces";
-import {
-  combineWordMaps,
-  sortKeysByCount,
-} from "../../helpers/mapFunctions";
-import WordSlider from "./WordSlider";
-import Graph from "./Graph";
+import { combineWordMaps, sortKeysByCount } from "../../helpers/mapFunctions";
 import PopularWords from "./PopularWords";
 import {
   formatedYearsFromDates,
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
 import WordCompare from "./WordCompare";
+import GraphsByPopularity from "./GraphsByPopularity";
 const Words = ({
   names,
   chosenDates,
@@ -43,15 +37,13 @@ const Words = ({
   >([]);
   const [sortedAllWordsByCount, setSortedAllByCount] = useState<string[]>([]);
 
-  const [value, setValue] = useState<number>(1);
-
   useEffect(() => {
     // two states, one for all pagesand one for those selected
     const totalMap: NameToWordMap = {};
     const selectedMap: NameToWordMap = {};
 
     const allNames = Object.keys(webisteJointDataMap);
-    // stores all the maps and megres them
+    // stores all the maps and megres themd
     const mapOfArr: NameToWordMaps = {};
     const datesBetween = formatedYearsFromDates(
       getAllDatesBetween(chosenDates)
@@ -90,31 +82,20 @@ const Words = ({
     selectedMap.total = combineWordMaps(combinedForSelected);
     setWordDataOfSelected(selectedMap);
     setWordDataOfAll(totalMap);
-    setSortedSelectedByCount(sortKeysByCount(selectedMap.total))
-    setSortedAllByCount(sortKeysByCount(totalMap.total))
+    setSortedSelectedByCount(sortKeysByCount(selectedMap.total));
+    setSortedAllByCount(sortKeysByCount(totalMap.total));
   }, [webisteJointDataMap, headingMap, chosenDates, names]);
 
   return (
     <Grid className="words--container">
       {/* some kind of switch to chnage what is displayed */}
-      <WordSlider value={value} setValue={setValue} />
-      {Object.keys(wordDataOfAll).length > 0 ? (
-        <>
-          <Graph
-            data={wordDataOfAll}
-            webisteJointDataMap={webisteJointDataMap}
-            wordOrder = {sortedAllWordsByCount}
-            wordCount={value}
-
-          />
-          <Graph
-            data={wordDataOfSelected}
-            webisteJointDataMap={webisteJointDataMap}
-            wordOrder = {sortedSelectedWordsByCount}
-            wordCount={value}
-          />
-        </>
-      ) : null}
+      <GraphsByPopularity
+        wordDataOfAll={wordDataOfAll}
+        wordDataOfSelected={wordDataOfSelected}
+        webisteJointDataMap={webisteJointDataMap}
+        sortedSelectedWordsByCount={sortedSelectedWordsByCount}
+        sortedAllWordsByCount={sortedAllWordsByCount}
+      />
       <p>Search for word</p>
       <WordCompare
         wordData={wordDataOfSelected}

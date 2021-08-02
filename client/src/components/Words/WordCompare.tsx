@@ -1,7 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
-import Autocomplete, { AutocompleteChangeReason } from "@material-ui/lab/Autocomplete";
-import { NameToWordMap,WebsiteJointDataMap } from "../../interfaces";
+import Autocomplete, {
+  AutocompleteChangeReason,
+} from "@material-ui/lab/Autocomplete";
+import { NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
+import Graph from "./Graph";
+import { passOnlyChosenData, getFormatedDataToGraph } from "./WordsFunctions";
 export interface WordOption {
   word: string;
   count: number;
@@ -9,10 +13,17 @@ export interface WordOption {
 export interface OptionsMap {
   [name: string]: WordOption[];
 }
-const WordCompare = ({ wordData,webisteJointDataMap }: { wordData: NameToWordMap,webisteJointDataMap:WebsiteJointDataMap }) => {
+const WordCompare = ({
+  wordData,
+  webisteJointDataMap,
+}: {
+  wordData: NameToWordMap;
+  webisteJointDataMap: WebsiteJointDataMap;
+}) => {
   // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
   const [suggestions, setSuggestions] = useState<OptionsMap>({});
-  const [selectedWord,setSelectedWords] = useState<string[]>([])
+  const [selectedWord, setSelectedWords] = useState<string[]>([]);
+  const [graphData, setGraphData] = useState<NameToWordMap>({});
 
   useEffect(() => {
     const res: OptionsMap = {};
@@ -36,58 +47,55 @@ const WordCompare = ({ wordData,webisteJointDataMap }: { wordData: NameToWordMap
     setSuggestions(res);
   }, [wordData]);
 
-  // useEffect(() => {
-  //   const allNames = Object.keys(webisteJointDataMap);
-
-  //   console.log(selectedGraphDataRaw, "selectedGraphDataRaw");
-  //   const fullGraphDataRaw = passOnlyChosenData(
-  //     allNames,
-  //     chosenDates,
-  //     headingMap
-  //   );
-  //   const selected2 = getMaxNValuesFromMap(
-  //     fullGraphDataRaw.total.frequencyOfWords,
-  //     value
-  //   );
-  //   const selected = getMaxNValuesFromMap(
-  //     selectedGraphDataRaw.total.frequencyOfWords,
-  //     value
-  //   );
-  //   console.log(selected, "selected");
-  //   setSelectedGraphData(
-  //     getFormatedDataToGraph(selectedGraphDataRaw, selected)
-  //   );
-  //   setFullGrapghData(getFormatedDataToGraph(fullGraphDataRaw, selected2));
-  // }, [chosenDates, names, headingMap, value, webisteJointDataMap]);
-
-
-  const handleChange = (event: ChangeEvent<{}>, value: WordOption[], reason: AutocompleteChangeReason) =>{
-    const words:string[] = []
-    for(let x of value){
-      words.push(x.word)
+  useEffect(() => {
+    const res: NameToWordMap = {};
+    const allNames = Object.keys(wordData);
+    allNames.push("total");
+    for (let name of allNames) {
+      res[name] = {};
     }
-    setSelectedWords(words)
-  }
+    for (const word of selectedWord) {
+      for (let name of allNames) {
+        console.log( res[name], wordData[name],"XDDDD")
+        res[name][word] = wordData[name][word];
+      }
+    }
+    setGraphData(res);
+  }, [selectedWord,webisteJointDataMap,wordData]);
+
+  const handleChange = (
+    event: ChangeEvent<{}>,
+    value: WordOption[],
+    reason: AutocompleteChangeReason
+  ) => {
+    const words: string[] = [];
+    for (let x of value) {
+      words.push(x.word);
+    }
+    setSelectedWords(words);
+  };
   return (
     <div>
-      {/* {suggestions.total ? (
-        <Autocomplete
-          multiple
-          options={suggestions.total}
-          getOptionLabel={(option) => option.word}
-          style={{ width: 300 }}
-          renderInput={(params) => (
-            <TextField {...params} label="Combo box" variant="outlined" />
-          )}
-        />
+      {suggestions.total ? (
+        <div>
+          <Autocomplete
+            multiple
+            options={suggestions.total}
+            getOptionLabel={(option) => option.word}
+            style={{ width: 300 }}
+            renderInput={(params) => (
+              <TextField {...params} label="Combo box" variant="outlined" />
+            )}
+            onChange={handleChange}
+          />
+          <Graph
+            data={graphData}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder={selectedWord}
+            wordCount={selectedWord.length}
+          />
+        </div>
       ) : null}
-
-      {
-        null? <Graph
-        data={graphData}
-        webisteJointDataMap={webisteJointDataMap}
-      />:null
-      } */}
     </div>
   );
 };
