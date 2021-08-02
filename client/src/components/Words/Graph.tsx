@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   BarChart,
   Bar,
@@ -8,36 +9,77 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import { AnyMap,WebsiteJointDataMap } from "../../interfaces";
-import { getNamesFromGraphData } from "./WordsFunctions";
+import { AnyMap, NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
+import {
+  getFormatedDataToGraph,
+  getNamesFromGraphData,
+  passOnlyChosenData,
+} from "./WordsFunctions";
 
-const Graph = ({data,webisteJointDataMap}:{data:AnyMap[],webisteJointDataMap:WebsiteJointDataMap}) => {
+const Graph = ({
+  data,
+  webisteJointDataMap,
+  wordOrder,
+  wordCount,
+}: {
+  data: NameToWordMap;
+  webisteJointDataMap: WebsiteJointDataMap;
+  wordOrder: string[];
+  wordCount: number;
+}) => {
+  const [graphData, setGraphData] = useState<AnyMap[]>([]);
+  useEffect(() => {
+    const res: AnyMap[] = [];
+    const names = getNamesFromGraphData(data);
+
+    console.log(names, data, "XD");
+    for (let i = 0; i < wordCount; i++) {
+      const currentWord = wordOrder[i];
+      const currentGraphMap: AnyMap = { word: currentWord };
+      for (const name of names) {
+        const wordCount =
+          data[name][currentWord] !== undefined ? data[name][currentWord] : 0;
+        currentGraphMap[name] = wordCount;
+      }
+      res.push(currentGraphMap);
+    }
+
+    setGraphData(res);
+  }, [data, wordCount, wordOrder]);
+
   return (
-    <ResponsiveContainer height={500}>
-        <BarChart
-          data={data}
-          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="word" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          {data.length > 0
-            ? getNamesFromGraphData(data[0]).map((name, index) => {
-                return (
-                  <Bar
-                    dataKey={name}
-                    fill={`#${webisteJointDataMap[name].color}`}
-                    key={index}
-                  />
-                );
-              })
-            : null}
-          <Bar dataKey="total" fill="#38AE1A" />
-        </BarChart>
-      </ResponsiveContainer>
-  )
-}
+    <>
+      {graphData.length > 0 ? (
+        <ResponsiveContainer height={500}>
+          <BarChart
+            data={graphData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="word" />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            {graphData.length > 0
+              ? getNamesFromGraphData(data).map((name, index) => {
+                  return (
+                    <Bar
+                      dataKey={name}
+                      fill={`#${
+                        webisteJointDataMap[name]
+                          ? webisteJointDataMap[name].color
+                          : "38AE1A"
+                      }`}
+                      key={index}
+                    />
+                  );
+                })
+              : null}
+          </BarChart>
+        </ResponsiveContainer>
+      ) : null}
+    </>
+  );
+};
 
-export default Graph
+export default Graph;

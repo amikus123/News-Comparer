@@ -1,4 +1,3 @@
-import WordCompare from "./components/Words/WordCompare"
 
 
 export interface Heading {

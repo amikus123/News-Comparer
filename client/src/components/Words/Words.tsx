@@ -13,7 +13,7 @@ import {
 } from "../../interfaces";
 import {
   combineWordMaps,
-  getMaxNValuesFromMap,
+  sortKeysByCount,
 } from "../../helpers/mapFunctions";
 import WordSlider from "./WordSlider";
 import Graph from "./Graph";
@@ -23,7 +23,6 @@ import {
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
 import WordCompare from "./WordCompare";
-import WordAutocomplete from "./WordAutocomplete";
 const Words = ({
   names,
   chosenDates,
@@ -35,12 +34,14 @@ const Words = ({
   headingMap: HeadingsByDate;
   webisteJointDataMap: WebsiteJointDataMap;
 }) => {
-  const [selectedGraphData, setSelectedGraphData] = useState<WordMap[]>([]);
-  const [fullGrapghData, setFullGrapghData] = useState<WordMap[]>([]);
   const [wordDataOfAll, setWordDataOfAll] = useState<NameToWordMap>({});
   const [wordDataOfSelected, setWordDataOfSelected] = useState<NameToWordMap>(
     {}
   );
+  const [sortedSelectedWordsByCount, setSortedSelectedByCount] = useState<
+    string[]
+  >([]);
+  const [sortedAllWordsByCount, setSortedAllByCount] = useState<string[]>([]);
 
   const [value, setValue] = useState<number>(1);
 
@@ -89,50 +90,36 @@ const Words = ({
     selectedMap.total = combineWordMaps(combinedForSelected);
     setWordDataOfSelected(selectedMap);
     setWordDataOfAll(totalMap);
+    setSortedSelectedByCount(sortKeysByCount(selectedMap.total))
+    setSortedAllByCount(sortKeysByCount(totalMap.total))
   }, [webisteJointDataMap, headingMap, chosenDates, names]);
-
-  useEffect(() => {
-    const allNames = Object.keys(webisteJointDataMap);
-    const selectedGraphDataRaw = passOnlyChosenData(
-      names,
-      chosenDates,
-      headingMap
-    );
-    console.log(selectedGraphDataRaw, "selectedGraphDataRaw");
-    const fullGraphDataRaw = passOnlyChosenData(
-      allNames,
-      chosenDates,
-      headingMap
-    );
-    const selected2 = getMaxNValuesFromMap(
-      fullGraphDataRaw.total.frequencyOfWords,
-      value
-    );
-    const selected = getMaxNValuesFromMap(
-      selectedGraphDataRaw.total.frequencyOfWords,
-      value
-    );
-    console.log(selected, "selected");
-    setSelectedGraphData(
-      getFormatedDataToGraph(selectedGraphDataRaw, selected)
-    );
-    setFullGrapghData(getFormatedDataToGraph(fullGraphDataRaw, selected2));
-  }, [chosenDates, names, headingMap, value, webisteJointDataMap]);
 
   return (
     <Grid className="words--container">
       {/* some kind of switch to chnage what is displayed */}
       <WordSlider value={value} setValue={setValue} />
-      <Graph
-        data={selectedGraphData}
-        webisteJointDataMap={webisteJointDataMap}
-      />
-      <Graph
-        data={fullGrapghData}
-        webisteJointDataMap={webisteJointDataMap}
-      />
+      {Object.keys(wordDataOfAll).length > 0 ? (
+        <>
+          <Graph
+            data={wordDataOfAll}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder = {sortedAllWordsByCount}
+            wordCount={value}
+
+          />
+          <Graph
+            data={wordDataOfSelected}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder = {sortedSelectedWordsByCount}
+            wordCount={value}
+          />
+        </>
+      ) : null}
       <p>Search for word</p>
-      <WordCompare wordData={wordDataOfSelected} />
+      <WordCompare
+        wordData={wordDataOfSelected}
+        webisteJointDataMap={webisteJointDataMap}
+      />
     </Grid>
   );
 };

@@ -9,6 +9,7 @@ import {
   FringeDates,
   HeadingsByDate,
   WordMap,
+  NameToWordMap,
 } from "../../interfaces";
 
 export const getFormatedDataToGraph = (
@@ -95,16 +96,16 @@ export const passOnlyChosenData = (
   return res;
 };
 
-export const getNamesFromGraphData = (data: AnyMap): string[] => {
+export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
   const names = Object.keys(data);
   console.log(names)
   console.log(
     names.filter((item) => {
-      return item !== "total" && item !== "word";
+      return item !== "word";
     }),
     "RESZZZZZ"
   );
   return names.filter((item) => {
-    return item !== "total" && item !== "word";
+    return  item !== "word";
   });
 };

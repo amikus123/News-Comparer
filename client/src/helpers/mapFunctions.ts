@@ -22,11 +22,14 @@ export const sumOfMapValues = (maps: WordMap[]) => {
   }
   return number;
 };
-export const getMaxNValuesFromMap = (map:WordMap,n:number, m:number=0) =>{
+export const sortKeysByCount = (map:WordMap) : string[]=> {
+ 
   const entries = Object.entries(map)
-  var sorted_students = entries.sort(function(a, b) {
+  var sorted = entries.sort(function(a, b) {
     return b[1] - a[1];
   });
-  return sorted_students.splice(m,n)
+  
+  return sorted.map((item)=>item[0])
 
 }
+

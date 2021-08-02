@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, { AutocompleteChangeReason } from "@material-ui/lab/Autocomplete";
-import { NameToWordMap } from "../../interfaces";
+import { NameToWordMap,WebsiteJointDataMap } from "../../interfaces";
 export interface WordOption {
   word: string;
   count: number;
@@ -9,10 +9,11 @@ export interface WordOption {
 export interface OptionsMap {
   [name: string]: WordOption[];
 }
-const WordCompare = ({ wordData }: { wordData: NameToWordMap }) => {
+const WordCompare = ({ wordData,webisteJointDataMap }: { wordData: NameToWordMap,webisteJointDataMap:WebsiteJointDataMap }) => {
   // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
   const [suggestions, setSuggestions] = useState<OptionsMap>({});
   const [selectedWord,setSelectedWords] = useState<string[]>([])
+
   useEffect(() => {
     const res: OptionsMap = {};
     for (const name in wordData) {
@@ -34,6 +35,32 @@ const WordCompare = ({ wordData }: { wordData: NameToWordMap }) => {
 
     setSuggestions(res);
   }, [wordData]);
+
+  // useEffect(() => {
+  //   const allNames = Object.keys(webisteJointDataMap);
+
+  //   console.log(selectedGraphDataRaw, "selectedGraphDataRaw");
+  //   const fullGraphDataRaw = passOnlyChosenData(
+  //     allNames,
+  //     chosenDates,
+  //     headingMap
+  //   );
+  //   const selected2 = getMaxNValuesFromMap(
+  //     fullGraphDataRaw.total.frequencyOfWords,
+  //     value
+  //   );
+  //   const selected = getMaxNValuesFromMap(
+  //     selectedGraphDataRaw.total.frequencyOfWords,
+  //     value
+  //   );
+  //   console.log(selected, "selected");
+  //   setSelectedGraphData(
+  //     getFormatedDataToGraph(selectedGraphDataRaw, selected)
+  //   );
+  //   setFullGrapghData(getFormatedDataToGraph(fullGraphDataRaw, selected2));
+  // }, [chosenDates, names, headingMap, value, webisteJointDataMap]);
+
+
   const handleChange = (event: ChangeEvent<{}>, value: WordOption[], reason: AutocompleteChangeReason) =>{
     const words:string[] = []
     for(let x of value){
@@ -43,18 +70,24 @@ const WordCompare = ({ wordData }: { wordData: NameToWordMap }) => {
   }
   return (
     <div>
-      {suggestions.total ? (
+      {/* {suggestions.total ? (
         <Autocomplete
           multiple
           options={suggestions.total}
           getOptionLabel={(option) => option.word}
           style={{ width: 300 }}
-          onChange = {handleChange}
           renderInput={(params) => (
             <TextField {...params} label="Combo box" variant="outlined" />
           )}
         />
       ) : null}
+
+      {
+        null? <Graph
+        data={graphData}
+        webisteJointDataMap={webisteJointDataMap}
+      />:null
+      } */}
     </div>
   );
 };
