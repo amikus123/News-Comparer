@@ -1,17 +1,19 @@
 import { createRowObjects } from "../firebase/firestore";
 import { getMissingScreenshots } from "../firebase/storage";
 import {
-  TotalGraphData,
   WebsiteJointDataMap,
   HeadingsByDate,
   FringeDates,
   WordMap,
   ScreenshotsByDate,
   DailyWebsitesDataMap,
+  NameToWordMap,
+  NameToWordMaps,
 } from "../interfaces";
 import merge from "deepmerge";
 import { formatedYearsFromDates, getAllDatesBetween } from "./dataCreation";
 import { combineWordMaps } from "./mapFunctions";
+import { OptionsMap } from "../components/Words/WordsInterfaces";
 
 // TODO TESTS
 export const getChosenScreenshotsFromData = (
@@ -98,3 +100,73 @@ export const cretaeImagesSources = async (
   };
 };
 
+// WORDS
+
+export const getSelectedAndAllWordMap = (
+  webisteJointDataMap: WebsiteJointDataMap,
+  headingMap: HeadingsByDate,
+  chosenDates: FringeDates,
+  names: string[],
+) => {
+  const totalMap: NameToWordMap = {};
+  const selectedMap: NameToWordMap = {};
+
+  const allNames = Object.keys(webisteJointDataMap);
+  // stores all the maps and megres themd
+  const mapOfArr: NameToWordMaps = {};
+  const datesBetween = formatedYearsFromDates(getAllDatesBetween(chosenDates));
+  // has key only for seleted names
+  for (let name of names) {
+    selectedMap[name] = {};
+  }
+
+  for (let name of allNames) {
+    totalMap[name] = {};
+    mapOfArr[name] = [];
+  }
+
+  for (const i of datesBetween) {
+    console.log(headingMap,"zarazj jebnie",Object.keys(headingMap))
+    const current: DailyWebsitesDataMap = headingMap[i].totalDailySiteData;
+    for (const name in current) {
+      console.log(name, "QQ", mapOfArr);
+      mapOfArr[name].push(current[name].pageDailyFrequencyOfWords);
+    }
+  }
+
+  const combinedForTotal: WordMap[] = [];
+  const combinedForSelected: WordMap[] = [];
+  for (let name of allNames) {
+    const combinedForName = combineWordMaps(mapOfArr[name]);
+
+    totalMap[name] = combinedForName;
+    combinedForTotal.push(combinedForName);
+    if (selectedMap[name] !== undefined) {
+      selectedMap[name] = combinedForName;
+      combinedForSelected.push(combinedForName);
+    }
+  }
+  totalMap.total = combineWordMaps(combinedForTotal);
+  selectedMap.total = combineWordMaps(combinedForSelected);
+  return { selectedMap: selectedMap, totalMap: totalMap };
+};
+export const getSuggestions = (wordData: NameToWordMap): OptionsMap => {
+  const res: OptionsMap = {};
+  for (const name in wordData) {
+    res[name] = [];
+  }
+  const total = wordData["total"];
+  for (const word in total) {
+    for (const name in wordData) {
+      let wordCount = wordData[name][word];
+      if (wordCount === undefined) {
+        wordCount = 0;
+      }
+      res[name].push({
+        word: word,
+        count: wordCount,
+      });
+    }
+  }
+  return res;
+};

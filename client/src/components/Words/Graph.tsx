@@ -11,9 +11,7 @@ import {
 } from "recharts";
 import { AnyMap, NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
 import {
-  getFormatedDataToGraph,
   getNamesFromGraphData,
-  passOnlyChosenData,
 } from "./WordsFunctions";
 
 const Graph = ({

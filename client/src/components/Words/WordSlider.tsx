@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, SetStateAction } from "react";
+import  { ChangeEvent, Dispatch, SetStateAction } from "react";
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
 

@@ -2,7 +2,7 @@ import {
   formatedYearsFromDates,
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
-import { FringeDates, HeadingsByDate, Heading } from "../../interfaces";
+import { FringeDates, HeadingsByDate, Heading, WordMap } from "../../interfaces";
 export interface HeadingRow {
   [name: string]:  string |Heading[];
   date: string;
@@ -36,3 +36,22 @@ export const getSelectedHeadings = (
   console.log(res,"kkoniec")
   return res;
 };
+
+export const checkIfContainsWords = (headingText:string,words:string[]) => {
+  // changin to map
+  if(!words.length || words.length ===0){
+    return true
+  }
+  const wordMap :WordMap= {}
+  for(const word of words){
+    wordMap[word] = 0
+  }
+  const splitHeading = headingText.split(" " ).map(item=>item.toLowerCase())
+  console.log(splitHeading)
+  for(const word of splitHeading){
+    if(wordMap[word] !== undefined){
+      return true
+    }
+  }
+  return false
+}

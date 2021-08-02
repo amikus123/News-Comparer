@@ -1,16 +1,16 @@
-import { Grid } from "@material-ui/core";
 import { HeadingRow } from "./HeadingsFunctions";
 import HeadingCell from "./HeadingCell";
-import { DateTypo } from "../Typography/CustomTypo";
 import { WordToWordMap } from "../../interfaces";
 const HeadingsRow = ({
   headingsRow,
   names,
   downloadedHeadingImages,
+  selectedWords
 }: {
   headingsRow: HeadingRow;
   names: string[];
   downloadedHeadingImages: WordToWordMap;
+  selectedWords:string[]
 }) => {
   
   // add placeholders
@@ -23,6 +23,7 @@ const HeadingsRow = ({
           const pog = headingsRow[name];
           return typeof pog !== "string" && typeof pog !== "undefined" ? (
               <HeadingCell
+              selectedWords={selectedWords}
                 headings={pog}
                 key={index}
                 downloadedHeadingImages={downloadedHeadingImages}

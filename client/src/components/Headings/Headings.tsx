@@ -3,21 +3,25 @@ import { HeadingsByDate, FringeDates, WordToWordMap } from "../../interfaces";
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
-import { DateTypo } from "../Typography/CustomTypo";
+import AutoComplete from "../Words/AutoComplete";
+import { OptionsMap } from "../Words/WordsInterfaces";
 const Headings = ({
   names,
   chosenDates,
   headingMap,
   downloadedHeadingImages,
   setDowloadedHeadingImages,
+  suggestions
 }: {
   names: string[];
   chosenDates: FringeDates;
   headingMap: HeadingsByDate;
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
+  suggestions:OptionsMap;
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
+  const [selectedWords,setSelectedWords] = useState<string[]>([])
   useEffect(() => {
     const res = getSelectedHeadings(names, chosenDates, headingMap);
     console.log(res, "headins");
@@ -75,10 +79,12 @@ const Headings = ({
             key={index}
             names={names}
             downloadedHeadingImages={downloadedHeadingImages}
+            selectedWords={selectedWords}
           />
         );
       })}
       <p className="headings--tip">Scroll on collumns to see more</p>
+      <AutoComplete suggestions={suggestions}  stateChange={setSelectedWords} />
     </div>
   );
 };

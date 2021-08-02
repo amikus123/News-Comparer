@@ -6,6 +6,7 @@ import {
   HeadingsByDate,
   ScreenshotsByDate,
   WordToWordMap,
+  NameToWordMap,
 } from "./interfaces";
 import {
   fetchStaticWebsiteDataMap,
@@ -21,9 +22,15 @@ import {
   getAllDatesBetween,
   getPreviousDay,
 } from "./helpers/dataCreation";
-import { splitDataByRows, cretaeImagesSources } from "./helpers/stateHelpers";
+import {
+  splitDataByRows,
+  cretaeImagesSources,
+  getSelectedAndAllWordMap,
+  getSuggestions,
+} from "./helpers/stateHelpers";
 import Words from "./components/Words/Words";
 import Headings from "./components/Headings/Headings";
+import { OptionsMap } from "./components/Words/WordsInterfaces";
 
 function App() {
   // STATES
@@ -44,6 +51,15 @@ function App() {
   // used to prevent needles fetching of iamges in Headings
   const [downloadedHeadingImages, setDowloadedHeadingImages] =
     useState<WordToWordMap>({});
+  // used in haeading in words
+  const [wordDataOfAll, setWordDataOfAll] = useState<NameToWordMap>({});
+  const [wordDataOfSelected, setWordDataOfSelected] = useState<NameToWordMap>(
+    {}
+  );
+  const [selectedSuggsetions, setSelectedSuggsetions] = useState<OptionsMap>(
+    {}
+  );
+  const [allSuggsetions, setAllSuggsetions] = useState<OptionsMap>({});
   // FUNCTIONS
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...namesOfWebiteesToDisplay];
@@ -104,8 +120,24 @@ function App() {
     a();
     // inclusion of all of them creates infinite loop
   }, [namesOfWebiteesToDisplay, chosenDates]);
+
+  useEffect(() => {
+    if (chosenDates !== null && Object.keys(headingMap).length > 0) {
+      const { selectedMap, totalMap } = getSelectedAndAllWordMap(
+        webisteJointData,
+        headingMap,
+        chosenDates,
+        namesOfWebiteesToDisplay
+      );
+      setWordDataOfSelected(selectedMap);
+      setWordDataOfAll(totalMap);
+
+      setSelectedSuggsetions(getSuggestions(selectedMap));
+      setAllSuggsetions(getSuggestions(totalMap));
+    }
+  }, [webisteJointData, headingMap, chosenDates, namesOfWebiteesToDisplay]);
   return (
-    // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane 
+    // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane
     // TODO
     // add single page view, both for small screens and for on toggle
     <>
@@ -124,39 +156,36 @@ function App() {
         chosenDates={chosenDates}
       />
       {/* // load more button  for images and screenshots*/}
-      <Switch>
-        <Route path="/words">
-          {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+      {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+        <Switch>
+          <Route path="/words">
             <Words
-              names={namesOfWebiteesToDisplay}
-              chosenDates={chosenDates}
-              headingMap={headingMap}
-              webisteJointDataMap={webisteJointData}
+              suggestions={allSuggsetions}
+              wordDataOfAll={wordDataOfAll}
+              wordDataOfSelected={wordDataOfSelected}
+              webisteJointData={webisteJointData}
             />
-          ) : null}
-        </Route>
-        <Route path="/headings">
-          {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+          </Route>
+          <Route path="/headings">
             <Headings
+              suggestions={selectedSuggsetions}
               names={namesOfWebiteesToDisplay}
               chosenDates={chosenDates}
               headingMap={headingMap}
               downloadedHeadingImages={downloadedHeadingImages}
               setDowloadedHeadingImages={setDowloadedHeadingImages}
             />
-          ) : null}
-        </Route>
-        <Route path="/screenshots">
-          {chosenDates !== null ? (
+          </Route>
+          <Route path="/screenshots">
             <Screenshots
               setFullScreenImage={setFellScreenAndResetPosition}
               screenshotsByDate={screenshotsByDate}
               chosenDates={chosenDates}
               names={namesOfWebiteesToDisplay}
             />
-          ) : null}
-        </Route>
-      </Switch>
+          </Route>
+        </Switch>
+      ) : null}
     </>
   );
 }
