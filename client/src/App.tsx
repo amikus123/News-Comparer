@@ -105,6 +105,7 @@ function App() {
     // inclusion of all of them creates infinite loop
   }, [namesOfWebiteesToDisplay, chosenDates]);
   return (
+    // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane 
     // TODO
     // add single page view, both for small screens and for on toggle
     <>

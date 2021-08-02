@@ -1,3 +1,4 @@
+import WordCompare from "./components/Words/WordCompare"
 
 
 export interface Heading {
@@ -172,4 +173,11 @@ export interface FringeDates {
 export interface ScreenshostForColumns {
   websiteName: string;
   screenshots: string[];
+}
+
+export interface  NameToWordMap{
+  [websiteName:string] : WordMap;
+}
+export interface  NameToWordMaps{
+  [websiteName:string] : WordMap[];
 }
