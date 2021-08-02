@@ -23,6 +23,7 @@ import {
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
 import WordCompare from "./WordCompare";
+import WordAutocomplete from "./WordAutocomplete";
 const Words = ({
   names,
   chosenDates,
@@ -124,12 +125,10 @@ const Words = ({
       <WordSlider value={value} setValue={setValue} />
       <Graph
         data={selectedGraphData}
-        names={names}
         webisteJointDataMap={webisteJointDataMap}
       />
       <Graph
         data={fullGrapghData}
-        names={Object.keys(webisteJointDataMap)}
         webisteJointDataMap={webisteJointDataMap}
       />
       <p>Search for word</p>

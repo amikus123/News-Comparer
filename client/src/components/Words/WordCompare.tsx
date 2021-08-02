@@ -2,11 +2,11 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete, { AutocompleteChangeReason } from "@material-ui/lab/Autocomplete";
 import { NameToWordMap } from "../../interfaces";
-interface WordOption {
+export interface WordOption {
   word: string;
   count: number;
 }
-interface OptionsMap {
+export interface OptionsMap {
   [name: string]: WordOption[];
 }
 const WordCompare = ({ wordData }: { wordData: NameToWordMap }) => {
@@ -60,15 +60,3 @@ const WordCompare = ({ wordData }: { wordData: NameToWordMap }) => {
 };
 
 export default WordCompare;
-{/* <Autocomplete
-  id="virtualize-demo"
-  style={{ width: 300 }}
-  disableListWrap
-  classes={classes}
-  ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
-  renderGroup={renderGroup}
-  options={OPTIONS}
-  groupBy={(option) => option[0].toUpperCase()}
-  renderInput={(params) => <TextField {...params} variant="outlined" label="10,000 options" />}
-  renderOption={(option) => <Typography noWrap>{option}</Typography>}
-/> */}

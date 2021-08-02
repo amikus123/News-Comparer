@@ -9,8 +9,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnyMap,WebsiteJointDataMap } from "../../interfaces";
+import { getNamesFromGraphData } from "./WordsFunctions";
 
-const Graph = ({data,names,webisteJointDataMap}:{data:AnyMap[],names:string[],webisteJointDataMap:WebsiteJointDataMap}) => {
+const Graph = ({data,webisteJointDataMap}:{data:AnyMap[],webisteJointDataMap:WebsiteJointDataMap}) => {
   return (
     <ResponsiveContainer height={500}>
         <BarChart
@@ -23,7 +24,7 @@ const Graph = ({data,names,webisteJointDataMap}:{data:AnyMap[],names:string[],we
           <Tooltip />
           <Legend />
           {data.length > 0
-            ? names.map((name, index) => {
+            ? getNamesFromGraphData(data[0]).map((name, index) => {
                 return (
                   <Bar
                     dataKey={name}

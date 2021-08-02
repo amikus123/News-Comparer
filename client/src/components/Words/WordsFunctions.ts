@@ -1,32 +1,44 @@
-import { getAllDatesBetween, formatedYearsFromDates } from "../../helpers/dataCreation"
-import { combineWordMaps } from "../../helpers/mapFunctions"
-import { TotalGraphData, AnyMap,FringeDates,HeadingsByDate, WordMap } from "../../interfaces"
+import {
+  getAllDatesBetween,
+  formatedYearsFromDates,
+} from "../../helpers/dataCreation";
+import { combineWordMaps } from "../../helpers/mapFunctions";
+import {
+  TotalGraphData,
+  AnyMap,
+  FringeDates,
+  HeadingsByDate,
+  WordMap,
+} from "../../interfaces";
 
-
-export const getFormatedDataToGraph = (totalData:TotalGraphData,selected:[string, number][]) =>{
-  const keys = Object.keys(totalData)
-  const res:AnyMap[] = []
-  selected.forEach(entry=>{
-    const  word = entry[0]
-    const capitalizedWord = word.charAt(0).toUpperCase() + word.slice(1,word.length)
-    const tempObj:AnyMap = {
-      word : capitalizedWord
-    }
-    keys.forEach(key=>{
-      let count = 0
-      console.log(totalData[key], "BUM")
-      if(totalData[key].frequencyOfWords[word] !== undefined){
-              count = totalData[key].frequencyOfWords[word]
+export const getFormatedDataToGraph = (
+  totalData: TotalGraphData,
+  selected: [string, number][]
+) => {
+  const keys = Object.keys(totalData);
+  const res: AnyMap[] = [];
+  selected.forEach((entry) => {
+    const word = entry[0];
+    const capitalizedWord =
+      word.charAt(0).toUpperCase() + word.slice(1, word.length);
+    const tempObj: AnyMap = {
+      word: capitalizedWord,
+    };
+    keys.forEach((key) => {
+      let count = 0;
+      console.log(totalData[key], "BUM");
+      if (totalData[key].frequencyOfWords[word] !== undefined) {
+        count = totalData[key].frequencyOfWords[word];
       }
-      tempObj[key] = count
-    })
+      tempObj[key] = count;
+    });
     res.push({
-      ...tempObj
-    })
-  })
-  console.log(res,"RES")
-  return res
-}
+      ...tempObj,
+    });
+  });
+  console.log(res, "RES");
+  return res;
+};
 
 export const passOnlyChosenData = (
   names: string[],
@@ -77,10 +89,22 @@ export const passOnlyChosenData = (
 
   res.total = {
     frequencyOfWords: combineWordMaps(totalMaps),
-    totalWordCount:
-     totalCount,
+    totalWordCount: totalCount,
   };
 
   return res;
 };
 
+export const getNamesFromGraphData = (data: AnyMap): string[] => {
+  const names = Object.keys(data);
+  console.log(names)
+  console.log(
+    names.filter((item) => {
+      return item !== "total" && item !== "word";
+    }),
+    "RESZZZZZ"
+  );
+  return names.filter((item) => {
+    return item !== "total" && item !== "word";
+  });
+};
