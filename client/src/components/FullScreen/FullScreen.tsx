@@ -1,3 +1,5 @@
+import CloseIcon from "@material-ui/icons/Close";
+import { useEffect, useState } from "react";
 const FullScreen = ({
   fullScreenImage,
   setFullScreenImage,
@@ -7,25 +9,46 @@ const FullScreen = ({
 }) => {
   const close = (e: React.MouseEvent<HTMLElement>) => {
     setFullScreenImage("");
+    const fullscreen = document.getElementById("fullscreen");
+    if (fullscreen) {
+      fullscreen.scroll(0, 0);
+    }
   };
   const imageClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
+    // e.preventDefault();
+    // e.stopPropagation();
   };
+  // useEffect(() => {
+  //   const app = document.getElementById("body");
+  //   if (app) {
+  //     app.classList.toggle("hideOverflowY");
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   const app = document.getElementById("body");
+  //   if (app) {
+  //     app.classList.toggle("hideOverflowY");
+  //   }
+  // }, [fullScreenImage]);
+
   return (
     <div
-      className={`fullScreen ${fullScreenImage === "" ? "hide" : ""}`}
+      className={`fullscreen ${fullScreenImage === "" ? "hide" : ""}`}
+      id="fullscreen"
       onClick={close}
     >
-      <img
-        src={fullScreenImage}
-        alt="test"
-        className="fullScreen--image fullScreen--image-off"
-        id="fullScreenImage"
-        onClick={imageClick}
-      />
-      {/* i doubt whether this is necessary */}
-      {/* <CloseIcon className="fullScreen--closeIcon" /> */}
+      <div className="fullscreen--wrrapper">
+        <img
+          src={fullScreenImage}
+          alt="test"
+          className={`fullscreen--image ${
+            fullScreenImage === "" ? "hide" : ""
+          }`}
+          id="fullScreenImage"
+          onClick={imageClick}
+        />
+        <CloseIcon className="fullscreen--close-icon" />
+      </div>
     </div>
   );
 };

@@ -5,12 +5,11 @@ body {
     "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 6000px;
 }
 
-img {
+/* img {
   margin: 0 auto;
-}
+} */
 /* ovverides default css for materail ui selected option preview in "Website Selector" */
 .MuiInputBase-input {
   display: flex !important;
@@ -87,8 +86,7 @@ img {
   flex-direction: column;
   align-items: center;
 }
-.headings--container {
-}
+
 
 .headings--date {
   font-size: 2rem;
@@ -138,7 +136,7 @@ img {
   height: 200px;
   /* height: auto; */
 
-    /* position: absolute;
+  /* position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -146,39 +144,49 @@ img {
   width: auto;
   max-width: 100%; */
 }
-.headings--text{
+.headings--text {
   /* margin:0 auto; */
-  text-align:center;
+  text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
 }
 /* full screenclases */
-.fullScreen {
+.fullscreen {
   position: fixed;
   width: 100vw;
   background-color: rgba(48, 48, 48, 0.5);
   height: 100vh;
   /* defualt material ui header z-index is 1000 */
   z-index: 1200;
-  overflow: scroll;
+  overflow-y: scroll;
   display: flex;
   justify-content: center;
   overscroll-behavior: contain;
 }
 
-.fullScreen--closeIcon {
-  position: relative;
-  font-size: 3rem !important;
-}
-.fullScreen--image {
-  justify-self: center;
-  height: fit-content;
-  margin: 2rem;
-}
-.fullScreen--image-off {
-  height: 0rem;
+.fullscreen:hover{
+  cursor: pointer;
+
 }
 
+
+.fullscreen--wrrapper {
+  display: flex;
+  justify-content: center;
+  max-width: min(90vw,1440px);
+  height: fit-content;
+
+}
+.fullscreen--image {
+  margin: 2rem auto;
+  width:calc(100% - 96px);
+  /* height: 0re  m; */
+}
+.fullscreen--close-icon {
+  position: relative;
+  font-size: 4rem !important;
+  padding: 1rem;
+}
 /* GRID */
 .words--container {
   display: flex;
@@ -201,4 +209,15 @@ img {
 }
 .hide2 {
   visibility: hidden;
+}
+.hideOverflowY{
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+}
+
+.hideOverflowY::-webkit-scrollbar {
+  /* WebKit */
+  width: 0;
+  height: 0;
 }
