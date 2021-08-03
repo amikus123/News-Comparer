@@ -25,7 +25,6 @@ const HeadingsRow = ({
           return typeof pog !== "string" && typeof pog !== "undefined" ? (
             <HeadingCell
               selectedWords={selectedWords}
-              rowIndex={rowIndex}
               name={name}
               headings={pog}
               key={index}

@@ -6,13 +6,11 @@ const HeadingCell = ({
   headings,
   downloadedHeadingImages,
   selectedWords,
-  rowIndex,
   name
 }: {
   headings: Heading[];
   downloadedHeadingImages: WordToWordMap;
   selectedWords:string[];
-  rowIndex:number,
 name:string
 }) => {
   return (
