@@ -2,9 +2,14 @@ import {
   formatedYearsFromDates,
   getAllDatesBetween,
 } from "../../helpers/dataCreation";
-import { FringeDates, HeadingsByDate, Heading, WordMap } from "../../interfaces";
+import {
+  FringeDates,
+  HeadingsByDate,
+  Heading,
+  WordMap,
+} from "../../interfaces";
 export interface HeadingRow {
-  [name: string]:  string |Heading[];
+  [name: string]: string | Heading[];
   date: string;
 }
 
@@ -24,34 +29,34 @@ export const getSelectedHeadings = (
       // not optimal
       console.log(siteData, "XD");
       for (let index in names) {
-        const name = names[index]
-        console.log(name,siteData,"PRZED")
+        const name = names[index];
+        console.log(name, siteData, "PRZED");
         const data = siteData[name];
         tempObj[name] = data.headings;
       }
-      
+
       res.push({ ...tempObj });
     }
   });
-  console.log(res,"kkoniec")
+  console.log(res, "kkoniec");
   return res;
 };
 
-export const checkIfContainsWords = (headingText:string,words:string[]) => {
+export const checkIfContainsWords = (headingText: string, words: string[]) => {
   // changin to map
-  if(!words.length || words.length ===0){
-    return true
+  if (!words.length || words.length === 0) {
+    return true;
   }
-  const wordMap :WordMap= {}
-  for(const word of words){
-    wordMap[word] = 0
-  }
-  const splitHeading = headingText.split(" " ).map(item=>item.toLowerCase())
-  console.log(splitHeading)
-  for(const word of splitHeading){
-    if(wordMap[word] !== undefined){
-      return true
+
+  const splitHeading = headingText.split(" ").map((item) => item.toLowerCase());
+  console.log(splitHeading);
+  for (const word of splitHeading) {
+    for(const searchedWord of words){
+      if (word.indexOf(searchedWord) >= 0) {
+        return true;
+      }
     }
   }
-  return false
-}
+
+  return false;
+};

@@ -140,6 +140,8 @@ function App() {
     // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane
     // TODO
     // add single page view, both for small screens and for on toggle
+    // add dont load image when there is some kind of errror
+    // improve creatingsuggestion, make it ignore special charactres
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}
