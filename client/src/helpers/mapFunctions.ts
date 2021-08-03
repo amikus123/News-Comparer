@@ -1,4 +1,5 @@
 import { WordMap } from "../interfaces";
+
 export const combineWordMaps = (data: WordMap[]) => {
   const result: WordMap = {}; 
   data.forEach((basket) => {
@@ -12,6 +13,7 @@ export const combineWordMaps = (data: WordMap[]) => {
   });
   return result;
 };
+
 export const sumOfMapValues = (maps: WordMap[]) => {
   let number = 0;
   for (let i = 0; i < maps.length; i++) {
@@ -22,14 +24,13 @@ export const sumOfMapValues = (maps: WordMap[]) => {
   }
   return number;
 };
+
 export const sortKeysByCount = (map:WordMap) : string[]=> {
- 
-  const entries = Object.entries(map)
+   const entries = Object.entries(map)
   var sorted = entries.sort(function(a, b) {
     return b[1] - a[1];
   });
   const res = sorted.map((item)=>item[0])
-  // console.log(res,sorted,"SADODSAOSO") 
   return res
 
 }

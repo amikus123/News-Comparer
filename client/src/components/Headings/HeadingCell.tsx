@@ -15,7 +15,10 @@ name:string
 }) => {
   return (
     <ul className="headings--list">
+      <div className="heading--logo-image-wrapper">
        <img src={`${name}_Logo.png`} alt={name} className="heading--logo-image" />
+
+      </div>
       {headings.map((item, index) => {
         return (
           <>

@@ -6,13 +6,11 @@ const HeadingsRow = ({
   names,
   downloadedHeadingImages,
   selectedWords,
-  rowIndex,
 }: {
   headingsRow: HeadingRow;
   names: string[];
   downloadedHeadingImages: WordToWordMap;
   selectedWords: string[];
-  rowIndex: number;
 }) => {
   // add placeholders
   return (

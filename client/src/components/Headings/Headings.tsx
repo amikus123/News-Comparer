@@ -5,25 +5,30 @@ import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
 import AutoComplete from "../Words/AutoComplete";
 import { OptionsMap } from "../Words/WordsInterfaces";
+import ShowMoreButton from "../ShowMoreButton";
 const Headings = ({
   names,
   chosenDates,
   headingMap,
   downloadedHeadingImages,
   setDowloadedHeadingImages,
-  suggestions
+  suggestions,
 }: {
   names: string[];
   chosenDates: FringeDates;
   headingMap: HeadingsByDate;
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
-  suggestions:OptionsMap;
+  suggestions: OptionsMap;
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
-  const [selectedWords,setSelectedWords] = useState<string[]>([])
+  const [selectedWords, setSelectedWords] = useState<string[]>([]);
+  const [displayedCount, setDisplayedCount] = useState<number>(2);
   useEffect(() => {
-    const res = getSelectedHeadings(names, chosenDates, headingMap);
+    // sets columnHeadingData to have only chosen dates
+    const res = reverseArrayInPlace(
+      getSelectedHeadings(names, chosenDates, headingMap)
+    );
     console.log(res, "headins");
     setColumnHeadingData(res);
   }, [names, chosenDates, headingMap]);
@@ -43,12 +48,12 @@ const Headings = ({
     const downloadAndCacheImages = () => {
       const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
       for (let headingsRow of columnHeadingData) {
+    
         for (let name of names) {
           const headings = headingsRow[name];
           if (typeof headings === "string") {
             continue;
           }
-          console.log(headings, "before crash");
           for (let heading of headings) {
             let src = heading.image;
             if (downloadedHeadingImages[src] === undefined) {
@@ -70,22 +75,41 @@ const Headings = ({
     downloadAndCacheImages();
   }, [setDowloadedHeadingImages, columnHeadingData]);
 
+  const reverseArrayInPlace = (array: any[]) => {
+    for (let i = 0; i < array.length / 2; i++) {
+      [array[i], array[array.length - 1 - i]] = [
+        array[array.length - 1 - i],
+        array[i],
+      ];
+    }
+    return array;
+  };
+
   return (
-    <div className="headings reverse">
+    <div className="headings">
+      <p className="headings--tip">Scroll on collumns to see more</p>
+      <AutoComplete suggestions={suggestions} stateChange={setSelectedWords} />
+
       {columnHeadingData.map((row, index) => {
         return (
-          <HeadingsRow
-          rowIndex={index}
-            headingsRow={row}
-            key={index}
-            names={names}
-            downloadedHeadingImages={downloadedHeadingImages}
-            selectedWords={selectedWords}
-          />
+          <>
+            {index <= displayedCount ? (
+              <HeadingsRow
+                headingsRow={row}
+                key={index}
+                names={names}
+                downloadedHeadingImages={downloadedHeadingImages}
+                selectedWords={selectedWords}
+              />
+            ) : null}
+          </>
         );
       })}
-      <p className="headings--tip">Scroll on collumns to see more</p>
-      <AutoComplete suggestions={suggestions}  stateChange={setSelectedWords} />
+      <ShowMoreButton
+        state={displayedCount}
+        setState={setDisplayedCount}
+        className=""
+      />
     </div>
   );
 };

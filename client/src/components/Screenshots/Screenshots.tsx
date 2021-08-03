@@ -7,6 +7,7 @@ import {
   getAllDatesBetween,
   formatedYearsFromDates,
 } from "../../helpers/dataCreation";
+import ShowMoreButton from "../ShowMoreButton";
 const Screenshots = ({
   setFullScreenImage,
   screenshotsByDate,
@@ -28,6 +29,8 @@ const Screenshots = ({
     }
   };
   const [formatedDates, setFormatedDates] = useState<string[]>([]);
+  const [displayedCount, setDisplayedCount] = useState<number>(2);
+
   useEffect(() => {
     setFormatedDates(formatedYearsFromDates(getAllDatesBetween(chosenDates)));
     // name
@@ -36,28 +39,37 @@ const Screenshots = ({
     <Grid container direction="column-reverse" justifyContent="center">
       {formatedDates.map((fortmatedDate, index) => {
         return (
-          <Grid
-            item
-            container
-            justify="center"
-            alignItems="center"
-            direction="column"
-            key={index}
-          >
-            <DateTypo margin={true}>{fortmatedDate}</DateTypo>
+          <>
+            {index <= displayedCount ? (
+              <Grid
+                item
+                container
+                justify="center"
+                alignItems="center"
+                direction="column"
+                key={index}
+              >
+                <DateTypo margin={true}>{fortmatedDate}</DateTypo>
 
-            <ScreenshotRow
-              key={index}
-              setFullScreenImage={setFullScreenImage}
-              screenshots={[
-                getSrc(fortmatedDate, names[0]),
-                getSrc(fortmatedDate, names[1]),
-                getSrc(fortmatedDate, names[2]),
-              ]}
-            />
-          </Grid>
+                <ScreenshotRow
+                  key={index}
+                  setFullScreenImage={setFullScreenImage}
+                  screenshots={[
+                    getSrc(fortmatedDate, names[0]),
+                    getSrc(fortmatedDate, names[1]),
+                    getSrc(fortmatedDate, names[2]),
+                  ]}
+                />
+              </Grid>
+            ) : null}
+          </>
         );
       })}
+      <ShowMoreButton
+        state={displayedCount}
+        setState={setDisplayedCount}
+        className=""
+      />
     </Grid>
   );
 };

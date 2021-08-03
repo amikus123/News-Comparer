@@ -79,7 +79,7 @@ margin: 0rem 3rem;
 
 .headings {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -127,9 +127,14 @@ margin: 0rem 3rem;
   width: 0;
   height: 0;
 }
+.heading--logo-image-wrapper{
+  height:5rem;
+  min-height: 5rem;
+  display:flex;
+  align-items: center;
+}
 .heading--logo-image{
   margin:0 auto;
-  padding-bottom:2rem;
 }
 .headings--list-item {
   padding: 1rem 0 !important;

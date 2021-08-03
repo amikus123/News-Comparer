@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import {
-  HeadingsByDate,
-  FringeDates,
   WebsiteJointDataMap,
-  WordMap,
   DailyWebsitesDataMap,
   NameToWordMap,
   NameToWordMaps,
 } from "../../interfaces";
-import { combineWordMaps, sortKeysByCount } from "../../helpers/mapFunctions";
+import { sortKeysByCount } from "../../helpers/mapFunctions";
 import { OptionsMap } from "./WordsInterfaces";
 
 import WordCompare from "./WordCompare";
@@ -32,7 +29,6 @@ const Words = ({
 
   useEffect(() => {
     // two states, one for all pagesand one for those selected
-    // console.log(wordDataOfAll.total,wordDataOfSelected.total, "{PRZEREEE")
     setSortedSelectedByCount(sortKeysByCount(wordDataOfSelected.total));
     setSortedAllByCount(sortKeysByCount(wordDataOfAll.total));
   }, [wordDataOfAll, wordDataOfSelected]);
