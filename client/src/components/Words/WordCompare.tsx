@@ -6,46 +6,72 @@ import Graph from "./Graph";
 import { OptionsMap, WordOption } from "./WordsInterfaces";
 
 const WordCompare = ({
-  wordData,
+  wordDataOfAll,
+  wordDataOfSelected,
   webisteJointDataMap,
-  suggestions
+  suggestions,
 }: {
-  wordData: NameToWordMap;
+  wordDataOfAll: NameToWordMap;
+  wordDataOfSelected: NameToWordMap;
   webisteJointDataMap: WebsiteJointDataMap;
-  suggestions:OptionsMap;
+  suggestions: OptionsMap;
 }) => {
   // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
   const [selectedWord, setSelectedWords] = useState<string[]>([]);
-  const [graphData, setGraphData] = useState<NameToWordMap>({});
+  const [graphDataOfAll, setGraphDataOfAll] = useState<NameToWordMap>({});
+  const [graphDataOfSelected, setGrapDataOfSelected] = useState<NameToWordMap>(
+    {}
+  );
 
   useEffect(() => {
-    const res: NameToWordMap = {};
-    const allNames = Object.keys(wordData);
-    allNames.push("total");
+    const allNames = Object.keys(wordDataOfAll);
+    const selectedNames = Object.keys(wordDataOfSelected);
+    const allRes: NameToWordMap = {};
+    const selectedRes: NameToWordMap = {};
     for (let name of allNames) {
-      res[name] = {};
+      allRes[name] = {};
     }
+    for (let name of selectedNames) {
+      selectedRes[name] = {};
+    }
+
     for (const word of selectedWord) {
       for (let name of allNames) {
-        res[name][word] = wordData[name][word];
+        allRes[name][word] = wordDataOfAll[name][word];
+      }
+      for (let name of selectedNames) {
+        selectedRes[name][word] = wordDataOfSelected[name][word];
       }
     }
-    setGraphData(res);
-  }, [selectedWord,webisteJointDataMap,wordData]);
 
+    setGrapDataOfSelected(selectedRes);
+    setGraphDataOfAll(allRes);
+  }, [selectedWord, wordDataOfSelected, wordDataOfAll]);
 
   return (
-    <div>
+    <div className="words--compare-container">
       {suggestions.total ? (
-        <div>
-        <AutoComplete suggestions={suggestions}  stateChange={setSelectedWords} />
+        <>
+          <p className="words--compare-text"> Search for word</p>
+
+          <AutoComplete
+            suggestions={suggestions}
+            stateChange={setSelectedWords}
+          />
           <Graph
-            data={graphData}
+            data={graphDataOfSelected}
             webisteJointDataMap={webisteJointDataMap}
             wordOrder={selectedWord}
             wordCount={selectedWord.length}
           />
-        </div>
+
+          <Graph
+            data={graphDataOfAll}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder={selectedWord}
+            wordCount={selectedWord.length}
+          />
+        </>
       ) : null}
     </div>
   );

@@ -12,10 +12,9 @@ const DateGroup = ({
 }) => {
  
   return (
-    <div className="date-group--container">
+    <div className="date-selector">
       {fringeDates && chosenDates ? (
         <>
-        
           <DateSelector
             fringeDates={fringeDates}
             updateChosenDates={updateChosenDates}

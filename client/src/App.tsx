@@ -91,6 +91,7 @@ function App() {
       const totalWebisteMap = await fetchStaticWebsiteDataMap();
       if (headings !== null && totalWebisteMap !== null) {
         setWebisteJointData(totalWebisteMap);
+
         updateFringesBasedOnHeadigs(headings);
         setHeadingMap(headings);
         console.log(1111, "update", headings);
@@ -143,6 +144,7 @@ function App() {
     // add dont load image when there is some kind of errror
     // improve creatingsuggestion, make it ignore special charactres
     // od 1000 px jest jeden
+    // od 600 koljene zmiany 
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}
@@ -159,7 +161,7 @@ function App() {
         chosenDates={chosenDates}
       />
       {/* // load more button  for images and screenshots*/}
-      {chosenDates !== null && Object.keys(headingMap).length > 0 ? (
+      {chosenDates !== null && Object.keys(headingMap).length > 0  && Object.keys(wordDataOfAll).length > 0? (
         <Switch>
           <Route path="/words">
             <Words

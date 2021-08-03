@@ -14,22 +14,7 @@ const FullScreen = ({
       fullscreen.scroll(0, 0);
     }
   };
-  const imageClick = (e: React.MouseEvent<HTMLElement>) => {
-    // e.preventDefault();
-    // e.stopPropagation();
-  };
-  // useEffect(() => {
-  //   const app = document.getElementById("body");
-  //   if (app) {
-  //     app.classList.toggle("hideOverflowY");
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   const app = document.getElementById("body");
-  //   if (app) {
-  //     app.classList.toggle("hideOverflowY");
-  //   }
-  // }, [fullScreenImage]);
+ 
 
   return (
     <div
@@ -45,7 +30,6 @@ const FullScreen = ({
             fullScreenImage === "" ? "hide" : ""
           }`}
           id="fullScreenImage"
-          onClick={imageClick}
         />
         <CloseIcon className="fullscreen--close-icon" />
       </div>

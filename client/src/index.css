@@ -25,6 +25,7 @@ body {
   justify-self: center;
   margin: 0 auto;
 }
+
 /* image column  */
 .image-column--image-container {
   height: 40rem;
@@ -43,7 +44,7 @@ body {
   margin:0 auto;
 }
 /* dates */
-.date-group--container {
+.date-selector {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,7 +58,13 @@ body {
   font-size: 1.2rem;
   text-align: center;
 }
-
+.date-selector--picker-wrapper{
+display:flex;
+justify-content: space-around;
+}
+.date-selector--single-picker-wrapper{
+margin: 0rem 3rem;
+}
 .slider--wrapper {
   margin-top: 2rem;
 }
@@ -152,18 +159,7 @@ body {
   max-width:25rem;
 }
 /* 1000 px == 62.5 rem */
-@media screen and (max-width: 62.5rem) {
-  .headings--inner-container{
-    flex-direction: column;
-  }
-  .headings--list{
-max-width:100%;
-/* width: 100%;
-or maybe just ofr  small sizes
-*/
-height: 30rem;
-  }
-}
+
 
 /* full screenclases */
 .fullscreen {
@@ -187,6 +183,7 @@ height: 30rem;
 
 .fullscreen--wrrapper {
   display: flex;
+  position: relative;
   justify-content: center;
   max-width: min(90vw,1440px);
   height: fit-content;
@@ -194,19 +191,21 @@ height: 30rem;
 }
 .fullscreen--image {
   margin: 2rem auto;
-  width:calc(100% - 96px);
+  width:calc(100%);
   /* height: 0re  m; */
 }
 .fullscreen--close-icon {
-  position: relative;
+  position: absolute;
+  right:0;
   font-size: 4rem !important;
-  padding: 1rem;
+  padding: 2rem 3.5rem 2rem 2rem;  
 }
 /* GRID */
 .words--container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 .words--container > * {
   margin: 1rem 0;
@@ -218,6 +217,43 @@ height: 30rem;
   justify-content: center;
   width: 80vw;
 }
+.words--compare-container{
+  width:100%;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.words--compare-text{
+  text-align:center;
+}
+
+@media screen and (max-width: 62.5rem) {
+  .headings--inner-container{
+    flex-direction: column;
+  }
+  .headings--list{
+max-width:100%;
+/* width: 100%;
+or maybe just ofr  small sizes
+*/
+height: 30rem;
+  }
+}
+
+@media screen and (max-width: 37.5rem) {
+  .date-selector--picker-wrapper{
+    flex-direction: column;
+    }
+    .date-selector--single-picker-wrapper{
+    margin: 0rem 3rem;
+    }
+}
+
+
+
+
 /* helpers*/
 .hide {
   display: none;

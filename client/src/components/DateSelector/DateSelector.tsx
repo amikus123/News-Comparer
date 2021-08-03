@@ -67,8 +67,9 @@ export default function DateSelector({
   return (
     // TODO ERROR CLASS
     <MuiPickersUtilsProvider utils={MomentUtils}>
-      <Grid container justify="space-around">
-        <div className="dateSelector--wraper">
+      <div className="date-selector--picker-wrapper">
+
+        <div className="date-selector--single-picker-wrapper">
           <KeyboardDatePicker
             disableToolbar
             variant="inline"
@@ -86,7 +87,7 @@ export default function DateSelector({
           />
           <p className="date-group--date-selector-text">Choose start date</p>
         </div>
-        <div className="dateSelector--wraper">
+        <div className="date-selector--single-picker-wrapper">
           <KeyboardDatePicker
             disableToolbar
             variant="inline"
@@ -105,7 +106,8 @@ export default function DateSelector({
           />
           <p className="date-group--date-selector-text">Choose end date</p>
         </div>
-      </Grid>
+      </div>
+
       <Typography gutterBottom> {error} </Typography>
     </MuiPickersUtilsProvider>
   );

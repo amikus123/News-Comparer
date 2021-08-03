@@ -32,7 +32,7 @@ const Words = ({
 
   useEffect(() => {
     // two states, one for all pagesand one for those selected
-
+    console.log(wordDataOfAll.total,wordDataOfSelected.total, "{PRZEREEE")
     setSortedSelectedByCount(sortKeysByCount(wordDataOfAll.total));
     setSortedAllByCount(sortKeysByCount(wordDataOfSelected.total));
   }, [wordDataOfAll, wordDataOfSelected]);
@@ -47,10 +47,10 @@ const Words = ({
         sortedSelectedWordsByCount={sortedSelectedWordsByCount}
         sortedAllWordsByCount={sortedAllWordsByCount}
       />
-      <p>Search for word</p>
       <WordCompare
         suggestions={suggestions}
-        wordData={wordDataOfSelected}
+        wordDataOfAll={wordDataOfAll}
+        wordDataOfSelected={wordDataOfSelected}
         webisteJointDataMap={webisteJointData}
       />
     </Grid>
