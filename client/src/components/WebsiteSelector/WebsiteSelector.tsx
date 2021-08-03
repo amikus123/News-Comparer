@@ -64,7 +64,7 @@ export default function WebsiteSelect({
           {websiteSelectData.map((item, index) => {
             return (
               <MenuItem value={index} key={index}>
-                <img src={`${item.name}_Logo.png`} alt={item.name} />
+                <img src={`${item.name}_Logo.png`} alt={item.name} className="website-selector--image" />
               </MenuItem>
             );
           })}

@@ -75,6 +75,7 @@ const Headings = ({
       {columnHeadingData.map((row, index) => {
         return (
           <HeadingsRow
+          rowIndex={index}
             headingsRow={row}
             key={index}
             names={names}

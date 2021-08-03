@@ -5,14 +5,15 @@ const HeadingsRow = ({
   headingsRow,
   names,
   downloadedHeadingImages,
-  selectedWords
+  selectedWords,
+  rowIndex,
 }: {
   headingsRow: HeadingRow;
   names: string[];
   downloadedHeadingImages: WordToWordMap;
-  selectedWords:string[]
+  selectedWords: string[];
+  rowIndex: number;
 }) => {
-  
   // add placeholders
   return (
     <div className="headings-row-container">
@@ -22,12 +23,14 @@ const HeadingsRow = ({
           // REVERSE ORDER
           const pog = headingsRow[name];
           return typeof pog !== "string" && typeof pog !== "undefined" ? (
-              <HeadingCell
+            <HeadingCell
               selectedWords={selectedWords}
-                headings={pog}
-                key={index}
-                downloadedHeadingImages={downloadedHeadingImages}
-              />
+              rowIndex={rowIndex}
+              name={name}
+              headings={pog}
+              key={index}
+              downloadedHeadingImages={downloadedHeadingImages}
+            />
           ) : null;
         })}
       </div>

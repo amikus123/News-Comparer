@@ -9,7 +9,7 @@ const SingleScreenshot = ({
 }) => {
   return (
     <div className="image-column--image-container">
-      {screenshot ? (
+      {screenshot? (
         <img
           src={screenshot}
           className="image-column--image"
@@ -17,7 +17,7 @@ const SingleScreenshot = ({
           alt="screens hot of webistie"
         />
       ) : (
-        <Skeleton variant="rect" height={640} width={300} />
+        <Skeleton variant="rect" height={640}/>
       )}
     </div>
   );

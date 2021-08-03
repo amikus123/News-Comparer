@@ -142,6 +142,7 @@ function App() {
     // add single page view, both for small screens and for on toggle
     // add dont load image when there is some kind of errror
     // improve creatingsuggestion, make it ignore special charactres
+    // od 1000 px jest jeden
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}

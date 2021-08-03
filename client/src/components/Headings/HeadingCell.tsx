@@ -5,14 +5,19 @@ import SingleHeading from "./SingleHeading";
 const HeadingCell = ({
   headings,
   downloadedHeadingImages,
-  selectedWords
+  selectedWords,
+  rowIndex,
+  name
 }: {
   headings: Heading[];
   downloadedHeadingImages: WordToWordMap;
-  selectedWords:string[]
+  selectedWords:string[];
+  rowIndex:number,
+name:string
 }) => {
   return (
     <ul className="headings--list">
+       <img src={`${name}_Logo.png`} alt={name} className="heading--logo-image" />
       {headings.map((item, index) => {
         return (
           <>
