@@ -106,7 +106,7 @@ export const getSelectedAndAllWordMap = (
   webisteJointDataMap: WebsiteJointDataMap,
   headingMap: HeadingsByDate,
   chosenDates: FringeDates,
-  names: string[],
+  names: string[]
 ) => {
   const totalMap: NameToWordMap = {};
   const selectedMap: NameToWordMap = {};
@@ -126,10 +126,8 @@ export const getSelectedAndAllWordMap = (
   }
 
   for (const i of datesBetween) {
-    console.log(headingMap,"zarazj jebnie",Object.keys(headingMap))
     const current: DailyWebsitesDataMap = headingMap[i].totalDailySiteData;
     for (const name in current) {
-      console.log(name, "QQ", mapOfArr);
       mapOfArr[name].push(current[name].pageDailyFrequencyOfWords);
     }
   }
@@ -148,8 +146,9 @@ export const getSelectedAndAllWordMap = (
   }
   totalMap.total = combineWordMaps(combinedForTotal);
   selectedMap.total = combineWordMaps(combinedForSelected);
-  return { selectedMap: selectedMap, totalMap: totalMap };
+  return { selectedMap, totalMap };
 };
+
 export const getSuggestions = (wordData: NameToWordMap): OptionsMap => {
   const res: OptionsMap = {};
   for (const name in wordData) {

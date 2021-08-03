@@ -24,6 +24,7 @@ const WordCompare = ({
   );
 
   useEffect(() => {
+    // change to functions i guess
     const allNames = Object.keys(wordDataOfAll);
     const selectedNames = Object.keys(wordDataOfSelected);
     const allRes: NameToWordMap = {};

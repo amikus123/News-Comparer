@@ -28,8 +28,9 @@ export const sortKeysByCount = (map:WordMap) : string[]=> {
   var sorted = entries.sort(function(a, b) {
     return b[1] - a[1];
   });
-  
-  return sorted.map((item)=>item[0])
+  const res = sorted.map((item)=>item[0])
+  // console.log(res,sorted,"SADODSAOSO") 
+  return res
 
 }
 

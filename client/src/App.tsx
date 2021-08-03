@@ -145,6 +145,7 @@ function App() {
     // improve creatingsuggestion, make it ignore special charactres
     // od 1000 px jest jeden
     // od 600 koljene zmiany 
+    // incoretc sorting of most popular words
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}

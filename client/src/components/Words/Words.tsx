@@ -32,9 +32,9 @@ const Words = ({
 
   useEffect(() => {
     // two states, one for all pagesand one for those selected
-    console.log(wordDataOfAll.total,wordDataOfSelected.total, "{PRZEREEE")
-    setSortedSelectedByCount(sortKeysByCount(wordDataOfAll.total));
-    setSortedAllByCount(sortKeysByCount(wordDataOfSelected.total));
+    // console.log(wordDataOfAll.total,wordDataOfSelected.total, "{PRZEREEE")
+    setSortedSelectedByCount(sortKeysByCount(wordDataOfSelected.total));
+    setSortedAllByCount(sortKeysByCount(wordDataOfAll.total));
   }, [wordDataOfAll, wordDataOfSelected]);
 
   return (
