@@ -79,6 +79,8 @@ const Screenshots = ({
                     getSrc(fortmatedDate, names[1]),
                     getSrc(fortmatedDate, names[2]),
                   ]}
+                  names = {names}
+
                 />
               </Grid>
             ) : null}

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import Slider from "@material-ui/core/Slider";
 import {
@@ -54,7 +53,7 @@ export default function DateSlider({
 
   useEffect(() => {
     setDates(getSevenPreviousDays());
-  }, []);
+  }, [getSevenPreviousDays]);
   useEffect(() => {
     if (dates) {
       const arr = dates.dates;
