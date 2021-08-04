@@ -6,6 +6,7 @@ import { getImgSrcFromName } from "../../firebase/storage";
 import AutoComplete from "../Words/AutoComplete";
 import { OptionsMap } from "../Words/WordsInterfaces";
 import ShowMoreButton from "../ShowMoreButton";
+import { reverseArrayInPlace } from "../../helpers/generalHelpers";
 const Headings = ({
   names,
   chosenDates,
@@ -75,15 +76,7 @@ const Headings = ({
     downloadAndCacheImages();
   }, [setDowloadedHeadingImages, columnHeadingData]);
 
-  const reverseArrayInPlace = (array: any[]) => {
-    for (let i = 0; i < array.length / 2; i++) {
-      [array[i], array[array.length - 1 - i]] = [
-        array[array.length - 1 - i],
-        array[i],
-      ];
-    }
-    return array;
-  };
+
 
   return (
     <div className="headings">
@@ -109,6 +102,7 @@ const Headings = ({
         state={displayedCount}
         setState={setDisplayedCount}
         className=""
+        max = {columnHeadingData.length}
       />
     </div>
   );

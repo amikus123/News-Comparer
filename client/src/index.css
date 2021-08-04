@@ -24,8 +24,20 @@ body {
   display: flex;
   justify-self: center;
   margin: 0 auto;
+  max-width: 100vw;
+  overflow-x: scroll;
 }
-
+.MuiAppBar-positionFixed{
+  left: 0 !important;;
+  max-width: 100vw;
+}
+.MuiTabs-scroller.MuiTabs-fixed{
+  
+}
+.appbar--logo {
+  text-decoration: none;
+  color: inherit;
+}
 /* image column  */
 .image-column--image-container {
   height: 40rem;
@@ -40,8 +52,8 @@ body {
 .website-selector--wrapper {
   padding: 1rem 0;
 }
-.website-selector--image{
-  margin:0 auto;
+.website-selector--image {
+  margin: 0 auto;
 }
 /* dates */
 .date-selector {
@@ -58,12 +70,12 @@ body {
   font-size: 1.2rem;
   text-align: center;
 }
-.date-selector--picker-wrapper{
-display:flex;
-justify-content: space-around;
+.date-selector--picker-wrapper {
+  display: flex;
+  justify-content: space-around;
 }
-.date-selector--single-picker-wrapper{
-margin: 0rem 3rem;
+.date-selector--single-picker-wrapper {
+  margin: 0rem 3rem;
 }
 .slider--wrapper {
   margin-top: 2rem;
@@ -97,7 +109,6 @@ margin: 0rem 3rem;
   align-items: center;
 }
 
-
 .headings--date {
   font-size: 2rem;
   margin: 3rem 0 3rem 0;
@@ -127,14 +138,14 @@ margin: 0rem 3rem;
   width: 0;
   height: 0;
 }
-.heading--logo-image-wrapper{
-  height:5rem;
+.heading--logo-image-wrapper {
+  height: 5rem;
   min-height: 5rem;
-  display:flex;
+  display: flex;
   align-items: center;
 }
-.heading--logo-image{
-  margin:0 auto;
+.heading--logo-image {
+  margin: 0 auto;
 }
 .headings--list-item {
   padding: 1rem 0 !important;
@@ -154,17 +165,16 @@ margin: 0rem 3rem;
   width: auto;
   max-width: 100%;
   height: 200px;
-  margin:0 auto;
+  margin: 0 auto;
 }
 .headings--text {
   /* margin:0 auto; */
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
-  max-width:25rem;
+  max-width: 25rem;
 }
 /* 1000 px == 62.5 rem */
-
 
 /* full screenclases */
 .fullscreen {
@@ -180,30 +190,27 @@ margin: 0rem 3rem;
   overscroll-behavior: contain;
 }
 
-.fullscreen:hover{
+.fullscreen:hover {
   cursor: pointer;
-
 }
-
 
 .fullscreen--wrrapper {
   display: flex;
   position: relative;
   justify-content: center;
-  max-width: min(90vw,1440px);
+  max-width: min(90vw, 1440px);
   height: fit-content;
-
 }
 .fullscreen--image {
   margin: 2rem auto;
-  width:calc(100%);
+  width: calc(100%);
   /* height: 0re  m; */
 }
 .fullscreen--close-icon {
   position: absolute;
-  right:0;
+  right: 0;
   font-size: 4rem !important;
-  padding: 2rem 3.5rem 2rem 2rem;  
+  padding: 2rem 3.5rem 2rem 2rem;
 }
 /* GRID */
 .words--container {
@@ -222,42 +229,50 @@ margin: 0rem 3rem;
   justify-content: center;
   width: 80vw;
 }
-.words--compare-container{
-  width:100%;
-  display:flex;
+.words--compare-container {
+  width: 100%;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.words--compare-text{
-  text-align:center;
+.words--compare-text {
+  text-align: center;
 }
 
+/* general */
+.show-more-button {
+  margin: 5rem !important;
+  width: fit-content;
+}
 @media screen and (max-width: 62.5rem) {
-  .headings--inner-container{
+  .headings--inner-container {
     flex-direction: column;
   }
-  .headings--list{
-max-width:100%;
-/* width: 100%;
+  .headings--list {
+    max-width: 100%;
+    /* width: 100%;
 or maybe just ofr  small sizes
 */
-height: 30rem;
+    height: 30rem;
   }
 }
 
 @media screen and (max-width: 37.5rem) {
-  .date-selector--picker-wrapper{
+  .appbar--toolbar {
     flex-direction: column;
-    }
-    .date-selector--single-picker-wrapper{
+  }
+  .appbar--logo{
+    padding:0.5rem;
+  }
+  .date-selector--picker-wrapper {
+    flex-direction: column;
+  }
+  .date-selector--single-picker-wrapper {
     margin: 0rem 3rem;
-    }
+  }
 }
-
-
-
 
 /* helpers*/
 .hide {
@@ -266,10 +281,9 @@ height: 30rem;
 .hide2 {
   visibility: hidden;
 }
-.hideOverflowY{
+.hideOverflowY {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
-
 }
 
 .hideOverflowY::-webkit-scrollbar {

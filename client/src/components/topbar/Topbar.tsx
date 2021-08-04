@@ -9,6 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
 import CustomTabs from "./CustomTabs";
+import { Link,NavLink } from "react-router-dom";
 
 
 function HideOnScroll() {
@@ -17,7 +18,7 @@ function HideOnScroll() {
     <Slide appear={false} direction="down" in={!trigger}>
       <AppBar>
         <Toolbar className="appbar--toolbar">
-          <Typography variant="h6">News-Comparer</Typography>
+          <Typography variant="h6" component={NavLink} to="/" className="appbar--logo">  News-Comparer</Typography>
           <CustomTabs/>
         </Toolbar>
       </AppBar>

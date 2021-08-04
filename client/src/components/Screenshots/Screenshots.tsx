@@ -31,12 +31,32 @@ const Screenshots = ({
   const [formatedDates, setFormatedDates] = useState<string[]>([]);
   const [displayedCount, setDisplayedCount] = useState<number>(2);
 
+  const reverseArrayInPlace = (array: any[]) => {
+    for (let i = 0; i < array.length / 2; i++) {
+      [array[i], array[array.length - 1 - i]] = [
+        array[array.length - 1 - i],
+        array[i],
+      ];
+    }
+    return array;
+  };
+
   useEffect(() => {
-    setFormatedDates(formatedYearsFromDates(getAllDatesBetween(chosenDates)));
+    setFormatedDates(
+      reverseArrayInPlace(
+        formatedYearsFromDates(getAllDatesBetween(chosenDates))
+      )
+    );
     // name
   }, [chosenDates]);
   return (
-    <Grid container direction="column-reverse" justifyContent="center">
+    <Grid
+      container
+      direction="column"
+      justifyContent="center"
+      alignContent="center"
+      alignItems="center"
+    >
       {formatedDates.map((fortmatedDate, index) => {
         return (
           <>
@@ -69,6 +89,7 @@ const Screenshots = ({
         state={displayedCount}
         setState={setDisplayedCount}
         className=""
+        max={formatedDates.length}
       />
     </Grid>
   );
