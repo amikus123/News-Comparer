@@ -10,9 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { AnyMap, NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
-import {
-  getNamesFromGraphData,
-} from "./WordsFunctions";
+import { getNamesFromGraphData } from "./WordsFunctions";
 
 const Graph = ({
   data,
@@ -41,28 +39,35 @@ const Graph = ({
       }
       res.push(currentGraphMap);
     }
-
+    console.log(res, "graf");
     setGraphData(res);
   }, [data, wordCount, wordOrder]);
 
   return (
     <>
       {graphData.length > 0 ? (
-        <ResponsiveContainer height={500}>
+        <ResponsiveContainer
+          height={
+            (Object.keys(graphData[0]).length - 1) * graphData.length * 40
+          }
+          width="100%"
+        >
           <BarChart
             data={graphData}
             margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            layout="vertical"
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="word" />
-            <YAxis />
+            <YAxis dataKey="word" type="category" />
+            <XAxis type="number" allowDecimals={false} />
             <Tooltip />
             <Legend />
             {graphData.length > 0
               ? getNamesFromGraphData(data).map((name, index) => {
                   return (
                     <Bar
-                      dataKey={name.charAt(0).toUpperCase() + name.slice(1)}
+                      layout="vertical"
+                      dataKey={name}
                       fill={`#${
                         webisteJointDataMap[name]
                           ? webisteJointDataMap[name].color
