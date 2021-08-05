@@ -55,7 +55,7 @@ export const passOnlyChosenData = (
       totalWordCount: 0,
     };
   });
-  res.total = {
+  res.Total = {
     frequencyOfWords: {},
     totalWordCount: 0,
   };
@@ -88,7 +88,7 @@ export const passOnlyChosenData = (
     totalMaps.push(res[name].frequencyOfWords);
   });
 
-  res.total = {
+  res.Total = {
     frequencyOfWords: combineWordMaps(totalMaps),
     totalWordCount: totalCount,
   };

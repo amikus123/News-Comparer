@@ -49,10 +49,13 @@ export const checkIfContainsWords = (headingText: string, words: string[]) => {
   }
 
   const splitHeading = headingText.split(" ").map((item) => item.toLowerCase());
-  console.log(splitHeading);
+  // console.log(splitHeading);
   for (const word of splitHeading) {
-    for(const searchedWord of words){
-      if (word.indexOf(searchedWord) >= 0) {
+    for (const searchedWord of words) {
+      // if (word.indexOf(searchedWord) >= 0) {
+      //   return true;
+      // }
+      if (word === searchedWord) {
         return true;
       }
     }

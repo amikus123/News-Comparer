@@ -51,15 +51,18 @@ const WordCompare = ({
 
   return (
     <div className="words--compare-container">
-      {suggestions.total ? (
+      {suggestions.Total ? (
         <>
-          <p className="words--compare-text"> Search for word</p>
+          <div className="words--compare-input-wrapper">
+            <p className="words--compare-text">View graphs for selected words</p>
+            
+            <AutoComplete
+              suggestions={suggestions}
+              stateChange={setSelectedWords}
+              label="View data for selected words"
+            />
+          </div>
 
-          <AutoComplete
-            suggestions={suggestions}
-            stateChange={setSelectedWords}
-            label="See fdata for selected words"
-          />
           <Graph
             data={graphDataOfSelected}
             webisteJointDataMap={webisteJointDataMap}

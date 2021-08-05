@@ -62,7 +62,7 @@ const Graph = ({
               ? getNamesFromGraphData(data).map((name, index) => {
                   return (
                     <Bar
-                      dataKey={name}
+                      dataKey={name.charAt(0).toUpperCase() + name.slice(1)}
                       fill={`#${
                         webisteJointDataMap[name]
                           ? webisteJointDataMap[name].color

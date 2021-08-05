@@ -144,8 +144,8 @@ export const getSelectedAndAllWordMap = (
       combinedForSelected.push(combinedForName);
     }
   }
-  totalMap.total = combineWordMaps(combinedForTotal);
-  selectedMap.total = combineWordMaps(combinedForSelected);
+  totalMap.Total = combineWordMaps(combinedForTotal);
+  selectedMap.Total = combineWordMaps(combinedForSelected);
   return { selectedMap, totalMap };
 };
 
@@ -154,7 +154,7 @@ export const getSuggestions = (wordData: NameToWordMap): OptionsMap => {
   for (const name in wordData) {
     res[name] = [];
   }
-  const total = wordData["total"];
+  const total = wordData["Total"];
   for (const word in total) {
     for (const name in wordData) {
       let wordCount = wordData[name][word];

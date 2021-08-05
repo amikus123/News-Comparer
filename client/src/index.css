@@ -56,7 +56,7 @@ body {
   background-color: red !important;
 }
 .date-group--date-selector-text {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   text-align: center;
 }
 .date-selector--picker-wrapper {
@@ -122,7 +122,6 @@ body {
   display: flex;
   flex-direction: column;
   background-color: rgb(250, 250, 250);
-
 }
 
 .headings--list::-webkit-scrollbar {
@@ -153,7 +152,7 @@ body {
 }
 
 .screenshots {
-  width: 90vw!important;
+  width: 90vw !important;
 }
 .headings--image {
   justify-self: center;
@@ -163,7 +162,7 @@ body {
   margin: 0 auto;
 }
 .headings--text {
-  margin:1rem auto;
+  margin: 1rem auto;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
@@ -242,16 +241,27 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 90vw;
+  max-width: 1600px;
+  margin: 0 auto;
 }
-.words--container > * {
-  margin: 1rem 0;
+
+.words--popularity-container {
+  width: 100%;
+  margin-bottom: 2rem;
 }
 .words--slider {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
   justify-content: center;
-  width: 80vw;
+  width: 80%;
+  margin: 3rem auto;
+}
+.words--slider-text {
+  text-align: center;
+  font-size: 1.75rem;
+  margin: 0 auto 1rem;
 }
 .words--compare-container {
   width: 100%;
@@ -259,10 +269,20 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 5rem;
 }
-
+.recharts-responsive-container {
+  margin-bottom: 3rem;
+}
+.words--compare-input-wrapper {
+  margin: 0 auto 3rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 .words--compare-text {
   text-align: center;
+  font-size: 1.75rem;
 }
 
 /* general */
@@ -292,13 +312,20 @@ or maybe just ofr  small sizes
     height: 30rem;
   }
 }
-
+.bigText {
+}
 @media screen and (max-width: 37.5rem) {
+  .bigText {
+  }
+
   .appbar--toolbar {
     flex-direction: column;
   }
   .appbar--logo {
     padding: 0.5rem;
+  }
+  .website-selector--wrapper {
+    padding-top: 3rem;
   }
   .date-selector--picker-wrapper {
     flex-direction: column;
@@ -325,6 +352,5 @@ or maybe just ofr  small sizes
   width: 0;
   height: 0;
 }
-.date-text{
-  
+.date-text {
 }

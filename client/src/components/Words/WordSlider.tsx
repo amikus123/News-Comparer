@@ -24,14 +24,15 @@ export default function DiscreteSlider({
     }
   return (
     <div className="words--slider">
-      <Typography id="discrete-slider" gutterBottom align="center">
+      <p className="words--slider-text">
         Select amount of words to show
-      </Typography>
+      </p>
       <Slider
         defaultValue={1}
         getAriaValueText={valuetext}
         aria-labelledby="discrete-slider"
-        valueLabelDisplay="auto"
+        aria-label="amount of word to show on a graph"
+        valueLabelDisplay="on"
         step={1}
         onChange={handleChange}
         marks

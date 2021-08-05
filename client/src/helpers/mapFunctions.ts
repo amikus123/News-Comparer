@@ -25,8 +25,10 @@ export const sumOfMapValues = (maps: WordMap[]) => {
   return number;
 };
 
+
 export const sortKeysByCount = (map:WordMap) : string[]=> {
-   const entries = Object.entries(map)
+console.log(map, "being sorted")
+  const entries = Object.entries(map)
   var sorted = entries.sort(function(a, b) {
     return b[1] - a[1];
   });
