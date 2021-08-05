@@ -38,6 +38,7 @@ function App() {
   const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
     string[]
   >(["", "", ""]);
+  const [links, setLinks] = useState<string[]>(["", "", ""]);
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
@@ -104,6 +105,20 @@ function App() {
     setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
   }, [webisteJointData]);
   // reacts to change of selected dates
+  useEffect(() => {
+    if (
+      Object.keys(webisteJointData).length > 3 &&
+      namesOfWebiteesToDisplay[0] !== ""
+    ) {
+      const res: string[] = [];
+      for (const name of namesOfWebiteesToDisplay) {
+        console.log(name, webisteJointData, "XDD");
+        res.push(webisteJointData[name].url);
+      }
+      setLinks(res);
+    }
+  }, [namesOfWebiteesToDisplay, webisteJointData]);
+  // reacts to change of selected dates
 
   useEffect(() => {
     const a = async () => {
@@ -144,7 +159,7 @@ function App() {
     // add dont load image when there is some kind of errror
     // improve creatingsuggestion, make it ignore special charactres
     // od 1000 px jest jeden
-    // od 600 koljene zmiany 
+    // od 600 koljene zmiany
     // incoretc sorting of most popular words
     <>
       <FullScreen
@@ -162,7 +177,9 @@ function App() {
         chosenDates={chosenDates}
       />
       {/* // load more button  for images and screenshots*/}
-      {chosenDates !== null && Object.keys(headingMap).length > 0  && Object.keys(wordDataOfAll).length > 0? (
+      {chosenDates !== null &&
+      Object.keys(headingMap).length > 0 &&
+      Object.keys(wordDataOfAll).length > 0 ? (
         <Switch>
           <Route path="/words">
             <Words
@@ -180,10 +197,12 @@ function App() {
               headingMap={headingMap}
               downloadedHeadingImages={downloadedHeadingImages}
               setDowloadedHeadingImages={setDowloadedHeadingImages}
+              links={links}
             />
           </Route>
           <Route path="/screenshots">
             <Screenshots
+              links={links}
               setFullScreenImage={setFellScreenAndResetPosition}
               screenshotsByDate={screenshotsByDate}
               chosenDates={chosenDates}

@@ -7,17 +7,19 @@ import {
   getAllDatesBetween,
   formatedYearsFromDates,
 } from "../../helpers/dataCreation";
-import ShowMoreButton from "../ShowMoreButton";
+import ShowMoreButton from "../General/ShowMoreButton";
 const Screenshots = ({
   setFullScreenImage,
   screenshotsByDate,
   chosenDates,
   names,
+  links
 }: {
   setFullScreenImage: (src: string) => void;
   screenshotsByDate: ScreenshotsByDate;
   chosenDates: FringeDates;
   names: string[];
+  links:string[]
 }) => {
   const getSrc = (formatedDate: string, name: string): string => {
     let xd = "";
@@ -80,7 +82,7 @@ const Screenshots = ({
                     getSrc(fortmatedDate, names[2]),
                   ]}
                   names = {names}
-
+                  links={links}
                 />
               </Grid>
             ) : null}

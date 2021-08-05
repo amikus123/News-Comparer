@@ -6,11 +6,14 @@ const HeadingsRow = ({
   names,
   downloadedHeadingImages,
   selectedWords,
+  links
 }: {
   headingsRow: HeadingRow;
   names: string[];
   downloadedHeadingImages: WordToWordMap;
   selectedWords: string[];
+  links:string[]
+
 }) => {
   // add placeholders
   return (
@@ -26,6 +29,7 @@ const HeadingsRow = ({
               headings={pog}
               key={index}
               downloadedHeadingImages={downloadedHeadingImages}
+              link={links[index]}
             />
           ) : null;
         })}

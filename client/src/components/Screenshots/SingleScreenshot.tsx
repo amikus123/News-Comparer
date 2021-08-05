@@ -1,22 +1,20 @@
 import { Skeleton } from "@material-ui/lab";
+import PageLogoLink from "../General/PageLogoLink";
 
 const SingleScreenshot = ({
   setFullScreenImage,
   screenshot,
   name,
+  link
 }: {
   setFullScreenImage: (src: string) => void;
   screenshot: string;
   name: string;
+  link:string
 }) => {
   return (
     <div className="screenshots--wrapper">
-    {/* zamien na link do strony */}
-      <img
-        src={`${name}_Logo.png`}
-        alt={name}
-        className="screenshots--logo-image"
-      />
+  <PageLogoLink name={name} link={link}/>
 
       <div className="screenshots--image-container">
         {screenshot ? (

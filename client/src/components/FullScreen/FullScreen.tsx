@@ -1,5 +1,4 @@
-import CloseIcon from "@material-ui/icons/Close";
-import { useEffect, useState } from "react";
+
 const FullScreen = ({
   fullScreenImage,
   setFullScreenImage,
@@ -31,7 +30,7 @@ const FullScreen = ({
           }`}
           id="fullScreenImage"
         />
-        <CloseIcon className="fullscreen--close-icon" />
+        {/* <CloseIcon className="fullscreen--close-icon" /> */}
       </div>
     </div>
   );

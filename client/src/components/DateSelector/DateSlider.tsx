@@ -8,8 +8,6 @@ import {
 } from "../../helpers/dataCreation";
 import { FringeDates } from "../../interfaces";
 
-
-
 interface mark {
   label: string;
   value: number;
@@ -29,31 +27,31 @@ export default function DateSlider({
 }) {
   const [value, setValue] = React.useState<number[]>([0, 10]);
 
-  const getSevenPreviousDays = (): pog => {
-    const res = getNPreviousDates(7);
-    if (fringeDates?.max.getDay() === new Date().getDay()) {
-      res.pop();
-    } else {
-      res.shift();
-    }
-    const marks: mark[] = [];
-    for (let i = 0; i < 7; i++) {
-      marks.push({
-        label: dateToFormatedMonth(res[i]),
-        value: i * 10,
-      });
-    }
-    return {
-      dates: res,
-      marks: marks,
-    };
-  };
-
   const [dates, setDates] = React.useState<pog | null>(null);
 
   useEffect(() => {
+    const getSevenPreviousDays = (): pog => {
+      const res = getNPreviousDates(7);
+      if (fringeDates?.max.getDay() === new Date().getDay()) {
+        res.pop();
+      } else {
+        res.shift();
+      }
+      const marks: mark[] = [];
+      for (let i = 0; i < 7; i++) {
+        marks.push({
+          label: dateToFormatedMonth(res[i]),
+          value: i * 10,
+        });
+      }
+      return {
+        dates: res,
+        marks: marks,
+      };
+    };
+
     setDates(getSevenPreviousDays());
-  }, [getSevenPreviousDays]);
+  }, [fringeDates]);
   useEffect(() => {
     if (dates) {
       const arr = dates.dates;
@@ -124,10 +122,20 @@ export default function DateSlider({
         />
       ) : null}
       <div className="slider--button-wrapper">
-        <Button variant="contained" color="primary" onClick={selectAllDates} className="slider--button">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={selectAllDates}
+          className="slider--button"
+        >
           Select all dates
         </Button>
-        <Button variant="contained" color="primary" onClick={selectToday} className="slider--button">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={selectToday}
+          className="slider--button"
+        >
           Select newest date
         </Button>
       </div>

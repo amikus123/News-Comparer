@@ -6,10 +6,12 @@ const ScreenshotRow = ({
   setFullScreenImage,
   screenshots,
   names,
+  links
 }: {
   setFullScreenImage: (src: string) => void;
   screenshots: string[];
   names: string[];
+  links:string[]
 }) => {
   useEffect(() => {
     console.log(screenshots, "CO DOSZLO DO ROWU");
@@ -26,6 +28,7 @@ const ScreenshotRow = ({
       {screenshots.map((screenshot, index) => {
         return (
           <SingleScreenshot
+          link={links[index]}
             key={index}
             setFullScreenImage={setFullScreenImage}
             screenshot={screenshot}

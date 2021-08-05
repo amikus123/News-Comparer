@@ -5,7 +5,7 @@ import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
 import AutoComplete from "../Words/AutoComplete";
 import { OptionsMap } from "../Words/WordsInterfaces";
-import ShowMoreButton from "../ShowMoreButton";
+import ShowMoreButton from "../General/ShowMoreButton";
 import { reverseArrayInPlace } from "../../helpers/generalHelpers";
 const Headings = ({
   names,
@@ -14,6 +14,7 @@ const Headings = ({
   downloadedHeadingImages,
   setDowloadedHeadingImages,
   suggestions,
+  links
 }: {
   names: string[];
   chosenDates: FringeDates;
@@ -21,6 +22,8 @@ const Headings = ({
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
   suggestions: OptionsMap;
+  links:string[]
+
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -49,7 +52,6 @@ const Headings = ({
     const downloadAndCacheImages = () => {
       const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
       for (let headingsRow of columnHeadingData) {
-    
         for (let name of names) {
           const headings = headingsRow[name];
           if (typeof headings === "string") {
@@ -76,8 +78,6 @@ const Headings = ({
     downloadAndCacheImages();
   }, [setDowloadedHeadingImages, columnHeadingData]);
 
-
-
   return (
     <div className="headings">
       <p className="headings--tip">Scroll on collumns to see more</p>
@@ -93,6 +93,7 @@ const Headings = ({
                 names={names}
                 downloadedHeadingImages={downloadedHeadingImages}
                 selectedWords={selectedWords}
+                links={links}
               />
             ) : null}
           </>
@@ -102,7 +103,7 @@ const Headings = ({
         state={displayedCount}
         setState={setDisplayedCount}
         className=""
-        max = {columnHeadingData.length}
+        max={columnHeadingData.length}
       />
     </div>
   );

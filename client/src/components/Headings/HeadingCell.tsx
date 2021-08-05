@@ -1,24 +1,25 @@
 import { Heading, WordToWordMap } from "../../interfaces";
 import { checkIfContainsWords } from "./HeadingsFunctions";
 import SingleHeading from "./SingleHeading";
+import PageLogoLink from "../General/PageLogoLink";
 
 const HeadingCell = ({
   headings,
   downloadedHeadingImages,
   selectedWords,
-  name
+  name,
+  link
 }: {
   headings: Heading[];
   downloadedHeadingImages: WordToWordMap;
   selectedWords:string[];
-name:string
+name:string;
+link:string
 }) => {
   return (
     <ul className="headings--list">
-      <div className="heading--logo-image-wrapper">
-       <img src={`${name}_Logo.png`} alt={name} className="heading--logo-image" />
+       <PageLogoLink name={name} link={link}/>
 
-      </div>
       {headings.map((item, index) => {
         return (
           <>
