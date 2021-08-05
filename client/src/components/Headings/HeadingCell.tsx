@@ -1,3 +1,4 @@
+import react from "react"
 import { Heading, WordToWordMap } from "../../interfaces";
 import { checkIfContainsWords } from "./HeadingsFunctions";
 import SingleHeading from "./SingleHeading";
@@ -22,7 +23,7 @@ link:string
 
       {headings.map((item, index) => {
         return (
-          <>
+          <react.Fragment key={index}>
             {checkIfContainsWords(headings[index].text, selectedWords) ? (
               <SingleHeading
                 key={index}
@@ -31,7 +32,7 @@ link:string
                 text={headings[index].text}
               />
             ) : null}
-          </>
+          </react.Fragment>
         );
       })}
     </ul>

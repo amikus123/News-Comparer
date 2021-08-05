@@ -27,9 +27,9 @@ const WebsiteSelecotGroping = ({
     <Grid
       container
       direction="row"
-      justify="center"
       alignItems="center"
       className="website-selector--wrapper"
+      justifyContent="center"
     >
       <WebsiteSelect websiteSelectData={webisteDataInRows.leftRow} index={0} updateWebisteSSSelection={updateWebisteSSSelection}/>
       <WebsiteSelect websiteSelectData={webisteDataInRows.centerRow} index={1} updateWebisteSSSelection={updateWebisteSSSelection} />

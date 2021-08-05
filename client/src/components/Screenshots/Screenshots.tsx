@@ -1,47 +1,37 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import ScreenshotRow from "./ScreenshotRow";
-import { DateTypo } from "../Typography/CustomTypo";
 import { FringeDates, ScreenshotsByDate } from "../../interfaces";
 import {
   getAllDatesBetween,
   formatedYearsFromDates,
 } from "../../helpers/dataCreation";
 import ShowMoreButton from "../General/ShowMoreButton";
+import { reverseArrayInPlace } from "../../helpers/generalHelpers";
 const Screenshots = ({
   setFullScreenImage,
   screenshotsByDate,
   chosenDates,
   names,
-  links
+  links,
 }: {
   setFullScreenImage: (src: string) => void;
   screenshotsByDate: ScreenshotsByDate;
   chosenDates: FringeDates;
   names: string[];
-  links:string[]
+  links: string[];
 }) => {
   const getSrc = (formatedDate: string, name: string): string => {
-    let xd = "";
+    // if image has no image in DB, we return empty string
+    let src = "";
     try {
-      xd = screenshotsByDate[formatedDate][name];
+      src = screenshotsByDate[formatedDate][name];
     } finally {
-      console.log(xd, "res");
-      return xd;
+      return src;
     }
   };
   const [formatedDates, setFormatedDates] = useState<string[]>([]);
   const [displayedCount, setDisplayedCount] = useState<number>(2);
-
-  const reverseArrayInPlace = (array: any[]) => {
-    for (let i = 0; i < array.length / 2; i++) {
-      [array[i], array[array.length - 1 - i]] = [
-        array[array.length - 1 - i],
-        array[i],
-      ];
-    }
-    return array;
-  };
 
   useEffect(() => {
     setFormatedDates(
@@ -61,7 +51,7 @@ const Screenshots = ({
     >
       {formatedDates.map((fortmatedDate, index) => {
         return (
-          <>
+          <React.Fragment key={index}>
             {index <= displayedCount ? (
               <Grid
                 item
@@ -71,7 +61,7 @@ const Screenshots = ({
                 direction="column"
                 key={index}
               >
-                <DateTypo margin={true}>{fortmatedDate}</DateTypo>
+                <p className="headings--date">{fortmatedDate}</p>
 
                 <ScreenshotRow
                   key={index}
@@ -81,12 +71,12 @@ const Screenshots = ({
                     getSrc(fortmatedDate, names[1]),
                     getSrc(fortmatedDate, names[2]),
                   ]}
-                  names = {names}
+                  names={names}
                   links={links}
                 />
               </Grid>
             ) : null}
-          </>
+          </React.Fragment>
         );
       })}
       <ShowMoreButton

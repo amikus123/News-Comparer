@@ -3,7 +3,7 @@ import { HeadingsByDate, FringeDates, WordToWordMap } from "../../interfaces";
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
-import AutoComplete from "../Words/AutoComplete";
+import AutoComplete from "../General/AutoComplete";
 import { OptionsMap } from "../Words/WordsInterfaces";
 import ShowMoreButton from "../General/ShowMoreButton";
 import { reverseArrayInPlace } from "../../helpers/generalHelpers";
@@ -14,7 +14,7 @@ const Headings = ({
   downloadedHeadingImages,
   setDowloadedHeadingImages,
   suggestions,
-  links
+  links,
 }: {
   names: string[];
   chosenDates: FringeDates;
@@ -22,8 +22,7 @@ const Headings = ({
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
   suggestions: OptionsMap;
-  links:string[]
-
+  links: string[];
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -81,11 +80,15 @@ const Headings = ({
   return (
     <div className="headings">
       <p className="headings--tip">Scroll on collumns to see more</p>
-      <AutoComplete suggestions={suggestions} stateChange={setSelectedWords} />
+      <AutoComplete
+        suggestions={suggestions}
+        stateChange={setSelectedWords}
+        label="Filter headings by words"
+      />
 
       {columnHeadingData.map((row, index) => {
         return (
-          <>
+          <React.Fragment key={index}>
             {index <= displayedCount ? (
               <HeadingsRow
                 headingsRow={row}
@@ -96,7 +99,7 @@ const Headings = ({
                 links={links}
               />
             ) : null}
-          </>
+          </React.Fragment>
         );
       })}
       <ShowMoreButton

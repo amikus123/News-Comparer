@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { getSuggestions } from "../../helpers/stateHelpers";
 import { NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
-import AutoComplete from "./AutoComplete";
+import AutoComplete from "../General/AutoComplete";
 import Graph from "./Graph";
 import { OptionsMap, WordOption } from "./WordsInterfaces";
 
@@ -58,6 +58,7 @@ const WordCompare = ({
           <AutoComplete
             suggestions={suggestions}
             stateChange={setSelectedWords}
+            label="See fdata for selected words"
           />
           <Graph
             data={graphDataOfSelected}

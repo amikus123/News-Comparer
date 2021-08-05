@@ -88,7 +88,7 @@ body {
 
 .headings--tip {
   font-size: 2rem;
-  margin: 1.2rem;
+  margin: 2rem 1.2rem;
 }
 /* HEADING ROW */
 
@@ -106,7 +106,7 @@ body {
 .headings--inner-container {
   display: flex;
   justify-content: center;
-  max-width: 90vw;
+  width: 90vw;
 }
 /* headings daily list */
 
@@ -115,12 +115,14 @@ body {
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
-  padding: 1rem 1.25rem;
+  margin: 1rem 1.25rem;
   flex-grow: 0;
   max-width: 33%;
   flex-basis: 33%;
   display: flex;
   flex-direction: column;
+  background-color: rgb(250, 250, 250);
+
 }
 
 .headings--list::-webkit-scrollbar {
@@ -150,6 +152,9 @@ body {
   flex-direction: column;
 }
 
+.screenshots {
+  width: 90vw!important;
+}
 .headings--image {
   justify-self: center;
   width: auto;
@@ -158,7 +163,7 @@ body {
   margin: 0 auto;
 }
 .headings--text {
-  /* margin:0 auto; */
+  margin:1rem auto;
   text-align: center;
   font-size: 1.5rem;
   font-weight: 500;
@@ -319,4 +324,7 @@ or maybe just ofr  small sizes
   /* WebKit */
   width: 0;
   height: 0;
+}
+.date-text{
+  
 }

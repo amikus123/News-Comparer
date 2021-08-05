@@ -35,10 +35,9 @@ import { OptionsMap } from "./components/Words/WordsInterfaces";
 function App() {
   // STATES
   const [fullScreenImage, setFullScreenImage] = useState("");
-  const [namesOfWebiteesToDisplay, setNamesOfWebiteesToDisplay] = useState<
-    string[]
-  >(["", "", ""]);
-  const [links, setLinks] = useState<string[]>(["", "", ""]);
+  // data of website chosen by user
+  const [chosenNames, setChosenNames] = useState<string[]>(["", "", ""]);
+  const [chosenLinks, setChosenLinks] = useState<string[]>(["", "", ""]);
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
@@ -52,7 +51,6 @@ function App() {
   // used to prevent needles fetching of iamges in Headings
   const [downloadedHeadingImages, setDowloadedHeadingImages] =
     useState<WordToWordMap>({});
-  // used in haeading in words
   const [wordDataOfAll, setWordDataOfAll] = useState<NameToWordMap>({});
   const [wordDataOfSelected, setWordDataOfSelected] = useState<NameToWordMap>(
     {}
@@ -63,10 +61,10 @@ function App() {
   const [allSuggsetions, setAllSuggsetions] = useState<OptionsMap>({});
   // FUNCTIONS
   const updateWebisteSSSelection = async (name: string, index: number) => {
-    const temp = [...namesOfWebiteesToDisplay];
+    const temp = [...chosenNames];
     temp[index] = name;
 
-    setNamesOfWebiteesToDisplay(temp);
+    setChosenNames(temp);
   };
 
   const setFellScreenAndResetPosition = (src: string) => {
@@ -83,11 +81,11 @@ function App() {
       setFringeDates(maxAndMin);
       setChosenDates({
         max: maxAndMin.max,
-        min: getPreviousDay(maxAndMin.max),
+        min: maxAndMin.min,
       });
     };
 
-    const x = async () => {
+    const fetchAndSetStaticStates = async () => {
       const headings = await getHeadingDailyData();
       const totalWebisteMap = await fetchStaticWebsiteDataMap();
       if (headings !== null && totalWebisteMap !== null) {
@@ -98,34 +96,30 @@ function App() {
         console.log(1111, "update", headings);
       }
     };
-    x();
+    fetchAndSetStaticStates();
   }, []);
 
   useEffect(() => {
-    setNamesOfWebiteesToDisplay(splitDataByRows(webisteJointData));
+    setChosenNames(splitDataByRows(webisteJointData));
   }, [webisteJointData]);
-  // reacts to change of selected dates
+
   useEffect(() => {
-    if (
-      Object.keys(webisteJointData).length > 3 &&
-      namesOfWebiteesToDisplay[0] !== ""
-    ) {
+    if (Object.keys(webisteJointData).length > 3 && chosenNames[0] !== "") {
       const res: string[] = [];
-      for (const name of namesOfWebiteesToDisplay) {
+      for (const name of chosenNames) {
         console.log(name, webisteJointData, "XDD");
         res.push(webisteJointData[name].url);
       }
-      setLinks(res);
+      setChosenLinks(res);
     }
-  }, [namesOfWebiteesToDisplay, webisteJointData]);
-  // reacts to change of selected dates
+  }, [chosenNames, webisteJointData]);
 
   useEffect(() => {
     const a = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates);
         const newData = await cretaeImagesSources(
-          namesOfWebiteesToDisplay,
+          chosenNames,
           dates,
           screenshotsByDate
         );
@@ -135,7 +129,7 @@ function App() {
 
     a();
     // inclusion of all of them creates infinite loop
-  }, [namesOfWebiteesToDisplay, chosenDates]);
+  }, [chosenNames, chosenDates]);
 
   useEffect(() => {
     if (chosenDates !== null && Object.keys(headingMap).length > 0) {
@@ -143,7 +137,7 @@ function App() {
         webisteJointData,
         headingMap,
         chosenDates,
-        namesOfWebiteesToDisplay
+        chosenNames
       );
       setWordDataOfSelected(selectedMap);
       setWordDataOfAll(totalMap);
@@ -151,13 +145,9 @@ function App() {
       setSelectedSuggsetions(getSuggestions(selectedMap));
       setAllSuggsetions(getSuggestions(totalMap));
     }
-  }, [webisteJointData, headingMap, chosenDates, namesOfWebiteesToDisplay]);
+  }, [webisteJointData, headingMap, chosenDates, chosenNames]);
   return (
     // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane
-    // TODO
-    // add single page view, both for small screens and for on toggle
-    // add dont load image when there is some kind of errror
-    // improve creatingsuggestion, make it ignore special charactres
     // od 1000 px jest jeden
     // od 600 koljene zmiany
     // incoretc sorting of most popular words
@@ -192,21 +182,21 @@ function App() {
           <Route path="/headings">
             <Headings
               suggestions={selectedSuggsetions}
-              names={namesOfWebiteesToDisplay}
+              names={chosenNames}
               chosenDates={chosenDates}
               headingMap={headingMap}
               downloadedHeadingImages={downloadedHeadingImages}
               setDowloadedHeadingImages={setDowloadedHeadingImages}
-              links={links}
+              links={chosenLinks}
             />
           </Route>
           <Route path="/screenshots">
             <Screenshots
-              links={links}
+              links={chosenLinks}
               setFullScreenImage={setFellScreenAndResetPosition}
               screenshotsByDate={screenshotsByDate}
               chosenDates={chosenDates}
-              names={namesOfWebiteesToDisplay}
+              names={chosenNames}
             />
           </Route>
         </Switch>
