@@ -45,6 +45,7 @@ function ScrollTop() {
   });
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    // co to kurwa jest
     const anchor = (
       (event.target as HTMLDivElement).ownerDocument || document
     ).getElementById("back-to-top-anchor");

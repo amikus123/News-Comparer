@@ -16,21 +16,22 @@ import { combineWordMaps } from "./mapFunctions";
 import { OptionsMap } from "../components/Words/WordsInterfaces";
 
 // TODO TESTS
-export const getChosenScreenshotsFromData = (
-  data: ScreenshotsByDate,
-  names: string[],
-  dates: Date[]
-) => {
-  const res: string[][] = [[], [], []];
-  const formatedDates = formatedYearsFromDates(dates);
-  const values = names;
-  for (let date of formatedDates) {
-    res[0].push(data[date][values[0]]);
-    res[1].push(data[date][values[1]]);
-    res[2].push(data[date][values[2]]);
-  }
-  return res;
-};
+
+// export const getChosenScreenshotsFromData = (
+//   data: ScreenshotsByDate,
+//   names: string[],
+//   dates: Date[]
+// ) => {
+//   const res: string[][] = [[], [], []];
+//   const formatedDates = formatedYearsFromDates(dates);
+//   const values = names;
+//   for (let date of formatedDates) {
+//     res[0].push(data[date][values[0]]);
+//     res[1].push(data[date][values[1]]);
+//     res[2].push(data[date][values[2]]);
+//   }
+//   return res;
+// };
 
 export const splitDataByRows = (webisteJointData: WebsiteJointDataMap) => {
   const politicsBasedOnRows = createRowObjects(webisteJointData);
@@ -86,18 +87,15 @@ export const cretaeImagesSources = async (
   screenshotsByDate: ScreenshotsByDate
 ) => {
   const missing = await getMissingScreenshots(names, dates, screenshotsByDate);
-  // what if object should be smaller?
   const newData = merge(screenshotsByDate, missing);
-  const chosenScreenshotsFromData = getChosenScreenshotsFromData(
-    newData,
-    names,
-    dates
-  );
+  // const chosenScreenshotsFromData = getChosenScreenshotsFromData(
+  //   newData,
+  //   names,
+  //   dates
+  // );
 
-  return {
-    chosenScreenshotsFromData: chosenScreenshotsFromData,
-    newData: newData,
-  };
+  return newData
+    // chosenScreenshotsFromData: chosenScreenshotsFromData,
 };
 
 // WORDS

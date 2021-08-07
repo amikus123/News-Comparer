@@ -28,7 +28,7 @@ const Graph = ({
     const res: AnyMap[] = [];
     const names = getNamesFromGraphData(data);
 
-    console.log(names, data, "XD");
+    // console.log(names, data, "XD");
     for (let i = 0; i < wordCount; i++) {
       const currentWord = wordOrder[i];
       const currentGraphMap: AnyMap = { word: currentWord };
@@ -39,7 +39,7 @@ const Graph = ({
       }
       res.push(currentGraphMap);
     }
-    console.log(res, "graf");
+    // console.log(res, "graf");
     setGraphData(res);
   }, [data, wordCount, wordOrder]);
 

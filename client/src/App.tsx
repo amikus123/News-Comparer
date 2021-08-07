@@ -20,7 +20,6 @@ import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
   getAllDatesBetween,
-  getPreviousDay,
 } from "./helpers/dataCreation";
 import {
   splitDataByRows,
@@ -33,40 +32,54 @@ import Headings from "./components/Headings/Headings";
 import { OptionsMap } from "./components/Words/WordsInterfaces";
 
 function App() {
-  // STATES
+  // image shown when clicking on screenshot
   const [fullScreenImage, setFullScreenImage] = useState("");
-  // data of website chosen by user
+  // data of three webistes chosen in WebisteSelector
   const [chosenNames, setChosenNames] = useState<string[]>(["", "", ""]);
   const [chosenLinks, setChosenLinks] = useState<string[]>(["", "", ""]);
+  // map of for headings and screenshot data for webistes
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
+  // headings data based, formtated dates serve as keys
   const [headingMap, setHeadingMap] = useState<HeadingsByDate>({});
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-  // used to prevent needles fetching of iamges in Headings
+  // used to prevent needless fetching of iamges in Headings
   const [downloadedHeadingImages, setDowloadedHeadingImages] =
     useState<WordToWordMap>({});
+  // word data for websites, prevents needless expensive calculations
   const [wordDataOfAll, setWordDataOfAll] = useState<NameToWordMap>({});
   const [wordDataOfSelected, setWordDataOfSelected] = useState<NameToWordMap>(
     {}
   );
+  // suggesstions for autocomplete components
   const [selectedSuggsetions, setSelectedSuggsetions] = useState<OptionsMap>(
     {}
   );
   const [allSuggsetions, setAllSuggsetions] = useState<OptionsMap>({});
+
   // FUNCTIONS
+
   const updateWebisteSSSelection = async (name: string, index: number) => {
     const temp = [...chosenNames];
     temp[index] = name;
+    if (Object.keys(webisteJointData).length > 3 && chosenNames[0] !== "") {
+      const res: string[] = [];
+      for (const name of chosenNames) {
+        console.log(name, webisteJointData, "XDD");
+        res.push(webisteJointData[name].url);
+      }
+      setChosenLinks(res);
+    }
 
     setChosenNames(temp);
   };
-
+  // changes selected fullscreen image and restes the scroll position
   const setFellScreenAndResetPosition = (src: string) => {
     const fullScreenImage = document.getElementById("fullScreenImage");
     fullScreenImage?.classList.toggle("fullScreen--image-off");
@@ -74,7 +87,8 @@ function App() {
   };
 
   // EFFECTS //
-  // fetches static data and inital date constraints
+
+  // fetches static data and inital date constraints and inital names
   useEffect(() => {
     const updateFringesBasedOnHeadigs = (headings: HeadingsByDate) => {
       const maxAndMin = returnMaxAndMinDateFromKeys(headings);
@@ -93,29 +107,20 @@ function App() {
 
         updateFringesBasedOnHeadigs(headings);
         setHeadingMap(headings);
+        setChosenNames(splitDataByRows(totalWebisteMap));
+
         console.log(1111, "update", headings);
+      } else {
+        console.error("Failed to fetch data from database");
       }
     };
     fetchAndSetStaticStates();
   }, []);
 
+  
+  // gets true urls if images and saves them
   useEffect(() => {
-    setChosenNames(splitDataByRows(webisteJointData));
-  }, [webisteJointData]);
-
-  useEffect(() => {
-    if (Object.keys(webisteJointData).length > 3 && chosenNames[0] !== "") {
-      const res: string[] = [];
-      for (const name of chosenNames) {
-        console.log(name, webisteJointData, "XDD");
-        res.push(webisteJointData[name].url);
-      }
-      setChosenLinks(res);
-    }
-  }, [chosenNames, webisteJointData]);
-
-  useEffect(() => {
-    const a = async () => {
+    const updateSreenshots = async () => {
       if (chosenDates) {
         const dates = getAllDatesBetween(chosenDates);
         const newData = await cretaeImagesSources(
@@ -123,14 +128,15 @@ function App() {
           dates,
           screenshotsByDate
         );
-        setScreenshotsByDate(newData.newData);
+        setScreenshotsByDate(newData);
       }
     };
 
-    a();
+    updateSreenshots();
     // inclusion of all of them creates infinite loop
   }, [chosenNames, chosenDates]);
 
+  // creates suggestions and word data used in Words component
   useEffect(() => {
     if (chosenDates !== null && Object.keys(headingMap).length > 0) {
       const { selectedMap, totalMap } = getSelectedAndAllWordMap(
@@ -147,10 +153,6 @@ function App() {
     }
   }, [webisteJointData, headingMap, chosenDates, chosenNames]);
   return (
-    // domsylnym zakresem  beda wszystkie daty, ale nie wsyzstkie ss i headingui beda wyswietlane
-    // od 1000 px jest jeden
-    // od 600 koljene zmiany
-    // incoretc sorting of most popular words
     <>
       <FullScreen
         setFullScreenImage={setFellScreenAndResetPosition}

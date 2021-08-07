@@ -27,7 +27,7 @@ export const getFormatedDataToGraph = (
     };
     keys.forEach((key) => {
       let count = 0;
-      console.log(totalData[key], "BUM");
+      // console.log(totalData[key], "BUM");
       if (totalData[key].frequencyOfWords[word] !== undefined) {
         count = totalData[key].frequencyOfWords[word];
       }
@@ -37,7 +37,7 @@ export const getFormatedDataToGraph = (
       ...tempObj,
     });
   });
-  console.log(res, "RES");
+  // console.log(res, "RES");
   return res;
 };
 
@@ -66,7 +66,7 @@ export const passOnlyChosenData = (
     const data = fullHeadings[date].totalDailySiteData;
     names.forEach((name) => {
       const found = data[name];
-      console.log(found);
+      // console.log(found);
       const newMap = combineWordMaps([
         found.pageDailyFrequencyOfWords,
         res[name].frequencyOfWords,
@@ -98,13 +98,6 @@ export const passOnlyChosenData = (
 
 export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
   const names = Object.keys(data);
-  console.log(names)
-  console.log(
-    names.filter((item) => {
-      return item !== "word";
-    }),
-    "RESZZZZZ"
-  );
   return names.filter((item) => {
     return  item !== "word";
   });

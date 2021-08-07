@@ -8,7 +8,6 @@ const storage = getStorage();
 
 // return src of image from firebase storage
 export const getImgSrcFromName = async (fileName: string): Promise<string> => {
-  console.log(fileName)
   const childRef = ref(storage, fileName)
   const trueURL = getDownloadURL(childRef)
     .then((url) => {

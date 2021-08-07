@@ -94,7 +94,6 @@ export const getAllDatesBetween = (
   d1: Date | FringeDates,
   d2: Date = new Date()
 ): Date[] => {
-  console.log(d1);
   // d1 is smaller
   if (d1 instanceof Date) {
 

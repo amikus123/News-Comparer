@@ -32,7 +32,7 @@ const Headings = ({
     const res = reverseArrayInPlace(
       getSelectedHeadings(names, chosenDates, headingMap)
     );
-    console.log(res, "headins");
+    // console.log(res, "headins");
     setColumnHeadingData(res);
   }, [names, chosenDates, headingMap]);
 

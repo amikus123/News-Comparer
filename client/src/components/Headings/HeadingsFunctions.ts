@@ -20,17 +20,16 @@ export const getSelectedHeadings = (
 ) => {
   const res: HeadingRow[] = [];
   const formatedDates = formatedYearsFromDates(getAllDatesBetween(dates));
-  console.log(formatedDates, "dates");
+  // console.log(formatedDates, "dates");
   formatedDates.forEach((date) => {
     let tempObj: HeadingRow = { date };
     if (totalData[date]) {
       const siteData = totalData[date].totalDailySiteData;
 
-      // not optimal
-      console.log(siteData, "XD");
+      // console.log(siteData, "XD");
       for (let index in names) {
         const name = names[index];
-        console.log(name, siteData, "PRZED");
+        // console.log(name, siteData, "PRZED");
         const data = siteData[name];
         tempObj[name] = data.headings;
       }
@@ -38,7 +37,7 @@ export const getSelectedHeadings = (
       res.push({ ...tempObj });
     }
   });
-  console.log(res, "kkoniec");
+  // console.log(res, "kkoniec");
   return res;
 };
 

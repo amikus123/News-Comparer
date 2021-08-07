@@ -13,9 +13,7 @@ const ScreenshotRow = ({
   names: string[];
   links:string[]
 }) => {
-  useEffect(() => {
-    console.log(screenshots, "CO DOSZLO DO ROWU");
-  }, [screenshots]);
+
   return (
     <Grid
       item
