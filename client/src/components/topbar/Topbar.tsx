@@ -9,7 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
 import CustomTabs from "./CustomTabs";
-import { Link,NavLink } from "react-router-dom";
+import {NavLink } from "react-router-dom";
 
 
 function HideOnScroll() {

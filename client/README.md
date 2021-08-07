@@ -1,46 +1,73 @@
-# Getting Started with Create React App
+<!-- A README needs to answer the following what, why, and how:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+What was your motivation?
+Why did you build this project?
+What problem does it solve?
+What did you learn?
+What makes your project stand out? If your project has a lot of features, consider adding a "Features" section and listing them here. -->
 
-## Available Scripts
+# News-Comparer - Compare Polish News
 
-In the project directory, you can run:
+> This project aims to allow user to easly compare headings from major polish political websites
+> Live demo [_here_](https://www.example.com).
 
-### `yarn start`
+## Table of Contents
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- [General Info](#general-information)
+- [Technologies Used](#technologies-used)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Project Status](#project-status)
+- [Room for Improvement](#room-for-improvement)
+- [Acknowledgements](#acknowledgements)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## General Information
 
-### `yarn test`
+- This project is made of two parts, backend used to collect webiste data, and frontend  to display that data.
+- This project can be used to see which topics were deemed imporant enough to cover by major political webistes, to see what was published on a given day, and to see and compre frequency of words used in headings
+- I created this project beacues I wanted some project which could get new data every day, and to practice interacting with databases
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Technologies Used
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React 17.0.2
+- Firebase 9.0.0-beta.2
+- Typescript 4.1.2
+- Puppeteer 10.0.0
+- Node 14
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Selected which websites to view data of, and from what time period.
+- Compare headings, images and link to articles included.
+- See graphs other data regarding words used by webistes.
+- View sreenshots of webistes.
 
-### `yarn eject`
+## Screenshots
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+![Example screenshot](./img/screenshot.png)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Project Status
 
-## Learn More
+Project is: _in progress_ / _complete_ 
+## Room for Improvement
+To do:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Improve frontend desing and feel
+- Add more content to word analysis
+- Add addinitional webistes
+- Add more selectors for existing webistes
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Acknowledgements
+
+Give credit here.
+
+- This project was inspired by this [video](https://www.youtube.com/watch?v=JTOJsU3FSD8&t=149s)
+
+
+
+<!-- ## License -->
+<!-- This project is open source and available under the [... License](). -->
+

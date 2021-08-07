@@ -121,7 +121,8 @@ function App() {
   // gets true urls if images and saves them
   useEffect(() => {
     const updateSreenshots = async () => {
-      if (chosenDates) {
+
+      if (chosenDates && chosenNames[0] !== "") {
         const dates = getAllDatesBetween(chosenDates);
         const newData = await cretaeImagesSources(
           chosenNames,
@@ -158,17 +159,21 @@ function App() {
         setFullScreenImage={setFellScreenAndResetPosition}
         fullScreenImage={fullScreenImage}
       />
+
       <Topbar />
+
       <WebsiteSelecotGroping
         webisteJointData={webisteJointData}
         updateWebisteSSSelection={updateWebisteSSSelection}
       />
+
       <DateGroup
         fringeDates={fringeDates}
         updateChosenDates={setChosenDates}
         chosenDates={chosenDates}
       />
-      {/* // load more button  for images and screenshots*/}
+
+      {/* checks if data has been fetched from db */}
       {chosenDates !== null &&
       Object.keys(headingMap).length > 0 &&
       Object.keys(wordDataOfAll).length > 0 ? (

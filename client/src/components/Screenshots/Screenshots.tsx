@@ -21,7 +21,7 @@ const Screenshots = ({
   names: string[];
   links: string[];
 }) => {
-  const getSrc = (formatedDate: string, name: string): string => {
+  const getSrcFromMap = (formatedDate: string, name: string): string => {
     // if image has no image in DB, we return empty string
     let src = "";
     try {
@@ -39,7 +39,6 @@ const Screenshots = ({
         formatedYearsFromDates(getAllDatesBetween(chosenDates))
       )
     );
-    // name
   }, [chosenDates]);
   return (
     <Grid
@@ -67,9 +66,9 @@ const Screenshots = ({
                   key={index}
                   setFullScreenImage={setFullScreenImage}
                   screenshots={[
-                    getSrc(fortmatedDate, names[0]),
-                    getSrc(fortmatedDate, names[1]),
-                    getSrc(fortmatedDate, names[2]),
+                    getSrcFromMap(fortmatedDate, names[0]),
+                    getSrcFromMap(fortmatedDate, names[1]),
+                    getSrcFromMap(fortmatedDate, names[2]),
                   ]}
                   names={names}
                   links={links}

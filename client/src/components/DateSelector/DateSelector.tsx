@@ -1,6 +1,5 @@
 import "date-fns";
 import { useEffect, useState } from "react";
-import Grid from "@material-ui/core/Grid";
 import MomentUtils from "@date-io/moment";
 import {
   MuiPickersUtilsProvider,
@@ -29,7 +28,7 @@ export default function DateSelector({
         const normalDate = date.toDate();
         let res: FringeDates;
 
-        if (num === 0) {
+        if (num === 1) {
           res = {
             min: normalDate,
             max: localDates.max,
@@ -76,7 +75,7 @@ export default function DateSelector({
             format="DD/MM/yyyy"
             margin="normal"
             label="Start date"
-            value={localDates.max}
+            value={localDates.min}
             onChange={handleGenerator(1)}
             KeyboardButtonProps={{
               "aria-label": "change date",
@@ -94,7 +93,7 @@ export default function DateSelector({
             format="DD/MM/yyyy"
             margin="normal"
             label="End date"
-            value={localDates.min}
+            value={localDates.max}
             onChange={handleGenerator(0)}
             KeyboardButtonProps={{
               "aria-label": "change date",

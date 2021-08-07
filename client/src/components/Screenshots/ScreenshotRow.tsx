@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import SingleScreenshot from "./SingleScreenshot";
 
