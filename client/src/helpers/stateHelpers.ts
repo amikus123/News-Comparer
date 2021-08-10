@@ -15,36 +15,7 @@ import { formatedYearsFromDates, getAllDatesBetween } from "./dataCreation";
 import { combineWordMaps } from "./mapFunctions";
 import { OptionsMap } from "../components/Words/WordsInterfaces";
 
-// TODO TESTS
 
-// export const getChosenScreenshotsFromData = (
-//   data: ScreenshotsByDate,
-//   names: string[],
-//   dates: Date[]
-// ) => {
-//   const res: string[][] = [[], [], []];
-//   const formatedDates = formatedYearsFromDates(dates);
-//   const values = names;
-//   for (let date of formatedDates) {
-//     res[0].push(data[date][values[0]]);
-//     res[1].push(data[date][values[1]]);
-//     res[2].push(data[date][values[2]]);
-//   }
-//   return res;
-// };
-
-export const splitDataByRows = (webisteJointData: WebsiteJointDataMap) => {
-  const politicsBasedOnRows = createRowObjects(webisteJointData);
-  let temp = ["", "", ""];
-  if (politicsBasedOnRows.leftRow.length !== 0) {
-    temp = [
-      politicsBasedOnRows.leftRow[0].name,
-      politicsBasedOnRows.centerRow[0].name,
-      politicsBasedOnRows.rightRow[0].name,
-    ];
-  }
-  return temp;
-};
 
 export const checkIfShouldRequest = (
   names: string[],
@@ -57,7 +28,7 @@ export const checkIfShouldRequest = (
 
   const keys = Object.keys(screenshotsByDate);
   const formatedDates = formatedYearsFromDates(dates);
-  // jesli nie ma tych ktorych suzkam to feczuje
+  // if searched data is missing, it fetches data from db
   for (let i = 0; i < formatedDates.length; i++) {
     if (keys.indexOf(formatedDates[i]) === -1) {
       return true;
@@ -72,6 +43,7 @@ export const checkIfShouldRequest = (
   }
   return false;
 };
+
 export const checkIfNamesAreMissing = (keys: string[], names: string[]) => {
   for (let name of names) {
     if (keys.indexOf(name) === -1) {
@@ -88,17 +60,9 @@ export const cretaeImagesSources = async (
 ) => {
   const missing = await getMissingScreenshots(names, dates, screenshotsByDate);
   const newData = merge(screenshotsByDate, missing);
-  // const chosenScreenshotsFromData = getChosenScreenshotsFromData(
-  //   newData,
-  //   names,
-  //   dates
-  // );
-
-  return newData
-    // chosenScreenshotsFromData: chosenScreenshotsFromData,
+  return newData;
 };
 
-// WORDS
 
 export const getSelectedAndAllWordMap = (
   webisteJointDataMap: WebsiteJointDataMap,
@@ -113,7 +77,7 @@ export const getSelectedAndAllWordMap = (
   // stores all the maps and megres themd
   const mapOfArr: NameToWordMaps = {};
   const datesBetween = formatedYearsFromDates(getAllDatesBetween(chosenDates));
-  // has key only for seleted names
+
   for (let name of names) {
     selectedMap[name] = {};
   }

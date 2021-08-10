@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
-import { HeadingsByDate, FringeDates, WordToWordMap } from "../../interfaces";
+import { HeadingsByDate, FringeDates, WordToWordMap,SelectedWebsites} from "../../interfaces";
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
@@ -8,21 +8,19 @@ import { OptionsMap } from "../Words/WordsInterfaces";
 import ShowMoreButton from "../General/ShowMoreButton";
 import { reverseArrayInPlace } from "../../helpers/generalHelpers";
 const Headings = ({
-  names,
   chosenDates,
   headingMap,
   downloadedHeadingImages,
   setDowloadedHeadingImages,
   suggestions,
-  links,
+  selectedWebsites,
 }: {
-  names: string[];
   chosenDates: FringeDates;
   headingMap: HeadingsByDate;
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
   suggestions: OptionsMap;
-  links: string[];
+  selectedWebsites :SelectedWebsites
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -30,11 +28,11 @@ const Headings = ({
   useEffect(() => {
     // sets columnHeadingData to have only chosen dates
     const res = reverseArrayInPlace(
-      getSelectedHeadings(names, chosenDates, headingMap)
+      getSelectedHeadings(selectedWebsites.names, chosenDates, headingMap)
     );
     // console.log(res, "headins");
     setColumnHeadingData(res);
-  }, [names, chosenDates, headingMap]);
+  }, [selectedWebsites.names, chosenDates, headingMap]);
 
   useEffect(() => {
     const getURLPair = async (src: string) => {
@@ -51,7 +49,7 @@ const Headings = ({
     const downloadAndCacheImages = () => {
       const promisesOfTrueURLS: (Promise<WordToWordMap> | WordToWordMap)[] = [];
       for (let headingsRow of columnHeadingData) {
-        for (let name of names) {
+        for (let name of selectedWebsites.names) {
           const headings = headingsRow[name];
           if (typeof headings === "string") {
             continue;
@@ -93,10 +91,9 @@ const Headings = ({
               <HeadingsRow
                 headingsRow={row}
                 key={index}
-                names={names}
+                selectedWebsites={selectedWebsites}
                 downloadedHeadingImages={downloadedHeadingImages}
                 selectedWords={selectedWords}
-                links={links}
               />
             ) : null}
           </React.Fragment>

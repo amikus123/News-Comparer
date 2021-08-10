@@ -7,6 +7,7 @@ import {
   ScreenshotsByDate,
   WordToWordMap,
   NameToWordMap,
+  SelectedWebsites,
 } from "./interfaces";
 import {
   fetchStaticWebsiteDataMap,
@@ -15,14 +16,13 @@ import {
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
 import Topbar from "./components/Topbar/Topbar";
-import WebsiteSelecotGroping from "./components/WebsiteSelector/WebsiteSelecotGroping";
+import WebsiteSelectorGrouping from "./components/WebsiteSelector/WebsiteSelectorGrouping";
 import DateGroup from "./components/DateSelector/DateGroup";
 import {
   returnMaxAndMinDateFromKeys,
   getAllDatesBetween,
 } from "./helpers/dataCreation";
 import {
-  splitDataByRows,
   cretaeImagesSources,
   getSelectedAndAllWordMap,
   getSuggestions,
@@ -34,9 +34,11 @@ import { OptionsMap } from "./components/Words/WordsInterfaces";
 function App() {
   // image shown when clicking on screenshot
   const [fullScreenImage, setFullScreenImage] = useState("");
-  // data of three webistes chosen in WebisteSelector
-  const [chosenNames, setChosenNames] = useState<string[]>(["", "", ""]);
-  const [chosenLinks, setChosenLinks] = useState<string[]>(["", "", ""]);
+  const [selectedWebsites,setSelectedWebsites] = useState<SelectedWebsites>({
+    show:[false,false,false],
+    names:["", "", ""],
+    links:["", "", ""]
+  })
   // map of for headings and screenshot data for webistes
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
@@ -64,21 +66,6 @@ function App() {
   const [allSuggsetions, setAllSuggsetions] = useState<OptionsMap>({});
 
   // FUNCTIONS
-
-  const updateWebisteSSSelection = async (name: string, index: number) => {
-    const temp = [...chosenNames];
-    temp[index] = name;
-    if (Object.keys(webisteJointData).length > 3 && chosenNames[0] !== "") {
-      const res: string[] = [];
-      for (const name of chosenNames) {
-        console.log(name, webisteJointData, "XDD");
-        res.push(webisteJointData[name].url);
-      }
-      setChosenLinks(res);
-    }
-
-    setChosenNames(temp);
-  };
   // changes selected fullscreen image and restes the scroll position
   const setFellScreenAndResetPosition = (src: string) => {
     const fullScreenImage = document.getElementById("fullScreenImage");
@@ -107,7 +94,6 @@ function App() {
 
         updateFringesBasedOnHeadigs(headings);
         setHeadingMap(headings);
-        setChosenNames(splitDataByRows(totalWebisteMap));
 
         console.log(1111, "update", headings);
       } else {
@@ -118,14 +104,14 @@ function App() {
   }, []);
 
   
-  // gets true urls if images and saves them
+  // gets true urls of images and saves them
   useEffect(() => {
     const updateSreenshots = async () => {
 
-      if (chosenDates && chosenNames[0] !== "") {
+      if (chosenDates && selectedWebsites.names[0] !== "") {
         const dates = getAllDatesBetween(chosenDates);
         const newData = await cretaeImagesSources(
-          chosenNames,
+          selectedWebsites.names,
           dates,
           screenshotsByDate
         );
@@ -135,7 +121,7 @@ function App() {
 
     updateSreenshots();
     // inclusion of all of them creates infinite loop
-  }, [chosenNames, chosenDates]);
+  }, [selectedWebsites.names, chosenDates]);
 
   // creates suggestions and word data used in Words component
   useEffect(() => {
@@ -144,7 +130,7 @@ function App() {
         webisteJointData,
         headingMap,
         chosenDates,
-        chosenNames
+        selectedWebsites.names
       );
       setWordDataOfSelected(selectedMap);
       setWordDataOfAll(totalMap);
@@ -152,7 +138,7 @@ function App() {
       setSelectedSuggsetions(getSuggestions(selectedMap));
       setAllSuggsetions(getSuggestions(totalMap));
     }
-  }, [webisteJointData, headingMap, chosenDates, chosenNames]);
+  }, [webisteJointData, headingMap, chosenDates, selectedWebsites.names]);
   return (
     <>
       <FullScreen
@@ -162,9 +148,10 @@ function App() {
 
       <Topbar />
 
-      <WebsiteSelecotGroping
+      <WebsiteSelectorGrouping
         webisteJointData={webisteJointData}
-        updateWebisteSSSelection={updateWebisteSSSelection}
+        setSelectedWebsites={setSelectedWebsites}
+        selectedWebsites={selectedWebsites}
       />
 
       <DateGroup
@@ -189,21 +176,20 @@ function App() {
           <Route path="/headings">
             <Headings
               suggestions={selectedSuggsetions}
-              names={chosenNames}
+              
+              selectedWebsites={selectedWebsites}
               chosenDates={chosenDates}
               headingMap={headingMap}
               downloadedHeadingImages={downloadedHeadingImages}
               setDowloadedHeadingImages={setDowloadedHeadingImages}
-              links={chosenLinks}
             />
           </Route>
           <Route path="/screenshots">
             <Screenshots
-              links={chosenLinks}
+              selectedWebsites={selectedWebsites}
               setFullScreenImage={setFellScreenAndResetPosition}
               screenshotsByDate={screenshotsByDate}
               chosenDates={chosenDates}
-              names={chosenNames}
             />
           </Route>
         </Switch>

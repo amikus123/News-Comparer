@@ -17,7 +17,7 @@ const SingleScreenshot = ({
   <PageLogoLink name={name} link={link}/>
 
       <div className="screenshots--image-container">
-        {screenshot ? (
+        {screenshot  !== "" ? (
           <img
             src={screenshot}
             className="screenshots--image"

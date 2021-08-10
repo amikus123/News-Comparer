@@ -1,18 +1,16 @@
 import { Grid } from "@material-ui/core";
+import { SelectedWebsites } from "../../interfaces";
 import SingleScreenshot from "./SingleScreenshot";
-
+import { Fragment } from "react";
 const ScreenshotRow = ({
   setFullScreenImage,
   screenshots,
-  names,
-  links
+  selectedWebsites,
 }: {
   setFullScreenImage: (src: string) => void;
   screenshots: string[];
-  names: string[];
-  links:string[]
+  selectedWebsites: SelectedWebsites;
 }) => {
-
   return (
     <Grid
       item
@@ -24,13 +22,17 @@ const ScreenshotRow = ({
     >
       {screenshots.map((screenshot, index) => {
         return (
-          <SingleScreenshot
-          link={links[index]}
-            key={index}
-            setFullScreenImage={setFullScreenImage}
-            screenshot={screenshot}
-            name={names[index]}
-          />
+          <Fragment>
+            {selectedWebsites.show[index] ? (
+              <SingleScreenshot
+                link={selectedWebsites.links[index]}
+                key={index}
+                setFullScreenImage={setFullScreenImage}
+                screenshot={screenshot}
+                name={selectedWebsites.names[index]}
+              />
+            ) : null}
+          </Fragment>
         );
       })}
     </Grid>

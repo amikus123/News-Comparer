@@ -9,8 +9,8 @@ What makes your project stand out? If your project has a lot of features, consid
 # News-Comparer - Compare Polish News
 
 > This project aims to allow user to easly compare headings from major polish political websites
-> Live demo [_here_](https://www.example.com).
-
+> Live demo [_here_](newscomparer.web.app).
+  
 ## Table of Contents
 
 - [General Info](#general-information)
@@ -26,8 +26,6 @@ What makes your project stand out? If your project has a lot of features, consid
 - This project is made of two parts, backend used to collect webiste data, and frontend  to display that data.
 - This project can be used to see which topics were deemed imporant enough to cover by major political webistes, to see what was published on a given day, and to see and compre frequency of words used in headings
 - I created this project beacues I wanted some project which could get new data every day, and to practice interacting with databases
-
-
 ## Technologies Used
 
 - React 17.0.2
@@ -46,8 +44,6 @@ What makes your project stand out? If your project has a lot of features, consid
 ## Screenshots
 
 ![Example screenshot](./img/screenshot.png)
-
-
 
 ## Project Status
 

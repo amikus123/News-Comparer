@@ -15,7 +15,7 @@ export const getImgSrcFromName = async (fileName: string): Promise<string> => {
     })
     .catch((error) => {
       console.error("failed fetching", error);
-      return "";
+      return "none";
       // Handle any errors
     });
   return trueURL;
@@ -23,8 +23,9 @@ export const getImgSrcFromName = async (fileName: string): Promise<string> => {
 
 
 const getScreenshotURL = async (name: string, formatedDate: string) => {
-  const url = await getImgSrcFromName(`${name}-${formatedDate}.jpg`);
-  return url;
+ 
+  return await getImgSrcFromName(`${name}-${formatedDate}.jpg`);
+  
 };
 export const getMissingScreenshots = async (
   names: string[],
@@ -42,13 +43,12 @@ export const getMissingScreenshots = async (
       ) {
         // already present so we dont do anything
       } else {
-        toReturn[formatedDate][name] = await getScreenshotURL(
-          name,
-          formatedDate
-        );
+          toReturn[formatedDate][name] = await getScreenshotURL(
+            name,
+            formatedDate
+          );
       }
     }
   }
-
   return toReturn;
 };

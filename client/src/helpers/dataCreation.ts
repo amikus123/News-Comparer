@@ -41,7 +41,7 @@ export const createFileNames = (
 };
 
 export const formatedYearFromDate = (d: Date) => {
-  return `${d.getDate()}-${d.getMonth() +1}-${d.getFullYear()}`;
+  return `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
 };
 
 export const formatedYearsFromDates = (dates: Date[]) => {
@@ -96,7 +96,6 @@ export const getAllDatesBetween = (
 ): Date[] => {
   // d1 is smaller
   if (d1 instanceof Date) {
-
     let d1Time = d1.getTime();
     let d2Time = d2.getTime();
     if (d1Time > d2Time) {

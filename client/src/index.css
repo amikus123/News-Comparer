@@ -117,7 +117,7 @@ body {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   margin: 1rem 1.25rem;
   flex-grow: 0;
-  max-width: 33%;
+  max-width: 50%;
   flex-basis: 33%;
   display: flex;
   flex-direction: column;
@@ -173,7 +173,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 33%;
+  width: 100%;
+  flex-basis:1;
   padding: 1rem 0;
 }
 
@@ -306,14 +307,14 @@ body {
   }
   .headings--list {
     max-width: 100%;
-    /* width: 100%;
-or maybe just ofr  small sizes
-*/
-    height: 30rem;
+    height: 27rem;
   }
 }
+
 .bigText {
+  
 }
+
 @media screen and (max-width: 37.5rem) {
   .bigText {
   }
@@ -326,6 +327,7 @@ or maybe just ofr  small sizes
   }
   .website-selector--wrapper {
     padding-top: 3rem;
+    
   }
   .date-selector--picker-wrapper {
     flex-direction: column;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import ScreenshotRow from "./ScreenshotRow";
-import { FringeDates, ScreenshotsByDate } from "../../interfaces";
+import { FringeDates, ScreenshotsByDate,SelectedWebsites } from "../../interfaces";
 import {
   getAllDatesBetween,
   formatedYearsFromDates,
@@ -12,14 +12,13 @@ const Screenshots = ({
   setFullScreenImage,
   screenshotsByDate,
   chosenDates,
-  names,
-  links,
+  selectedWebsites
 }: {
   setFullScreenImage: (src: string) => void;
   screenshotsByDate: ScreenshotsByDate;
   chosenDates: FringeDates;
-  names: string[];
-  links: string[];
+  selectedWebsites :SelectedWebsites
+
 }) => {
   const getSrcFromMap = (formatedDate: string, name: string): string => {
     // if image has no image in DB, we return empty string
@@ -66,12 +65,11 @@ const Screenshots = ({
                   key={index}
                   setFullScreenImage={setFullScreenImage}
                   screenshots={[
-                    getSrcFromMap(fortmatedDate, names[0]),
-                    getSrcFromMap(fortmatedDate, names[1]),
-                    getSrcFromMap(fortmatedDate, names[2]),
+                    getSrcFromMap(fortmatedDate, selectedWebsites.names[0]),
+                    getSrcFromMap(fortmatedDate, selectedWebsites.names[1]),
+                    getSrcFromMap(fortmatedDate, selectedWebsites.names[2]),
                   ]}
-                  names={names}
-                  links={links}
+                  selectedWebsites={selectedWebsites}
                 />
               </Grid>
             ) : null}

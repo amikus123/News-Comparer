@@ -5,6 +5,7 @@ import {
   TotalWebsiteStaticDataMap,  
   DailyHeadingsEntry,
   HeadingsByDate,
+  WebsiteJointData,
 } from "../interfaces";
 // initial configuration
 import { initializeApp } from "firebase/app";
@@ -43,23 +44,19 @@ export const fetchStaticWebsiteDataMap =
 //categorizes website data based on political orientation
 export const createRowObjects = (
   arr: WebsiteJointDataMap
-): WebsiteJointDataInRows => {
-  const toReturn: WebsiteJointDataInRows = {
-    leftRow: [],
-    centerRow: [],
-    rightRow: [],
-  };
-  if (arr !== undefined) {
+): WebsiteJointData[][] => {
+  const toReturn  :WebsiteJointData[][] = [[],[],[]]
     for (let entry in arr) {
       const item = arr[entry];
+      console.log(item,arr,entry,"robienie")
       if (item!.politicalOrientation === "left") {
-        toReturn.leftRow.push(item);
+        toReturn[0].push(item);
       } else if (item!.politicalOrientation === "center") {
-        toReturn.centerRow.push(item);
+        toReturn[1].push(item);
       } else {
-        toReturn.rightRow.push(item);
+        toReturn[2].push(item);
       }
     }
-  }
+  
   return toReturn;
 };

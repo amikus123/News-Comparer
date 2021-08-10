@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { Grid } from "@material-ui/core";
-import { WebsiteStaticData } from "../../interfaces";
+import { WebsiteJointData } from "../../interfaces";
+import Switch from "@material-ui/core/Switch";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,27 +25,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function WebsiteSelect({
   websiteSelectData,
-  index,
-  updateWebisteSSSelection,
+  updateFunction,
 }: {
-  websiteSelectData: WebsiteStaticData[];
-  index: number;
-  updateWebisteSSSelection: (name: string, index: number) => Promise<void>;
+  websiteSelectData: WebsiteJointData[];
+  updateFunction: (data: boolean | string) => void;
 }) {
   const classes = useStyles();
-  const [age, setAge] = React.useState<string | number>(0);
-  const [open, setOpen] = React.useState(false);
-
+  const [age, setAge] = useState<string | number>(0);
+  const [open, setOpen] = useState(false);
+  const [toggled, setToggled] = useState(true);
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setAge(event.target.value as number);
     const name = websiteSelectData[event.target.value as number].name;
-    updateWebisteSSSelection(name, index);
+    updateFunction(name);
+  };
+
+  const handleToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToggled(event.target.checked);
+    updateFunction(event.target.checked);
   };
 
   return (
     <Grid
       item
-      xs 
+      xs
       container
       direction="column"
       justify="center"
@@ -64,12 +68,23 @@ export default function WebsiteSelect({
           {websiteSelectData.map((item, index) => {
             return (
               <MenuItem value={index} key={index}>
-                <img src={`${item.name}_Logo.png`} alt={item.name} className="website-selector--image" />
+                <img
+                  src={`${item.name}_Logo.png`}
+                  alt={item.name}
+                  className="website-selector--image"
+                />
               </MenuItem>
             );
           })}
         </Select>
       </FormControl>
+      <Switch
+        checked={toggled}
+        onChange={handleToggle}
+        color="primary"
+        name="checkedB"
+        inputProps={{ "aria-label": "primary checkbox" }}
+      />
     </Grid>
   );
 }

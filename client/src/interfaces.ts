@@ -4,7 +4,6 @@ export interface Heading {
   text: string;
   image: string;
   link: string;
-  emotions?: Emotions;
 }
 
 export interface DatabaseStaticDataInRows {
@@ -151,15 +150,6 @@ export interface ExcludedWords {
 }
 
 // emotion of selected heading
-export interface Emotions {
-  anger?: number;
-  sadness?: number;
-  fear?: number;
-  joy?: number;
-  analytical?: number;
-  confident?: number;
-  tentative?: number;
-}
 
 // CLIENT
 
@@ -180,3 +170,9 @@ export interface  NameToWordMap{
 export interface  NameToWordMaps{
   [websiteName:string] : WordMap[];
 }
+export interface SelectedWebsites{
+  show: boolean[];
+  names:string[];
+  links:string[];
+}
+

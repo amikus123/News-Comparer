@@ -20,7 +20,7 @@ export const getSelectedHeadings = (
 ) => {
   const res: HeadingRow[] = [];
   const formatedDates = formatedYearsFromDates(getAllDatesBetween(dates));
-  // console.log(formatedDates, "dates");
+  console.log(formatedDates, names);
   formatedDates.forEach((date) => {
     let tempObj: HeadingRow = { date };
     if (totalData[date]) {
