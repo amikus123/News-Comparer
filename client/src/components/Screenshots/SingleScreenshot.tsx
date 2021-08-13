@@ -22,7 +22,7 @@ const SingleScreenshot = ({
             src={screenshot}
             className="screenshots--image"
             onClick={() => setFullScreenImage(screenshot)}
-            alt="screens hot of webistie"
+            alt="screenshot of website"
           />
         ) : (
           <Skeleton variant="rect" height={640} />
