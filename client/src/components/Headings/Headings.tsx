@@ -8,7 +8,7 @@ import {
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
-import AutoComplete from "../General/AutoComplete";
+import VirtualizedAutoComplete from "../General/VirtualizedAutoComplete";
 import { OptionsMap } from "../Words/WordsInterfaces";
 import ShowMoreButton from "../General/ShowMoreButton";
 import { reverseArrayInPlace } from "../../helpers/generalHelpers";
@@ -82,7 +82,7 @@ const Headings = ({
 
   return (
     <div className="headings">
-      <p className="headings--tip">Scroll on collumns to see more</p>
+      <p className="headings--tip">Scroll collumns to see more headings</p>
 
       {columnHeadingData.map((row, index) => {
         return (
@@ -99,7 +99,7 @@ const Headings = ({
           </React.Fragment>
         );
       })}
-      <AutoComplete
+      <VirtualizedAutoComplete
         suggestions={suggestions}
         stateChange={setSelectedWords}
         label="Filter headings by words"

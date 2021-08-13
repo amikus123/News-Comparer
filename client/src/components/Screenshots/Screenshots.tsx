@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import ScreenshotRow from "./ScreenshotRow";
-import { FringeDates, ScreenshotsByDate,SelectedWebsites } from "../../interfaces";
+import {
+  FringeDates,
+  ScreenshotsByDate,
+  SelectedWebsites,
+} from "../../interfaces";
 import {
   getAllDatesBetween,
   formatedYearsFromDates,
@@ -12,13 +16,12 @@ const Screenshots = ({
   setFullScreenImage,
   screenshotsByDate,
   chosenDates,
-  selectedWebsites
+  selectedWebsites,
 }: {
   setFullScreenImage: (src: string) => void;
   screenshotsByDate: ScreenshotsByDate;
   chosenDates: FringeDates;
-  selectedWebsites :SelectedWebsites
-
+  selectedWebsites: SelectedWebsites;
 }) => {
   const getSrcFromMap = (formatedDate: string, name: string): string => {
     // if image has no image in DB, we return empty string
@@ -47,6 +50,9 @@ const Screenshots = ({
       alignContent="center"
       alignItems="center"
     >
+      <p className="headings--tip">
+        Click on the image to make it full screen, click again to close it
+      </p>
       {formatedDates.map((fortmatedDate, index) => {
         return (
           <React.Fragment key={index}>

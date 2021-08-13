@@ -363,6 +363,9 @@ body {
 .hide2 {
   visibility: hidden;
 }
+.remove-scroll{
+  overflow:hidden;
+}
 .hideOverflowY {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
@@ -372,4 +375,8 @@ body {
   /* WebKit */
   width: 0;
   height: 0;
+}
+.MuiAutocomplete-listbox > ul{
+  width: 300px;
+    box-sizing: border-box;
 }

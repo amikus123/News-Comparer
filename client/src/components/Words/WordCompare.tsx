@@ -1,8 +1,8 @@
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
-import AutoComplete from "../General/AutoComplete";
+import VirtualizedAutoComplete from "../General/VirtualizedAutoComplete";
 import Graph from "./Graph";
-import MobileGraphs from "./MobileGraphs"
+import MobileGraphs from "./MobileGraphs";
 import { OptionsMap } from "./WordsInterfaces";
 
 const WordCompare = ({
@@ -53,9 +53,12 @@ const WordCompare = ({
       {suggestions.Total ? (
         <>
           <div className="words--compare-input-wrapper">
-            <p className="words--compare-text">View graphs for selected words</p>
-            
-            <AutoComplete
+            <p className="words--compare-text">
+              View graphs for selected words
+            </p>
+
+          
+            <VirtualizedAutoComplete
               suggestions={suggestions}
               stateChange={setSelectedWords}
               label="View data for selected words"
@@ -75,17 +78,17 @@ const WordCompare = ({
             wordOrder={selectedWord}
             wordCount={selectedWord.length}
           />
-             <MobileGraphs
-                 data={graphDataOfSelected}
-                 webisteJointDataMap={webisteJointDataMap}
-                 wordOrder={selectedWord}
-                 wordCount={selectedWord.length}
+          <MobileGraphs
+            data={graphDataOfSelected}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder={selectedWord}
+            wordCount={selectedWord.length}
           />
-             <MobileGraphs
-              data={graphDataOfAll}
-              webisteJointDataMap={webisteJointDataMap}
-              wordOrder={selectedWord}
-              wordCount={selectedWord.length}
+          <MobileGraphs
+            data={graphDataOfAll}
+            webisteJointDataMap={webisteJointDataMap}
+            wordOrder={selectedWord}
+            wordCount={selectedWord.length}
           />
         </>
       ) : null}
