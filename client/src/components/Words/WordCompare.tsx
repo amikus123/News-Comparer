@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { getSuggestions } from "../../helpers/stateHelpers";
+import {  useEffect, useState } from "react";
 import { NameToWordMap, WebsiteJointDataMap } from "../../interfaces";
 import AutoComplete from "../General/AutoComplete";
 import Graph from "./Graph";
-import { OptionsMap, WordOption } from "./WordsInterfaces";
+import MobileGraphs from "./MobileGraphs"
+import { OptionsMap } from "./WordsInterfaces";
 
 const WordCompare = ({
   wordDataOfAll,
@@ -16,7 +16,6 @@ const WordCompare = ({
   webisteJointDataMap: WebsiteJointDataMap;
   suggestions: OptionsMap;
 }) => {
-  // Top 100 films as rated by IMDb users. http://www.imdb.com/chart/top
   const [selectedWord, setSelectedWords] = useState<string[]>([]);
   const [graphDataOfAll, setGraphDataOfAll] = useState<NameToWordMap>({});
   const [graphDataOfSelected, setGrapDataOfSelected] = useState<NameToWordMap>(
@@ -75,6 +74,18 @@ const WordCompare = ({
             webisteJointDataMap={webisteJointDataMap}
             wordOrder={selectedWord}
             wordCount={selectedWord.length}
+          />
+             <MobileGraphs
+                 data={graphDataOfSelected}
+                 webisteJointDataMap={webisteJointDataMap}
+                 wordOrder={selectedWord}
+                 wordCount={selectedWord.length}
+          />
+             <MobileGraphs
+              data={graphDataOfAll}
+              webisteJointDataMap={webisteJointDataMap}
+              wordOrder={selectedWord}
+              wordCount={selectedWord.length}
           />
         </>
       ) : null}

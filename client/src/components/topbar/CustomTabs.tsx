@@ -33,7 +33,7 @@ const CustomTabs = () => {
       className="appbarr--left-container"
     >
       <Tab
-        label="Word analysis"
+        label="Words"
         {...a11yProps(0)}
         component={NavLink}
         activeClassName="selected"

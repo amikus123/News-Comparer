@@ -43,6 +43,7 @@ const Words = ({
         sortedSelectedWordsByCount={sortedSelectedWordsByCount}
         sortedAllWordsByCount={sortedAllWordsByCount}
       />
+      
       <WordCompare
         suggestions={suggestions}
         wordDataOfAll={wordDataOfAll}

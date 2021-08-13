@@ -53,7 +53,11 @@ body {
   margin: 2rem 0;
 }
 .date-group--date-selector--error {
-  background-color: red !important;
+  outline: 1px solid red !important;
+}
+.date-group--date-selector-text--error{
+  font-weight: 600;
+  color:red;
 }
 .date-group--date-selector-text {
   font-size: 1.5rem;
@@ -89,6 +93,7 @@ body {
 .headings--tip {
   font-size: 2rem;
   margin: 2rem 1.2rem;
+  text-align: center;
 }
 /* HEADING ROW */
 
@@ -286,10 +291,22 @@ body {
   font-size: 1.75rem;
 }
 
+.words--mobile-graph{
+  display: none;
+}
+.words--desktop-graph{
+  display: flex;
+}
+
+
 /* general */
 .show-more-button {
-  margin: 5rem !important;
+  margin: 2rem 0 !important;
   width: fit-content;
+}
+.autocomplete{
+  margin-top:2rem;
+
 }
 @media screen and (max-width: 62.5rem) {
   .screenshots {
@@ -308,17 +325,13 @@ body {
   .headings--list {
     max-width: 100%;
     height: 27rem;
+    padding:0;
   }
 }
 
-.bigText {
-  
-}
 
 @media screen and (max-width: 37.5rem) {
-  .bigText {
-  }
-
+  
   .appbar--toolbar {
     flex-direction: column;
   }
@@ -334,6 +347,12 @@ body {
   }
   .date-selector--single-picker-wrapper {
     margin: 0rem 3rem;
+  }
+  .words--mobile-graph{
+    display: flex;
+  }
+  .words--desktop-graph{
+    display: none;
   }
 }
 
@@ -353,6 +372,4 @@ body {
   /* WebKit */
   width: 0;
   height: 0;
-}
-.date-text {
 }

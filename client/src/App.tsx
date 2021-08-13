@@ -93,13 +93,14 @@ function App() {
         setWebisteJointData(totalWebisteMap);
 
         updateFringesBasedOnHeadigs(headings);
-        setHeadingMap(headings);
+        setHeadingMap(headings);  
 
         console.log(1111, "update", headings);
       } else {
         console.error("Failed to fetch data from database");
       }
     };
+    console.log("XD")
     fetchAndSetStaticStates();
   }, []);
 
@@ -173,7 +174,17 @@ function App() {
               webisteJointData={webisteJointData}
             />
           </Route>
-          <Route path="/headings">
+ 
+          <Route path="/screenshots">
+            <Screenshots
+              selectedWebsites={selectedWebsites}
+              setFullScreenImage={setFellScreenAndResetPosition}
+              screenshotsByDate={screenshotsByDate}
+              chosenDates={chosenDates}
+            />
+          </Route>
+
+          <Route>
             <Headings
               suggestions={selectedSuggsetions}
               
@@ -182,14 +193,6 @@ function App() {
               headingMap={headingMap}
               downloadedHeadingImages={downloadedHeadingImages}
               setDowloadedHeadingImages={setDowloadedHeadingImages}
-            />
-          </Route>
-          <Route path="/screenshots">
-            <Screenshots
-              selectedWebsites={selectedWebsites}
-              setFullScreenImage={setFellScreenAndResetPosition}
-              screenshotsByDate={screenshotsByDate}
-              chosenDates={chosenDates}
             />
           </Route>
         </Switch>

@@ -72,16 +72,17 @@ export const removeFile = async (path: string) => {
 
 export const uploadToStoarge = async (
   screenshots: ScreenshotToUpload[] | ScreenshotToUpload,
-  storageRef: firebase.storage.Reference
+  storageRef: firebase.storage.Reference,
+  websiteName:string
 ) => {
   const metadata = {
     contentType: "image/jpeg",
   };
   if (Array.isArray(screenshots)) {
     for (let i in screenshots) {
-      console.log(`${screenshots[i].imageName}`);
+      console.log(`${websiteName}/${screenshots[i].imageName}`);
       const screenshotRef = storageRef
-        .child(`${screenshots[i].imageName}`)
+        .child(`${websiteName}/${screenshots[i].imageName}`)
         .put(screenshots[i].imageUintData, metadata)
         .then((snapshot) => {
           console.log(" file uploaded");
@@ -94,7 +95,7 @@ export const uploadToStoarge = async (
     console.log(`${screenshots.imageName}`);
 
     const screenshotRef = storageRef
-      .child(`${screenshots.imageName}`)
+      .child(`${websiteName}/${screenshots.imageName}`)
       .put(screenshots.imageUintData, metadata)
       .then((snapshot) => {
         console.log(" file uploaded");
@@ -130,9 +131,10 @@ export const getScreenshotData = async (imageName: string) => {
     };
   } catch (e) {
     console.error(e, "BLAD");
+    return {
+      imageName: "e",
+      imageUintData: new Uint8Array(),
+    };
   }
-  return {
-    imageName: "e",
-    imageUintData: new Uint8Array(),
-  };
+ 
 };

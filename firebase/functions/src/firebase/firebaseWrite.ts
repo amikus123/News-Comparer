@@ -25,7 +25,7 @@ export const handleSinglePuppeteerData = async (
   pupeteerData: PuppeteerPageData,
   storageRef: firebase.storage.Reference
 ) => {
-  const baseFileLocation = `${pupeteerData.name}-${createFormatedDate()}-`;
+  const baseFileLocation = `${pupeteerData.name}/${pupeteerData.name}-${createFormatedDate()}-`;
   const { headings, screenshot } = pupeteerData;
   if (headings) {
     const uncompressedFilePaths: string[] = [];
@@ -54,12 +54,12 @@ export const handleSinglePuppeteerData = async (
       }
     }
     if (screenshot) {
-      await uploadToStoarge(screenshot, storageRef);
+      await uploadToStoarge(screenshot, storageRef,pupeteerData.name);
     }
     // compreession TODO
     // getting unit8array data
     const x = await getUnit8OFCompressed(uncompressedFilePaths, fileNames);
-    await uploadToStoarge(x, storageRef);
+    await uploadToStoarge(x, storageRef,pupeteerData.name);
   } else {
     console.error("PageData should include headings");
   }

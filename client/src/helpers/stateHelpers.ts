@@ -1,4 +1,3 @@
-import { createRowObjects } from "../firebase/firestore";
 import { getMissingScreenshots } from "../firebase/storage";
 import {
   WebsiteJointDataMap,
@@ -14,8 +13,6 @@ import merge from "deepmerge";
 import { formatedYearsFromDates, getAllDatesBetween } from "./dataCreation";
 import { combineWordMaps } from "./mapFunctions";
 import { OptionsMap } from "../components/Words/WordsInterfaces";
-
-
 
 export const checkIfShouldRequest = (
   names: string[],
@@ -63,7 +60,6 @@ export const cretaeImagesSources = async (
   return newData;
 };
 
-
 export const getSelectedAndAllWordMap = (
   webisteJointDataMap: WebsiteJointDataMap,
   headingMap: HeadingsByDate,
@@ -74,16 +70,17 @@ export const getSelectedAndAllWordMap = (
   const selectedMap: NameToWordMap = {};
 
   const allNames = Object.keys(webisteJointDataMap);
+
   // stores all the maps and megres themd
   const mapOfArr: NameToWordMaps = {};
   const datesBetween = formatedYearsFromDates(getAllDatesBetween(chosenDates));
 
   for (let name of names) {
-    selectedMap[name] = {};
+    selectedMap[name.replace("_", " ")] = {};
   }
 
   for (let name of allNames) {
-    totalMap[name] = {};
+    totalMap[name.replace("_", " ")] = {};
     mapOfArr[name] = [];
   }
 
@@ -98,16 +95,17 @@ export const getSelectedAndAllWordMap = (
   const combinedForSelected: WordMap[] = [];
   for (let name of allNames) {
     const combinedForName = combineWordMaps(mapOfArr[name]);
-
-    totalMap[name] = combinedForName;
+    console.log(name.replace("_", " "), "ZMIENIONE");
+    totalMap[name.replace("_", " ")] = combinedForName;
     combinedForTotal.push(combinedForName);
-    if (selectedMap[name] !== undefined) {
-      selectedMap[name] = combinedForName;
+    if (selectedMap[name.replace("_", " ")] !== undefined) {
+      selectedMap[name.replace("_", " ")] = combinedForName;
       combinedForSelected.push(combinedForName);
     }
   }
   totalMap.Total = combineWordMaps(combinedForTotal);
   selectedMap.Total = combineWordMaps(combinedForSelected);
+  console.log(selectedMap, totalMap, "FIN STATE");
   return { selectedMap, totalMap };
 };
 
@@ -119,14 +117,16 @@ export const getSuggestions = (wordData: NameToWordMap): OptionsMap => {
   const total = wordData["Total"];
   for (const word in total) {
     for (const name in wordData) {
-      let wordCount = wordData[name][word];
-      if (wordCount === undefined) {
-        wordCount = 0;
+      if (isNaN(Number(word))) {
+        let wordCount = wordData[name][word];
+        if (wordCount === undefined) {
+          wordCount = 0;
+        }
+        res[name].push({
+          word: word,
+          count: wordCount,
+        });
       }
-      res[name].push({
-        word: word,
-        count: wordCount,
-      });
     }
   }
   return res;

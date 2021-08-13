@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 
 import { FringeDates } from "../../interfaces";
+import { checkIfSameDay } from "../../helpers/dataCreation";
 
 export default function DateSelector({
   chosenDates,
@@ -41,7 +42,8 @@ export default function DateSelector({
         }
 
         setLocalDates(res);
-        if (res.min.getTime() > res.max.getTime()) {
+        console.log(!checkIfSameDay(res.min,res.max))
+        if (res.min.getTime() > res.max.getTime() && !checkIfSameDay(res.min,res.max)) {
           // change classes
           setError("The date on right should be before the one on the left");
         } else {
@@ -57,7 +59,7 @@ export default function DateSelector({
   useEffect(() => {
     setLocalDates(chosenDates);
     if (chosenDates.min.getTime() > chosenDates.max.getTime()) {
-      setError("The date on right should be before the one on the left");
+      setError("First date should be before the one second");
     } else {
       // user cant select date that is in out of bound hen we have more than 7 heading in DB
       setError("");
@@ -107,7 +109,7 @@ export default function DateSelector({
         </div>
       </div>
 
-      <Typography gutterBottom> {error} </Typography>
+      <Typography gutterBottom className="date-group--date-selector-text--error"> {error} </Typography>
     </MuiPickersUtilsProvider>
   );
 }

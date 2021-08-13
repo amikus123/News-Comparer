@@ -30,7 +30,6 @@ const FullScreen = ({
           }`}
           id="fullScreenImage"
         />
-        {/* <CloseIcon className="fullscreen--close-icon" /> */}
       </div>
     </div>
   );

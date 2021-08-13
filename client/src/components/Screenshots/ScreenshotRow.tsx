@@ -22,7 +22,7 @@ const ScreenshotRow = ({
     >
       {screenshots.map((screenshot, index) => {
         return (
-          <Fragment>
+          <Fragment key={index}>
             {selectedWebsites.show[index] ? (
               <SingleScreenshot
                 link={selectedWebsites.links[index]}

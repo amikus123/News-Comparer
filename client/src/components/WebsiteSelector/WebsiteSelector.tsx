@@ -6,6 +6,10 @@ import Select from "@material-ui/core/Select";
 import { Grid } from "@material-ui/core";
 import { WebsiteJointData } from "../../interfaces";
 import Switch from "@material-ui/core/Switch";
+import {
+  BrowserRouter as Router,
+  useLocation
+} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,7 +48,8 @@ export default function WebsiteSelect({
     setToggled(event.target.checked);
     updateFunction(event.target.checked);
   };
-
+  let location = useLocation();
+ 
   return (
     <Grid
       item
@@ -78,13 +83,16 @@ export default function WebsiteSelect({
           })}
         </Select>
       </FormControl>
-      <Switch
-        checked={toggled}
-        onChange={handleToggle}
-        color="primary"
-        name="checkedB"
-        inputProps={{ "aria-label": "primary checkbox" }}
-      />
+
+      {location.pathname !== "/words" ? (
+        <Switch
+          checked={toggled}
+          onChange={handleToggle}
+          color="primary"
+          name="checkedB"
+          inputProps={{ "aria-label": "primary checkbox" }}
+        />
+      ) : null}
     </Grid>
   );
 }

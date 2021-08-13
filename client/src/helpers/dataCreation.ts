@@ -65,9 +65,18 @@ export const datesToFormatedMonths = (dates: Date[]) => {
   return arr;
 };
 
+export const getCleanNewDate = () =>{
+  const date = new Date()
+  date.setHours(0)
+  date.setMinutes(0)
+  date.setSeconds(0)
+  date.setMilliseconds(0)
+
+  return date
+}
 export const returnMaxAndMinDateFromKeys = (
   headings: AnyMap,
-  now: Date = new Date()
+  now: Date = getCleanNewDate()
 ): FringeDates => {
   let max = now;
   let min = now;
@@ -124,6 +133,7 @@ export const checkIfSameDay = (d1: Date, d2: Date) => {
   const a2 = d2.getDate();
   const b2 = d2.getMonth();
   const c2 = d2.getFullYear();
+  console.log(a1,a2,b1,b2,c1,c2,)
   if (a1 === a2 && b1 === b2 && c1 === c2) {
     return true;
   }

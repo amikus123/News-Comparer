@@ -1,14 +1,7 @@
-import {
-  getAllDatesBetween,
-  formatedYearsFromDates,
-} from "../../helpers/dataCreation";
-import { combineWordMaps } from "../../helpers/mapFunctions";
+
 import {
   TotalGraphData,
   AnyMap,
-  FringeDates,
-  HeadingsByDate,
-  WordMap,
   NameToWordMap,
 } from "../../interfaces";
 
@@ -41,60 +34,7 @@ export const getFormatedDataToGraph = (
   return res;
 };
 
-export const passOnlyChosenData = (
-  names: string[],
-  fringeDates: FringeDates,
-  fullHeadings: HeadingsByDate
-) => {
-  const res: TotalGraphData = {};
-  const datesBetween = getAllDatesBetween(fringeDates);
-  // webistes and "total"
-  names.forEach((name) => {
-    res[name] = {
-      frequencyOfWords: {},
-      totalWordCount: 0,
-    };
-  });
-  res.Total = {
-    frequencyOfWords: {},
-    totalWordCount: 0,
-  };
 
-  const formatedDates = formatedYearsFromDates(datesBetween);
-  // we get  word data only for dates in range
-  formatedDates.forEach((date) => {
-    const data = fullHeadings[date].totalDailySiteData;
-    names.forEach((name) => {
-      const found = data[name];
-      // console.log(found);
-      const newMap = combineWordMaps([
-        found.pageDailyFrequencyOfWords,
-        res[name].frequencyOfWords,
-      ]);
-      const newCount = found.pageDailyWordCount + res[name].totalWordCount;
-      res[name] = {
-        frequencyOfWords: newMap,
-        totalWordCount: newCount,
-      };
-    });
-  });
-
-  let totalCount = 0;
-
-  let totalMaps: WordMap[] = [];
-
-  names.forEach((name) => {
-    totalCount += res[name].totalWordCount;
-    totalMaps.push(res[name].frequencyOfWords);
-  });
-
-  res.Total = {
-    frequencyOfWords: combineWordMaps(totalMaps),
-    totalWordCount: totalCount,
-  };
-
-  return res;
-};
 
 export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
   const names = Object.keys(data);
@@ -103,6 +43,3 @@ export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
   });
 };
 
-export const returnGraphData = () =>{
-  
-}

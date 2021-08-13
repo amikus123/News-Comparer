@@ -16,8 +16,10 @@ export const getDataFromPages = async (
   for (const name in totalWebsiteStaticDataMap) {
     // popupSelector should be named popupSelectors
     const { url, popupSelector, contentSelectors } =
-    totalWebsiteStaticDataMap[name];
-
+      totalWebsiteStaticDataMap[name];
+    if(name !== "Fakt"){
+      continue
+    }
     try {
       // waits 500ms after last network request
       page.setDefaultNavigationTimeout(0);

@@ -1,5 +1,10 @@
 import React, { useEffect, useState, Dispatch, SetStateAction } from "react";
-import { HeadingsByDate, FringeDates, WordToWordMap,SelectedWebsites} from "../../interfaces";
+import {
+  HeadingsByDate,
+  FringeDates,
+  WordToWordMap,
+  SelectedWebsites,
+} from "../../interfaces";
 import HeadingsRow from "./HeadingsRow";
 import { HeadingRow, getSelectedHeadings } from "./HeadingsFunctions";
 import { getImgSrcFromName } from "../../firebase/storage";
@@ -20,7 +25,7 @@ const Headings = ({
   downloadedHeadingImages: WordToWordMap;
   setDowloadedHeadingImages: Dispatch<SetStateAction<WordToWordMap>>;
   suggestions: OptionsMap;
-  selectedWebsites :SelectedWebsites
+  selectedWebsites: SelectedWebsites;
 }) => {
   const [columnHeadingData, setColumnHeadingData] = useState<HeadingRow[]>([]);
   const [selectedWords, setSelectedWords] = useState<string[]>([]);
@@ -78,11 +83,6 @@ const Headings = ({
   return (
     <div className="headings">
       <p className="headings--tip">Scroll on collumns to see more</p>
-      <AutoComplete
-        suggestions={suggestions}
-        stateChange={setSelectedWords}
-        label="Filter headings by words"
-      />
 
       {columnHeadingData.map((row, index) => {
         return (
@@ -99,6 +99,12 @@ const Headings = ({
           </React.Fragment>
         );
       })}
+      <AutoComplete
+        suggestions={suggestions}
+        stateChange={setSelectedWords}
+        label="Filter headings by words"
+      />
+
       <ShowMoreButton
         state={displayedCount}
         setState={setDisplayedCount}

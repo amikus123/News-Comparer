@@ -48,23 +48,26 @@ export const test = functions
     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
     console.log(webisteDataOfAllTime, "Sstart")
     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
+      console.log(1)
       const totalPuppeteerData = await getDataFromPages(websiteInfo);
+      console.log(2)
+
       // chnages links in articles to link to storage, and puts images in storage
       await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
       const headingsData = createDailyHeadings(
         totalPuppeteerData,
         excludedWords
       );
-      // console.log("headings", headingsData);
+      console.log("headings", headingsData);
 
       // update old data
-      const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
-        headingsData,
-        webisteDataOfAllTime
-      );
-      console.log("all time", updatedWebisteDataOfAllTime);
-      await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
-      await writeDailyHeadings(headingsData, db);
+      // const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
+      //   headingsData,
+      //   webisteDataOfAllTime
+      // );
+      // console.log("all time", updatedWebisteDataOfAllTime);
+      // await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
+      // await writeDailyHeadings(headingsData, db);
       return;
     } else {
       console.log("Unsuccessful fetching from database");
