@@ -25,7 +25,7 @@ const SingleScreenshot = ({
             alt="screenshot of website"
           />
         ) : (
-          <Skeleton variant="rect" height={640} />
+          <Skeleton variant="rect" height={640} width="80%" />
         )}
       </div>
     </div>

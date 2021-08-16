@@ -1,6 +1,5 @@
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import {
-    WebsiteJointDataInRows,
   WebsiteJointDataMap,
   TotalWebsiteStaticDataMap,  
   DailyHeadingsEntry,

@@ -78,6 +78,7 @@ function App() {
   // fetches static data and inital date constraints and inital names
   useEffect(() => {
     const updateFringesBasedOnHeadigs = (headings: HeadingsByDate) => {
+      console.log(headings,"headins")
       const maxAndMin = returnMaxAndMinDateFromKeys(headings);
       setFringeDates(maxAndMin);
       setChosenDates({

@@ -74,28 +74,59 @@ export const getCleanNewDate = () =>{
 
   return date
 }
+const dateFromFormatedDate = (str:string ) =>{
+  
+  const dateSplit :string[] = str.split("")
+  // aray with day month and year string
+  const arr:number[] = []
+  let tempStr = ""
+  while(dateSplit.length  !== 0 ){  
+    let nextSymbol = dateSplit.shift()
+    if(nextSymbol === "-"){
+      arr.push(Number(tempStr))
+      tempStr = ""
+    }else{
+      tempStr += nextSymbol
+    }
+  }
+  // pushes year to arr
+  arr.push(Number(tempStr))
+  const date = new Date()
+  date.setDate(arr[0])
+  // month decremented beace os js weirdness
+  date.setMonth(arr[1]-1)
+  
+  date.setFullYear(arr[2])
+  return date
+  // console.log(arr,date,formatedYearFromDate(date),"ARRR",str)
+}
 export const returnMaxAndMinDateFromKeys = (
   headings: AnyMap,
   now: Date = getCleanNewDate()
 ): FringeDates => {
   let max = now;
-  let min = now;
   let maxStr = formatedYearFromDate(max);
   const keys = Object.keys(headings);
+
   if (keys.indexOf(maxStr) !== -1) {
   } else {
     max = getPreviousDay(max);
   }
-  while (true) {
-    let nextIteration = formatedYearFromDate(getPreviousDay(min));
-    if (keys.indexOf(nextIteration) === -1) {
-      break;
+  let lowestDate = new Date(16275140724101)
+
+ for(const index in keys){
+    const date =   dateFromFormatedDate(keys[index])
+    const milisecods = date.getTime()
+
+    if(milisecods<lowestDate.getTime()){
+      lowestDate= date
     }
-    min = getPreviousDay(min);
+
   }
+  console.log("XDDDD",lowestDate)
   return {
     max: max,
-    min: min,
+    min: lowestDate,
   };
 };
 

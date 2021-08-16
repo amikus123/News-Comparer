@@ -85,10 +85,15 @@ export const getSelectedAndAllWordMap = (
   }
 
   for (const i of datesBetween) {
-    const current: DailyWebsitesDataMap = headingMap[i].totalDailySiteData;
-    for (const name in current) {
-      mapOfArr[name].push(current[name].pageDailyFrequencyOfWords);
+    try{
+      const current: DailyWebsitesDataMap = headingMap[i].totalDailySiteData;
+      for (const name in current) {
+        mapOfArr[name].push(current[name].pageDailyFrequencyOfWords);
+      }
+    }catch(e){
+
     }
+
   }
 
   const combinedForTotal: WordMap[] = [];
