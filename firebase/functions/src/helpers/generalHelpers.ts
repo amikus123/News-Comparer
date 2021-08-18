@@ -7,21 +7,6 @@ export const createFormatedDate = () => {
   return `${time.getDate()}-${time.getMonth() +1}-${time.getFullYear()}`;
 };
 
-export const removeInternalStopSymbols = (text: string) => {
-  // IBM api doesn't work as expected if input has following symbols inside, so we this removes them
-  // i may add more stop characters
-  const stopCharacters = ["!", "?", ".", ";"];
-  const arrOfChars = text.split("");
-  for (let i = 0; i < arrOfChars.length - 1; i++) {
-    if (stopCharacters.indexOf(arrOfChars[i]) !== -1) {
-      arrOfChars[i] = " ";
-    }
-  }
-  if (stopCharacters.indexOf(arrOfChars[arrOfChars.length - 1]) === -1) {
-    arrOfChars.push(".");
-  }
-  return arrOfChars.join("");
-};
 
 export const mergeEmotionCount = (first: Emotions, second: Emotions) => {
   for (let key in second) {
@@ -61,6 +46,5 @@ export const createEmotionsFromIBM = (tones: any) => {
   for (let tone of tones) {
     obj[tone["tone_id"]] = tone["score"];
   }
-  // console.log(obj, "CREATED");
   return obj;
 };

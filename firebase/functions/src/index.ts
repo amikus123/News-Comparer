@@ -46,28 +46,15 @@ export const test = functions
     const websiteInfo = await getTotalWebsiteStaticData(db);
     const excludedWords = await getExcludedWords(db);
     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
-    console.log(webisteDataOfAllTime, "Sstart")
     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
-      console.log(1)
       const totalPuppeteerData = await getDataFromPages(websiteInfo);
-      console.log(2)
-
       // chnages links in articles to link to storage, and puts images in storage
       await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
       const headingsData = createDailyHeadings(
         totalPuppeteerData,
         excludedWords
       );
-      console.log("headings", headingsData);
-
-      // update old data
-      // const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
-      //   headingsData,
-      //   webisteDataOfAllTime
-      // );
-      // console.log("all time", updatedWebisteDataOfAllTime);
-      // await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
-      // await writeDailyHeadings(headingsData, db);
+      await writeDailyHeadings(headingsData, db);
       return;
     } else {
       console.log("Unsuccessful fetching from database");
@@ -76,7 +63,7 @@ export const test = functions
 
 export const savePagesContent = functions
   .runWith({
-    timeoutSeconds: 240,
+    timeoutSeconds: 360,
     memory: "1GB",
   })
   .pubsub.schedule("every 24 hours")
@@ -96,13 +83,7 @@ export const savePagesContent = functions
       // console.log("headings", headingsData);
 
       // update old data
-      const updatedWebisteDataOfAllTime = updateWebisteDataOfAllTime(
-        headingsData,
-        webisteDataOfAllTime
-      );
-      console.log("all time");
-
-      await writeTotalDataOfAllTime(updatedWebisteDataOfAllTime, db);
+    
       await writeDailyHeadings(headingsData, db);
       return;
     } else {

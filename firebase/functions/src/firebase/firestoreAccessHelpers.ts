@@ -50,9 +50,7 @@ export const getWebisteDataOfAllTime = async (
           res = doc.data();
           console.log("przypisanioe")
         }
-        console.log(doc.id,doc.id === "DynamicWebsiteData")
       });
     });
-  console.log(res,"co wydszlo")
   return res;
 };

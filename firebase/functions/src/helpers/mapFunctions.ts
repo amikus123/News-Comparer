@@ -37,7 +37,6 @@ export const createWordMap = (
 
 export const combineWordMaps = (data: WordMap[]) => {
   const result: WordMap = {}; 
-  console.log(data)
   data.forEach((basket) => {
     if(basket){
 

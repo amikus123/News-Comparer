@@ -75,7 +75,6 @@ export const getTotalFrequencyOfWords = (
 ) => {
   const frequencies: WordMap[] = [];
   for (let name in websiteEntries) {
-    // console.log(name,)
     frequencies.push(websiteEntries[name].pageDailyFrequencyOfWords);
   }
   const res = combineWordMaps(frequencies);

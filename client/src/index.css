@@ -116,6 +116,7 @@ body {
 /* headings daily list */
 
 .headings--list {
+padding: 0 0.5rem;
   max-height: 45rem;
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */

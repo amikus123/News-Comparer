@@ -15,7 +15,6 @@ export const dowloadFileAndStoreIt = async (
   const tempDirPath = `${os.tmpdir()}`;
   let uncompressedPath = ``;
   try {
-    console.log(foreignUrl, "CO JA POBIERAM");
     const response = await fetch(foreignUrl);
     const buffer = await response.buffer();
     uncompressedPath = `${tempDirPath}${path.sep}${storageFileLoaction}`;
@@ -80,9 +79,9 @@ export const uploadToStoarge = async (
   };
   if (Array.isArray(screenshots)) {
     for (let i in screenshots) {
-      console.log(`${websiteName}/${screenshots[i].imageName}`);
+      console.log(`/${screenshots[i].imageName}`);
       const screenshotRef = storageRef
-        .child(`${websiteName}/${screenshots[i].imageName}`)
+        .child(`/${screenshots[i].imageName}`)
         .put(screenshots[i].imageUintData, metadata)
         .then((snapshot) => {
           console.log(" file uploaded");
@@ -95,7 +94,7 @@ export const uploadToStoarge = async (
     console.log(`${screenshots.imageName}`);
 
     const screenshotRef = storageRef
-      .child(`${websiteName}/${screenshots.imageName}`)
+      .child(`/${screenshots.imageName}`)
       .put(screenshots.imageUintData, metadata)
       .then((snapshot) => {
         console.log(" file uploaded");

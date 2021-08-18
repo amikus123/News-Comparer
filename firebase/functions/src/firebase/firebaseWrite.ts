@@ -25,19 +25,17 @@ export const handleSinglePuppeteerData = async (
   pupeteerData: PuppeteerPageData,
   storageRef: firebase.storage.Reference
 ) => {
-  const baseFileLocation = `${pupeteerData.name}/${pupeteerData.name}-${createFormatedDate()}-`;
+  const baseFileLocation = `/${pupeteerData.name}-${createFormatedDate()}-`;
   const { headings, screenshot } = pupeteerData;
   if (headings) {
     const uncompressedFilePaths: string[] = [];
     const fileNames: string[] = [];
     for (let i in headings) {
-      console.log("ASDDSAASD ", pupeteerData.name);
       if (headings[i].image !== "") {
         // this is final storage url form compressed image
         const storageFileLoaction = baseFileLocation + `${i}.jpg`;
         // escape file name
         const encodedURI = encodeURI(headings[i].image);
-        console.log(encodedURI,"ZAKODOWANE")
         const uncompressedFilePath = await dowloadFileAndStoreIt(
           encodedURI,
           storageFileLoaction
