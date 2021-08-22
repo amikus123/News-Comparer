@@ -9,7 +9,7 @@ What makes your project stand out? If your project has a lot of features, consid
 # News-Comparer - Compare Polish News
 
 > This project aims to allow user to easly compare headings from major polish political websites
-> Live demo [_here_](newscomparer.web.app).
+> Live demo [_here_](https://newscomparer.web.app).
   
 ## Table of Contents
 
