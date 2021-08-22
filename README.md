@@ -39,9 +39,7 @@ Live demo can be seen [_here_](https://newscomparer.web.app).
 
 ![2](https://user-images.githubusercontent.com/51713265/130350342-02c40472-3281-490c-be36-3fc65946ce59.JPG)
 
-## Project Status
 
-Project is: _complete_
 ## Acknowledgements
 
 - This project was inspired by this [video](https://www.youtube.com/watch?v=JTOJsU3FSD8&t=149s)
