@@ -1,16 +1,9 @@
-<!-- A README needs to answer the following what, why, and how:
-
-What was your motivation?
-Why did you build this project?
-What problem does it solve?
-What did you learn?
-What makes your project stand out? If your project has a lot of features, consider adding a "Features" section and listing them here. -->
 
 # News-Comparer - Compare Polish News
 
-> This project aims to allow user to easly compare headings from major polish political websites
-> Live demo [_here_](https://newscomparer.web.app).
-  
+ This project aims to allow user to easly compare headings from major polish political websites.
+Live demo can be seen [_here_](https://newscomparer.web.app).
+
 ## Table of Contents
 
 - [General Info](#general-information)
@@ -42,28 +35,14 @@ What makes your project stand out? If your project has a lot of features, consid
 - View sreenshots of webistes.
 
 ## Screenshots
+  ![1](https://user-images.githubusercontent.com/51713265/130350330-8f08841e-9cf2-4c9b-902e-770bdcfea48c.JPG)
 
-![Example screenshot](./img/screenshot.png)
+![2](https://user-images.githubusercontent.com/51713265/130350342-02c40472-3281-490c-be36-3fc65946ce59.JPG)
 
 ## Project Status
 
-Project is: _in progress_ / _complete_ 
-## Room for Improvement
-To do:
-
-- Improve frontend desing and feel
-- Add more content to word analysis
-- Add addinitional webistes
-- Add more selectors for existing webistes
-
+Project is: _complete_
 ## Acknowledgements
 
-Give credit here.
-
 - This project was inspired by this [video](https://www.youtube.com/watch?v=JTOJsU3FSD8&t=149s)
-
-
-
-<!-- ## License -->
-<!-- This project is open source and available under the [... License](). -->
 
