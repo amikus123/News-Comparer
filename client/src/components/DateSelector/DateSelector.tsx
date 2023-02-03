@@ -42,8 +42,11 @@ export default function DateSelector({
         }
 
         setLocalDates(res);
-        console.log(!checkIfSameDay(res.min,res.max))
-        if (res.min.getTime() > res.max.getTime() && !checkIfSameDay(res.min,res.max)) {
+        console.log(!checkIfSameDay(res.min, res.max));
+        if (
+          res.min.getTime() > res.max.getTime() &&
+          !checkIfSameDay(res.min, res.max)
+        ) {
           // change classes
           setError("The date on right should be before the one on the left");
         } else {
@@ -61,7 +64,7 @@ export default function DateSelector({
     if (chosenDates.min.getTime() > chosenDates.max.getTime()) {
       setError("First date should be before the one second");
     } else {
-      // user cant select date that is in out of bound hen we have more than 7 heading in DB
+      // user cant select date that is out of bounds when we have more than 7 heading in DB
       setError("");
     }
   }, [chosenDates]);
@@ -69,7 +72,6 @@ export default function DateSelector({
     // TODO ERROR CLASS
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <div className="date-selector--picker-wrapper">
-
         <div className="date-selector--single-picker-wrapper">
           <KeyboardDatePicker
             disableToolbar
@@ -109,7 +111,13 @@ export default function DateSelector({
         </div>
       </div>
 
-      <Typography gutterBottom className="date-group--date-selector-text--error"> {error} </Typography>
+      <Typography
+        gutterBottom
+        className="date-group--date-selector-text--error"
+      >
+        {" "}
+        {error}{" "}
+      </Typography>
     </MuiPickersUtilsProvider>
   );
 }

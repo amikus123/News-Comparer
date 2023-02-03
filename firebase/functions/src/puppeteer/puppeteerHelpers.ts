@@ -3,7 +3,7 @@ import os from "os";
 import { promises } from "fs";
 import { ContentSelector, Heading, PopupSelector } from "../interfaces";
 import { createFormatedDate } from "../helpers/generalHelpers";
-import path from "path"
+import path from "path";
 export const takeAndSaveScreenshot = async (
   page: puppeteer.Page,
   name: string
@@ -12,7 +12,7 @@ export const takeAndSaveScreenshot = async (
   const pathToFile = `${os.tmpdir}${path.sep}${imageName}`;
   try {
     await page.screenshot({
-      fullPage:true,
+      fullPage: true,
       path: pathToFile,
       quality: 50,
       omitBackground: true,
@@ -156,10 +156,10 @@ export const getHeadings = async (
           } else {
             image = imageElements[i].src;
           }
-          while(image[0] === "/"){
-            image = image.substr(1,image.length-1)
+          while (image[0] === "/") {
+            image = image.substr(1, image.length - 1);
           }
-          if(image[0]!== "h"){
+          if (image[0] !== "h") {
             image = "https://" + image;
           }
           // when text is empty, it may be an advert

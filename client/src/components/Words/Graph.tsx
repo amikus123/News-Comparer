@@ -38,7 +38,6 @@ const Graph = ({
       }
       res.push(currentGraphMap);
     }
-    // console.log(res, "graf");
     setGraphData(res);
   }, [data, wordCount, wordOrder]);
 

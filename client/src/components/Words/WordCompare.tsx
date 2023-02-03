@@ -23,7 +23,7 @@ const WordCompare = ({
   );
 
   useEffect(() => {
-    // change to functions i guess
+    // TODO move to function
     const allNames = Object.keys(wordDataOfAll);
     const selectedNames = Object.keys(wordDataOfSelected);
     const allRes: NameToWordMap = {};
@@ -57,7 +57,6 @@ const WordCompare = ({
               View graphs for selected words
             </p>
 
-          
             <VirtualizedAutoComplete
               suggestions={suggestions}
               stateChange={setSelectedWords}

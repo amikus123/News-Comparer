@@ -1,5 +1,5 @@
 require("dotenv").config();
-// polyfil
+// polyfill
 (global as any).XMLHttpRequest = require("xhr2");
 
 import admin from "firebase-admin";
@@ -49,7 +49,7 @@ export const test = functions
     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
       const totalPuppeteerData = await getDataFromPages(websiteInfo);
       // chnages links in articles to link to storage, and puts images in storage
-      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      await uploadImagesFromPuppeteer(totalPuppeteerData, storageRef);
       const headingsData = createDailyHeadings(
         totalPuppeteerData,
         excludedWords
@@ -71,23 +71,20 @@ export const savePagesContent = functions
     const websiteInfo = await getTotalWebsiteStaticData(db);
     const excludedWords = await getExcludedWords(db);
     const webisteDataOfAllTime = await getWebisteDataOfAllTime(db);
-    console.log(webisteDataOfAllTime, "Sstart")
     if (websiteInfo && excludedWords && webisteDataOfAllTime) {
       const totalPuppeteerData = await getDataFromPages(websiteInfo);
       // chnages links in articles to link to storage, and puts images in storage
-      await uploadImagesFromPuppeteer(totalPuppeteerData,storageRef)
+      await uploadImagesFromPuppeteer(totalPuppeteerData, storageRef);
       const headingsData = createDailyHeadings(
         totalPuppeteerData,
         excludedWords
       );
-      // console.log("headings", headingsData);
 
       // update old data
-    
+
       await writeDailyHeadings(headingsData, db);
       return;
     } else {
       console.log("Unsuccessful fetching from database");
     }
   });
-

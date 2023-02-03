@@ -17,18 +17,22 @@ export const getDataFromPages = async (
     // popupSelector should be named popupSelectors
     const { url, popupSelector, contentSelectors } =
       totalWebsiteStaticDataMap[name];
-      console.log('name',name)
-  
+
     try {
       // waits 500ms after last network request
       page.setDefaultNavigationTimeout(0);
       await page.goto(url, { waitUntil: "networkidle2" });
-      const headingsData = await getHeadings(page, contentSelectors ,popupSelector, name);
+      const headingsData = await getHeadings(
+        page,
+        contentSelectors,
+        popupSelector,
+        name
+      );
       // transforming heading data to array
-      const x = []
-      Object.keys(headingsData).forEach(entry=>{
-        x.push(headingsData[entry])
-      })
+      const x = [];
+      Object.keys(headingsData).forEach((entry) => {
+        x.push(headingsData[entry]);
+      });
       const screenshot = await takeAndSaveScreenshot(page, name);
       dataToReturn[name] = {
         headings: x,

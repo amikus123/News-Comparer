@@ -71,7 +71,7 @@ export const getSelectedAndAllWordMap = (
 
   const allNames = Object.keys(webisteJointDataMap);
 
-  // stores all the maps and megres themd
+  // stores all the maps and marges them
   const mapOfArr: NameToWordMaps = {};
   const datesBetween = formatedYearsFromDates(getAllDatesBetween(chosenDates));
 
@@ -85,22 +85,18 @@ export const getSelectedAndAllWordMap = (
   }
 
   for (const i of datesBetween) {
-    try{
+    try {
       const current: DailyWebsitesDataMap = headingMap[i].totalDailySiteData;
       for (const name in current) {
         mapOfArr[name].push(current[name].pageDailyFrequencyOfWords);
       }
-    }catch(e){
-
-    }
-
+    } catch (e) {}
   }
 
   const combinedForTotal: WordMap[] = [];
   const combinedForSelected: WordMap[] = [];
   for (let name of allNames) {
     const combinedForName = combineWordMaps(mapOfArr[name]);
-    console.log(name.replace("_", " "), "ZMIENIONE");
     totalMap[name.replace("_", " ")] = combinedForName;
     combinedForTotal.push(combinedForName);
     if (selectedMap[name.replace("_", " ")] !== undefined) {
@@ -110,7 +106,6 @@ export const getSelectedAndAllWordMap = (
   }
   totalMap.Total = combineWordMaps(combinedForTotal);
   selectedMap.Total = combineWordMaps(combinedForSelected);
-  console.log(selectedMap, totalMap, "FIN STATE");
   return { selectedMap, totalMap };
 };
 

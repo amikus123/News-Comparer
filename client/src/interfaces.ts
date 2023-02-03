@@ -1,5 +1,3 @@
-
-
 export interface Heading {
   text: string;
   image: string;
@@ -51,11 +49,11 @@ export interface DailyWebsitesDataMap {
   [WebsiteName: string]: DailySiteData;
 }
 export interface DailySiteData {
-   pageDailyFrequencyOfWords: WordMap;
+  pageDailyFrequencyOfWords: WordMap;
   pageDailyWordCount: number;
   headings: Heading[];
   pageDailyHeadingCount: number;
-  imageName:string;
+  imageName: string;
   emotions?: Emotions;
   averageEmotion?: Emotions;
 }
@@ -80,9 +78,8 @@ export interface Emotions {
 export interface WordMap {
   [key: string]: number;
 }
-export interface WordToWordMap{
+export interface WordToWordMap {
   [key: string]: string | undefined;
-
 }
 export interface AnyMap {
   [key: string]: any;
@@ -158,21 +155,19 @@ export interface FringeDates {
   min: Date;
 }
 
-
 export interface ScreenshostForColumns {
   websiteName: string;
   screenshots: string[];
 }
 
-export interface  NameToWordMap{
-  [websiteName:string] : WordMap;
+export interface NameToWordMap {
+  [websiteName: string]: WordMap;
 }
-export interface  NameToWordMaps{
-  [websiteName:string] : WordMap[];
+export interface NameToWordMaps {
+  [websiteName: string]: WordMap[];
 }
-export interface SelectedWebsites{
+export interface SelectedWebsites {
   show: boolean[];
-  names:string[];
-  links:string[];
+  names: string[];
+  links: string[];
 }
-

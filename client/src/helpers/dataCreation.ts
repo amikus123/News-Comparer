@@ -1,10 +1,9 @@
 import { AnyMap, FringeDates } from "../interfaces";
-// why so long? TODO
+
 export const getNPreviousDates = (
   n: number = 0,
   passedDate: Date = new Date()
 ) => {
-  // makes function pure
   const copy = new Date(passedDate);
   const res: Date[] = [new Date(copy)];
   for (let i = 0; i < n; i++) {
@@ -52,7 +51,7 @@ export const formatedYearsFromDates = (dates: Date[]) => {
   return arr;
 };
 
-// human readable
+// human readable format
 export const dateToFormatedMonth = (d: Date) => {
   return `${d.getDate()}-${d.getMonth() + 1}`;
 };
@@ -65,41 +64,39 @@ export const datesToFormatedMonths = (dates: Date[]) => {
   return arr;
 };
 
-export const getCleanNewDate = () =>{
-  const date = new Date()
-  date.setHours(0)
-  date.setMinutes(0)
-  date.setSeconds(0)
-  date.setMilliseconds(0)
+export const getCleanNewDate = () => {
+  const date = new Date();
+  date.setHours(0);
+  date.setMinutes(0);
+  date.setSeconds(0);
+  date.setMilliseconds(0);
 
-  return date
-}
-const dateFromFormatedDate = (str:string ) =>{
-  
-  const dateSplit :string[] = str.split("")
-  // aray with day month and year string
-  const arr:number[] = []
-  let tempStr = ""
-  while(dateSplit.length  !== 0 ){  
-    let nextSymbol = dateSplit.shift()
-    if(nextSymbol === "-"){
-      arr.push(Number(tempStr))
-      tempStr = ""
-    }else{
-      tempStr += nextSymbol
+  return date;
+};
+const dateFromFormatedDate = (str: string) => {
+  const dateSplit: string[] = str.split("");
+  // array with day month and year string
+  const arr: number[] = [];
+  let tempStr = "";
+  while (dateSplit.length !== 0) {
+    let nextSymbol = dateSplit.shift();
+    if (nextSymbol === "-") {
+      arr.push(Number(tempStr));
+      tempStr = "";
+    } else {
+      tempStr += nextSymbol;
     }
   }
   // pushes year to arr
-  arr.push(Number(tempStr))
-  const date = new Date()
-  date.setDate(arr[0])
-  // month decremented beace os js weirdness
-  date.setMonth(arr[1]-1)
-  
-  date.setFullYear(arr[2])
-  return date
-  // console.log(arr,date,formatedYearFromDate(date),"ARRR",str)
-}
+  arr.push(Number(tempStr));
+  const date = new Date();
+  date.setDate(arr[0]);
+  // month decremented beacuse of js date
+  date.setMonth(arr[1] - 1);
+
+  date.setFullYear(arr[2]);
+  return date;
+};
 export const returnMaxAndMinDateFromKeys = (
   headings: AnyMap,
   now: Date = getCleanNewDate()
@@ -112,18 +109,16 @@ export const returnMaxAndMinDateFromKeys = (
   } else {
     max = getPreviousDay(max);
   }
-  let lowestDate = new Date(16275140724101)
+  let lowestDate = new Date(16275140724101);
 
- for(const index in keys){
-    const date =   dateFromFormatedDate(keys[index])
-    const milisecods = date.getTime()
+  for (const index in keys) {
+    const date = dateFromFormatedDate(keys[index]);
+    const milisecods = date.getTime();
 
-    if(milisecods<lowestDate.getTime()){
-      lowestDate= date
+    if (milisecods < lowestDate.getTime()) {
+      lowestDate = date;
     }
-
   }
-  console.log("XDDDD",lowestDate)
   return {
     max: max,
     min: lowestDate,
@@ -164,7 +159,6 @@ export const checkIfSameDay = (d1: Date, d2: Date) => {
   const a2 = d2.getDate();
   const b2 = d2.getMonth();
   const c2 = d2.getFullYear();
-  console.log(a1,a2,b1,b2,c1,c2,)
   if (a1 === a2 && b1 === b2 && c1 === c2) {
     return true;
   }

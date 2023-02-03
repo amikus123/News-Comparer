@@ -9,8 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import Zoom from "@material-ui/core/Zoom";
 import CustomTabs from "./CustomTabs";
-import {NavLink } from "react-router-dom";
-
+import { NavLink } from "react-router-dom";
 
 function HideOnScroll() {
   const trigger = useScrollTrigger();
@@ -18,8 +17,16 @@ function HideOnScroll() {
     <Slide appear={false} direction="down" in={!trigger}>
       <AppBar>
         <Toolbar className="appbar--toolbar">
-          <Typography variant="h6" component={NavLink} to="/" className="appbar--logo">  News-Comparer</Typography>
-          <CustomTabs/>
+          <Typography
+            variant="h6"
+            component={NavLink}
+            to="/"
+            className="appbar--logo"
+          >
+            {" "}
+            News-Comparer
+          </Typography>
+          <CustomTabs />
         </Toolbar>
       </AppBar>
     </Slide>
@@ -28,16 +35,15 @@ function HideOnScroll() {
 
 function ScrollTop() {
   const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      position: "fixed",
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-      zIndex:800,
-    },
-
-  })
-);
+    createStyles({
+      root: {
+        position: "fixed",
+        bottom: theme.spacing(2),
+        right: theme.spacing(2),
+        zIndex: 800,
+      },
+    })
+  );
   const classes = useStyles();
   const trigger = useScrollTrigger({
     disableHysteresis: true,
@@ -45,11 +51,9 @@ function ScrollTop() {
   });
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    // co to kurwa jest
     const anchor = (
       (event.target as HTMLDivElement).ownerDocument || document
     ).getElementById("back-to-top-anchor");
-    console.log(anchor);
     if (anchor) {
       anchor.scrollIntoView({ behavior: "smooth", block: "center" });
     }
@@ -65,7 +69,6 @@ function ScrollTop() {
     </Zoom>
   );
 }
-
 
 export default function Topbar() {
   return (

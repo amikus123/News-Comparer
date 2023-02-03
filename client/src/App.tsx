@@ -15,7 +15,6 @@ import {
 } from "./firebase/firestore";
 import FullScreen from "./components/FullScreen/FullScreen";
 import Screenshots from "./components/Screenshots/Screenshots";
-import Topbar from "./components/Topbar/Topbar";
 import WebsiteSelectorGrouping from "./components/WebsiteSelector/WebsiteSelectorGrouping";
 import DateGroup from "./components/DateSelector/DateGroup";
 import {
@@ -30,31 +29,32 @@ import {
 import Words from "./components/Words/Words";
 import Headings from "./components/Headings/Headings";
 import { OptionsMap } from "./components/Words/WordsInterfaces";
+import Topbar from "./components/topbar/Topbar";
 
 function App() {
   // image shown when clicking on screenshot
   const [fullScreenImage, setFullScreenImage] = useState("");
-  const [selectedWebsites,setSelectedWebsites] = useState<SelectedWebsites>({
-    show:[false,false,false],
-    names:["", "", ""],
-    links:["", "", ""]
-  })
-  // map of for headings and screenshot data for webistes
+  const [selectedWebsites, setSelectedWebsites] = useState<SelectedWebsites>({
+    show: [false, false, false],
+    names: ["", "", ""],
+    links: ["", "", ""],
+  });
+  // map of headings and screenshot data for webistes
   const [screenshotsByDate, setScreenshotsByDate] = useState<ScreenshotsByDate>(
     {}
   );
   const [webisteJointData, setWebisteJointData] = useState<WebsiteJointDataMap>(
     {}
   );
-  // headings data based, formtated dates serve as keys
+  // headings data,formtated dates serve as keys
   const [headingMap, setHeadingMap] = useState<HeadingsByDate>({});
   // fringe - based on databse, chosen - based on user input
   const [fringeDates, setFringeDates] = useState<FringeDates | null>(null);
   const [chosenDates, setChosenDates] = useState<FringeDates | null>(null);
-  // used to prevent needless fetching of iamges in Headings
+  // used to prevent unnecessary fetching of iamges in Headings
   const [downloadedHeadingImages, setDowloadedHeadingImages] =
     useState<WordToWordMap>({});
-  // word data for websites, prevents needless expensive calculations
+  // word data for websites, prevents unnecessary expensive calculations
   const [wordDataOfAll, setWordDataOfAll] = useState<NameToWordMap>({});
   const [wordDataOfSelected, setWordDataOfSelected] = useState<NameToWordMap>(
     {}
@@ -78,7 +78,6 @@ function App() {
   // fetches static data and inital date constraints and inital names
   useEffect(() => {
     const updateFringesBasedOnHeadigs = (headings: HeadingsByDate) => {
-      console.log(headings,"headins")
       const maxAndMin = returnMaxAndMinDateFromKeys(headings);
       setFringeDates(maxAndMin);
       setChosenDates({
@@ -94,22 +93,18 @@ function App() {
         setWebisteJointData(totalWebisteMap);
 
         updateFringesBasedOnHeadigs(headings);
-        setHeadingMap(headings);  
-
-        console.log(1111, "update", headings);
+        setHeadingMap(headings);
       } else {
         console.error("Failed to fetch data from database");
       }
     };
-    console.log("XD")
     fetchAndSetStaticStates();
+    debugger;
   }, []);
 
-  
   // gets true urls of images and saves them
   useEffect(() => {
     const updateSreenshots = async () => {
-
       if (chosenDates && selectedWebsites.names[0] !== "") {
         const dates = getAllDatesBetween(chosenDates);
         const newData = await cretaeImagesSources(
@@ -122,6 +117,7 @@ function App() {
     };
 
     updateSreenshots();
+    debugger;
     // inclusion of all of them creates infinite loop
   }, [selectedWebsites.names, chosenDates]);
 
@@ -139,6 +135,7 @@ function App() {
 
       setSelectedSuggsetions(getSuggestions(selectedMap));
       setAllSuggsetions(getSuggestions(totalMap));
+      debugger;
     }
   }, [webisteJointData, headingMap, chosenDates, selectedWebsites.names]);
   return (
@@ -175,7 +172,7 @@ function App() {
               webisteJointData={webisteJointData}
             />
           </Route>
- 
+
           <Route path="/screenshots">
             <Screenshots
               selectedWebsites={selectedWebsites}
@@ -188,7 +185,6 @@ function App() {
           <Route>
             <Headings
               suggestions={selectedSuggsetions}
-              
               selectedWebsites={selectedWebsites}
               chosenDates={chosenDates}
               headingMap={headingMap}

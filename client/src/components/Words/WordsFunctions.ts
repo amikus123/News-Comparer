@@ -1,9 +1,4 @@
-
-import {
-  TotalGraphData,
-  AnyMap,
-  NameToWordMap,
-} from "../../interfaces";
+import { TotalGraphData, AnyMap, NameToWordMap } from "../../interfaces";
 
 export const getFormatedDataToGraph = (
   totalData: TotalGraphData,
@@ -20,7 +15,6 @@ export const getFormatedDataToGraph = (
     };
     keys.forEach((key) => {
       let count = 0;
-      // console.log(totalData[key], "BUM");
       if (totalData[key].frequencyOfWords[word] !== undefined) {
         count = totalData[key].frequencyOfWords[word];
       }
@@ -30,16 +24,12 @@ export const getFormatedDataToGraph = (
       ...tempObj,
     });
   });
-  // console.log(res, "RES");
   return res;
 };
-
-
 
 export const getNamesFromGraphData = (data: NameToWordMap): string[] => {
   const names = Object.keys(data);
   return names.filter((item) => {
-    return  item !== "word";
+    return item !== "word";
   });
 };
-

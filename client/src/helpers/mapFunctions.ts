@@ -1,11 +1,11 @@
 import { WordMap } from "../interfaces";
 
 export const combineWordMaps = (data: WordMap[]) => {
-  const result: WordMap = {}; 
+  const result: WordMap = {};
   data.forEach((basket) => {
     for (let [key, value] of Object.entries(basket)) {
       if (result[key]) {
-        result[key] += value; 
+        result[key] += value;
       } else {
         result[key] = value;
       }
@@ -25,14 +25,11 @@ export const sumOfMapValues = (maps: WordMap[]) => {
   return number;
 };
 
-
-export const sortKeysByCount = (map:WordMap) : string[]=> {
-  const entries = Object.entries(map)
-  var sorted = entries.sort(function(a, b) {
+export const sortKeysByCount = (map: WordMap): string[] => {
+  const entries = Object.entries(map);
+  var sorted = entries.sort(function (a, b) {
     return b[1] - a[1];
   });
-  const res = sorted.map((item)=>item[0])
-  return res
-
-}
-
+  const res = sorted.map((item) => item[0]);
+  return res;
+};

@@ -16,7 +16,6 @@ const AutoComplete = ({
     event: ChangeEvent<{}>,
     value: (string | WordOption)[]
   ) => {
-    // console.log(event,value, "XDD")f
     const words: string[] = [];
     for (let x of value) {
       if (typeof x === "string") {
@@ -37,7 +36,6 @@ const AutoComplete = ({
           options={suggestions.Total.map((item) => item.word)}
           style={{ width: 300 }}
           className="autocomplete a"
-          // getOptionLabel={(option) => option.word}
           renderTags={(value: string[], getTagProps) =>
             value.map((option: string, index: number) => (
               <Chip

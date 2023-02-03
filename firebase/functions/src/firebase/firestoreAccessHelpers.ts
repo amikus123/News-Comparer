@@ -42,13 +42,14 @@ export const getWebisteDataOfAllTime = async (
   db: FirebaseFirestore.Firestore
 ): Promise<WebisteDataOfAllTime> | null => {
   let res = null;
-  await db.collection("Websites")
+  await db
+    .collection("Websites")
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.id === "DynamicWebsiteData") {
           res = doc.data();
-          console.log("przypisanioe")
+          console.log("przypisane");
         }
       });
     });

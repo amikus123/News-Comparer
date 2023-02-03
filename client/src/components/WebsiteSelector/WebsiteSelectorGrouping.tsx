@@ -31,25 +31,21 @@ const WebsiteSelectorGrouping = ({
   const returnUpdateFunction = useCallback(
     (index: number) => {
       const updateNameAndUrl = (index: number, name: string) => {
-        console.log(selectedWebsites);
         const namesCopy = [...selectedWebsites.names];
         const linksCopy = [...selectedWebsites.links];
         namesCopy[index] = name;
-        console.log(name, "NAZWA");
         linksCopy[index] = webisteJointData[name].url;
         const res = {
           ...selectedWebsites,
           links: linksCopy,
           names: namesCopy,
         };
-        console.log(res);
         setSelectedWebsites(res);
       };
 
       const updateShow = (index: number, show: boolean) => {
         const showCopy = [...selectedWebsites.show];
         showCopy[index] = show;
-        console.log(showCopy, "kopia");
         const res = {
           ...selectedWebsites,
           show: showCopy,
@@ -64,7 +60,6 @@ const WebsiteSelectorGrouping = ({
         } else {
           updateShow(index, data);
         }
-        console.log("updated", selectedWebsites, data, index);
       };
       return x;
     },
@@ -74,11 +69,8 @@ const WebsiteSelectorGrouping = ({
   // inital setting
 
   useEffect(() => {
-    console.log(webisteJointData, "sprawdz");
     if (Object.keys(webisteJointData).length > 0) {
-      console.log(webisteJointData, "przeszlo");
       const politicsBasedOnRows = createRowObjects(webisteJointData);
-      console.log(politicsBasedOnRows, "rowy");
       setWebisteDataInRows(politicsBasedOnRows);
     }
   }, [webisteJointData]);
@@ -96,9 +88,7 @@ const WebsiteSelectorGrouping = ({
       };
       const keys = Object.keys(webisteDataInRows);
       keys.forEach((key, index) => {
-        // const key =
         const data = webisteDataInRows[index][0];
-        console.log(data, "klucze");
         res.names.push(data.name);
         res.links.push(data.url);
       });
@@ -109,29 +99,29 @@ const WebsiteSelectorGrouping = ({
 
   return (
     <>
-    <Grid
-      container
-      direction="row"
-      alignItems="center"
-      className="website-selector--wrapper"
-      justifyContent="center"
-    >
-      {webisteDataInRows[0].length !== 0
-        ? webisteDataInRows.map((item, index) => {
-            return (
-              <WebsiteSelect
-                websiteSelectData={item}
-                updateFunction={returnUpdateFunction(index)}
-              />
-            );
-          })
-        : null}
-
-  
-    </Grid>
-        {location.pathname !== "/words" && webisteDataInRows[0].length !== 0 ? (
-          <p className="date-group--date-selector-text">Toggle visibility of webiste data</p>
-        ) : null}
+      <Grid
+        container
+        direction="row"
+        alignItems="center"
+        className="website-selector--wrapper"
+        justifyContent="center"
+      >
+        {webisteDataInRows[0].length !== 0
+          ? webisteDataInRows.map((item, index) => {
+              return (
+                <WebsiteSelect
+                  websiteSelectData={item}
+                  updateFunction={returnUpdateFunction(index)}
+                />
+              );
+            })
+          : null}
+      </Grid>
+      {location.pathname !== "/words" && webisteDataInRows[0].length !== 0 ? (
+        <p className="date-group--date-selector-text">
+          Toggle visibility of webiste data
+        </p>
+      ) : null}
     </>
   );
 };

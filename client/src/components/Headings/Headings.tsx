@@ -35,13 +35,12 @@ const Headings = ({
     const res = reverseArrayInPlace(
       getSelectedHeadings(selectedWebsites.names, chosenDates, headingMap)
     );
-    // console.log(res, "headins");
     setColumnHeadingData(res);
   }, [selectedWebsites.names, chosenDates, headingMap]);
 
   useEffect(() => {
     const getURLPair = async (src: string) => {
-      // pair of true storgae url and url stored in headings
+      // pair of true storage url and url stored in headings
       let trueUrl = "none";
       if (src !== "") {
         trueUrl = await getImgSrcFromName(src);
@@ -69,7 +68,7 @@ const Headings = ({
         }
       }
       Promise.all(promisesOfTrueURLS).then((trueURLS) => {
-        // merging all the urls adn updating the state
+        // merging all the urls and updating the state
         const megaMap: WordToWordMap = Object.assign({}, ...trueURLS);
         setDowloadedHeadingImages({
           ...downloadedHeadingImages,

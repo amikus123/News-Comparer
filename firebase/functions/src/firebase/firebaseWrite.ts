@@ -40,24 +40,23 @@ export const handleSinglePuppeteerData = async (
           encodedURI,
           storageFileLoaction
         );
-        if(uncompressedFilePath === ""){
-          headings[i].image = ""
-          // removing image beacuse you cant fecth
-        }else{
+        if (uncompressedFilePath === "") {
+          headings[i].image = "";
+          // removing image beacuse cant fecth
+        } else {
           fileNames.push(storageFileLoaction);
           uncompressedFilePaths.push(uncompressedFilePath);
           headings[i].image = storageFileLoaction;
         }
-        // adding error handling 
+        // adding error handling
       }
     }
     if (screenshot) {
-      await uploadToStoarge(screenshot, storageRef,pupeteerData.name);
+      await uploadToStoarge(screenshot, storageRef, pupeteerData.name);
     }
-    // compreession TODO
     // getting unit8array data
     const x = await getUnit8OFCompressed(uncompressedFilePaths, fileNames);
-    await uploadToStoarge(x, storageRef,pupeteerData.name);
+    await uploadToStoarge(x, storageRef, pupeteerData.name);
   } else {
     console.error("PageData should include headings");
   }

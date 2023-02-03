@@ -1,6 +1,4 @@
-import {
-  formatedYearsFromDates,
-} from "../helpers/dataCreation";
+import { formatedYearsFromDates } from "../helpers/dataCreation";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { ScreenshotsByDate } from "../interfaces";
 
@@ -8,7 +6,7 @@ const storage = getStorage();
 
 // return src of image from firebase storage
 export const getImgSrcFromName = async (fileName: string): Promise<string> => {
-  const childRef = ref(storage, fileName)
+  const childRef = ref(storage, fileName);
   const trueURL = getDownloadURL(childRef)
     .then((url) => {
       return url;
@@ -16,16 +14,12 @@ export const getImgSrcFromName = async (fileName: string): Promise<string> => {
     .catch((error) => {
       console.error("failed fetching", error);
       return "none";
-      // Handle any errors
     });
   return trueURL;
 };
 
-
 const getScreenshotURL = async (name: string, formatedDate: string) => {
- 
   return await getImgSrcFromName(`${name}-${formatedDate}.jpg`);
-  
 };
 export const getMissingScreenshots = async (
   names: string[],
@@ -34,19 +28,16 @@ export const getMissingScreenshots = async (
 ) => {
   const toReturn: ScreenshotsByDate = {};
   const formatedDates: string[] = formatedYearsFromDates(dates);
-    for(let formatedDate of formatedDates){
+  for (let formatedDate of formatedDates) {
     toReturn[formatedDate] = {};
-    for(let name of names){
-      if (
-        currentData[formatedDate] &&
-        currentData[formatedDate][name]
-      ) {
+    for (let name of names) {
+      if (currentData[formatedDate] && currentData[formatedDate][name]) {
         // already present so we dont do anything
       } else {
-          toReturn[formatedDate][name] = await getScreenshotURL(
-            name,
-            formatedDate
-          );
+        toReturn[formatedDate][name] = await getScreenshotURL(
+          name,
+          formatedDate
+        );
       }
     }
   }

@@ -21,8 +21,7 @@ const SingleHeading = ({
             src={src}
             alt="original article illustration"
             onError={(e) => {
-              // makes it that when image src in invalid, the image component is not shown
-              console.log("fired");
+              // makes it that when image src is invalid, the image component is not shown
               document.getElementById(href)?.classList.add("hide");
             }}
           />

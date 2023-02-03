@@ -44,7 +44,6 @@ export const getUnit8OFCompressed = async (
           return new Uint8Array(result);
         })
         .catch((error) => {
-          console.log("zjebalo sie w unit8", error);
           return new Uint8Array();
         });
       dataToUpload.push({
@@ -72,7 +71,7 @@ export const removeFile = async (path: string) => {
 export const uploadToStoarge = async (
   screenshots: ScreenshotToUpload[] | ScreenshotToUpload,
   storageRef: firebase.storage.Reference,
-  websiteName:string
+  websiteName: string
 ) => {
   const metadata = {
     contentType: "image/jpeg",
@@ -91,8 +90,6 @@ export const uploadToStoarge = async (
         });
     }
   } else {
-    console.log(`${screenshots.imageName}`);
-
     const screenshotRef = storageRef
       .child(`/${screenshots.imageName}`)
       .put(screenshots.imageUintData, metadata)
@@ -112,9 +109,7 @@ export const getScreenshotData = async (imageName: string) => {
     const imageUintData = await promises
       .readFile(mypath)
       .then((result) => {
-        console.log("CZYTANIE");
         if (fs.existsSync(mypath)) {
-          console.log("exists:", mypath);
         } else {
           console.log("DOES NOT exist:", mypath);
         }
@@ -135,5 +130,4 @@ export const getScreenshotData = async (imageName: string) => {
       imageUintData: new Uint8Array(),
     };
   }
- 
 };
